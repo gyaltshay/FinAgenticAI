@@ -1,0 +1,45 @@
+Proposal for Developing an Agentic AI System for Automated Financial Reporting and Insights
+Executive Summary
+This proposal presents an agentic AI system to automate monthly financial reporting for DHI companies. The system’s primary functionality is to streamline reminders, data collection, validation, consolidation, analysis, and reporting, reducing manual effort and ensuring timely and accurate insights.
+AI agents automatically send reminders to all subsidiaries, track submissions, and escalate delays. Submitted reports are validated for completeness and format, with data securely stored in MinIO (or other S3 Object storage) and standardized in PostgreSQL. A consolidation agent merges the monthly data to company-level reports, and then into unified group-level datasets, creating a reliable source for analysis.
+An analysis agent identifies anomalies, red flags, and trends while suggesting improvement opportunities based on company comparisons. A reporting agent generates management-ready summaries automatically, highlighting key issues and recommended actions. Real-time dashboards display financial KPIs, submission status, and AI-driven insights. Users interact with the system through a portal, enabling report uploads, validation tracking, and dashboard access.
+By automating reminders, consolidation, analysis, reporting, and dashboarding, this agentic AI solution delivers a faster, more accurate, and insight-driven financial reporting workflow, enhancing decision-making and governance across the DHI group.
+Introduction
+This proposal describes the implementation of an agentic AI system that will automate the collection, consolidation, and analysis of monthly financial reports from DHI companies. The system is intended to streamline the financial reporting workflow, reduce manual effort, eliminate delays, and provide leadership with timely and actionable insights. By integrating autonomous AI agents with a modern web application, PostgreSQL, and MinIO object storage, the solution will create a robust, scalable, and intelligent reporting ecosystem across the DHI group.
+Objectives
+The main goal of this project is to create an end-to-end automated workflow where AI agents handle reminders, submissions, validation, consolidation, anomaly detection, report generation, and dashboard updates. The system will ensure that every DHI company submits its monthly financial reports on time, that data is standardized and consolidated effortlessly, and that management receives clear, insightful, and timely reports.
+System Overview
+The solution will be driven by a cluster of coordinated AI agents. One agent will oversee communication and send reminders to companies before and after submission deadlines. Another will validate submitted reports, whether uploaded directly or sent through email or portals. A consolidation agent will merge company-level data into a unified group-level financial structure. An insights agent will analyze trends, detect anomalies, and recommend improvement opportunities. Finally, reporting and dashboard agents will generate management-ready documents and real-time financial dashboards.
+Together, these agents will function as an autonomous system capable of running the entire monthly reporting cycle with minimal human intervention.
+Overall Architecture Design
+The system will follow a modular, service-oriented architecture in which each AI agent operates as an independent service but communicates through centralized workflows. The backend services developed using Java or Python will serve as API providers, while PostgreSQL and MinIO will form the data backbone. PostgreSQL will store structured financial records, consolidated tables, metadata, and insights, whereas MinIO will serve as the object store for uploaded reports, generated PDFs, logs, and archival data. Except for the data layer, the frontend and backend layers will be orchestratored using Kubernetes to ensure cloud native architecture with autoscaling features. 
+Figure 1: Overall Technology Architecture
+The architecture will include an orchestration layer responsible for scheduling monthly cycles, monitoring agent execution, and ensuring that reports are processed as soon as they arrive. The AI layer will sit above this orchestrator, enabling GPT-based or LLM-based agents to perform reasoning, validation, consolidation, and analysis tasks.
+Technology Stack
+Backend Technologies
+The backend will be implemented using Java (Spring Boot) or Python (FastAPI), depending on team availability. The backend will expose APIs for file uploads, submission status updates, data retrieval for dashboards, and report distribution. It will also coordinate with the AI agents through a job scheduler or workflow engine.
+Frontend Technologies
+The system will include a modern and intuitive frontend built using ReactJS, providing a seamless interface for users across all DHI companies and internal departments. Through this portal, companies will be able to upload their monthly financial reports, track submission status, and review validation feedback generated by the AI agents. Internal users will access dynamic dashboards, review consolidated financial data, and download management reports directly from the interface. 
+Data Storage
+Structured data such as financial records, ingestion logs, metadata, submission timelines, and consolidated group-level reports will be stored in PostgreSQL. For unstructured or semi-structured files, MinIO will function as an S3-compatible object storage system, ensuring reliable and scalable storage of Excel reports, PDFs, audit logs, and snapshots.
+AI and Agent Framework
+AI agents will be powered by modern Large Language Models and agentic frameworks such as Falcon, FinGPT, Qwen, LlamaIndex, or custom orchestration built around other open-weight models. These agents will perform actions such as data extraction from Excel files, anomaly detection, validation checks, trend analysis, and the creation of narrative reports and insight summaries.
+Orchestration and Workflow
+A workflow engine such as Apache Airflow or Temporal in the backend will manage the entire monthly reporting cycle. It will trigger reminders, track pending submissions, kick off data ingestion workflows, and schedule report generation.
+Dashboard Layer
+The dashboard layer will be built using Apache Superset (opensource) or Power BI (proprietary). It will interact directly with PostgreSQL to display real-time financial KPIs, trend charts, submission status, and red flag alerts.
+Functional Components
+Automated Reminders and Communication
+The AI communication agent will send scheduled reminders to every DHI company. It will monitor submission trends and modify message timing or tone accordingly. The system will escalate overdue reminders to relevant higher-level stakeholders.
+Report Ingestion and Validation
+When a company submits its financial reports, the AI ingestion agent will extract the files from MinIO, validate their format, and ensure all required data is present. It will analyze the content for inconsistencies and log the validation results in PostgreSQL. Any issues will automatically trigger follow-up communication.
+Data Consolidation
+After validation, a consolidation agent will convert individual company reports into standardized tables and merge them to create sector-level and group-level financial summaries. It will also detect missing data or mismatches and automatically correct or flag them.
+Insights, Red Flags, and Improvement Points
+An insights agent will evaluate financial trends month-over-month. It will look for anomalies such as sudden revenue drops, margin contractions, liquidity issues, or abnormal expenditure patterns. It will also provide commentary and improvement suggestions based on comparative data from other DHI companies and past performance.
+Management Report Generation
+The system will generate complete monthly management reports. These will include summaries of group performance, key observations, variances, risk areas, and improvement opportunities. The reports will be compiled into PDF or HTML formats and automatically sent to designated management teams.
+Dashboard Creation
+Financial dashboards will update automatically as new submissions arrive. The dashboards will present company-wise and group-level financial metrics, trends, forecasts, and submission status. AI-driven elements such as anomaly highlights and predictive graphs will also be incorporated.
+Implementation Plan
+The implementation will begin with detailed requirements gathering, where reporting formats and submission workflows will be finalized. After this, the backend services and storage layers will be set up using Java or Python, PostgreSQL, and MinIO. Parallelly the work on building the AI agents for communication, ingestion, consolidation, insights, and reporting shall begin. This will be followed by the creation of dashboards and integration with communication/notification channels like WhatsApp, Slack, and others. 

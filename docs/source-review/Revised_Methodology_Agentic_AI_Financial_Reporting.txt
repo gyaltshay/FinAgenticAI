@@ -1,0 +1,187 @@
+Methodology
+This chapter presents the methodology used for the research, design, development and evaluation of the proposed Agentic AI based Financial Reporting and Dashboard System. The project is a research and software development project. The research component aims to investigate the current financial reporting process, understand its shortcomings, collect stakeholder requirements and examine available research on Agentic AI, financial data processing, multi-agent systems, financial reporting, anomaly detection and AI assisted decision support. The development aspect involves creating and deploying a web based solution with the use of specialized AI agents to facilitate the monthly financial reporting process. Therefore, the overall methodology in this project is Design Science Research Methodology (DSRM).
+DSRM is an appropriate approach because the project will create, develop, demonstrate, and evaluate an IT artifact to solve an actual organisational problem. The artifact for this project is a web based Agentic AI financial reporting system that includes a website for the frontend, services provided by backend, a database, a workflow orchestration, different specialized financial agents, tools for financial processing, financial reporting capabilities, and an interactive financial reporting dashboard. Iterative development will be used within the Design and Development phase of DSRM. This will enable the development of the system in smaller and testable steps instead of trying to implement the whole system at once.
+1. Phase 1: Problem Identification and Motivation
+The initial phase of the project is to understand the current financial reporting process and pinpoint the issues surrounding it. This will include analyzing the current methods of data collection, processing, consolidating and reporting financial information for the subsidiary companies across the organization. The difficulties of coordinating the submissions of multiple companies at the same time and reporting monthly activities across the group will be addressed in particular. The aim of this phase is to demonstrate through evidence that the proposed system is a solution to a real and clearly defined organizational problem and not a solution based on a technology driven solution.
+ 
+2. Phase 2: Define the Objectives for a Solution
+Once the problem is identified, requirements will be collected directly from the organisation and compared with the current financial reporting workflow. These requirements will be used to define the functional and non-functional objectives of the proposed solution.
+2.1. Requirements Gathering and Analysis
+2.1.1. Stakeholder Interviews and Discussions
+Structured discussions will be conducted, via Zoom, with the industry guide from the organization, subject to their availability and permission. These conversations will be centered around learning about the following parts of the existing reporting system:
+• The current financial reporting process.
+• The type of financial reports that are produced:
+• Current methods used by subsidiary companies to submit.
+• Financial key performance indicators (KPIs) needed by management.
+• Company's data formats for reporting.
+• Validation Conditions for data submitted.
+• Requirements for consolidation across companies, sectors and the group
+• Required dashboard features
+• The desired results that the proposed system produces.
+2.1.2. Document Analysis
+Existing financial reporting templates will be gathered and reviewed with permission. These documents could cover:
+• Financial Report Templates for Monthly Reports
+• Excel spreadsheets
+• Consolidated financial reports
+• Existing reporting guidelines
+This document analysis aims to understand the organisation's financial information and to determine the specific data fields the proposed system will need to be able to extract, validate, and process.
+2.2. Definition of Solution Objectives
+The goals of the proposed solution will be formally stated along with its functional and non-functional requirements based on the problems identified in Phase 1 and the requirements collected in Phase 2. The proposed solution is designed to help and modernize the financial reporting process at the organization, using the assistance of artificial intelligence in processing and analysing data. These objectives will be clearly aligned with the project's needs and then serve as a basis for the final evaluation in Phase 5.
+3. Phase 3: Design and Development
+This phase covers the design and iterative development of the complete system. It includes technology selection, system and agent architecture, data and storage design, agent skills and tools, and iterative implementation using Agile Scrum. The system will be developed in smaller, testable increments rather than attempting to implement the complete solution at once.
+3.1. Technology Stack Selection
+The technology stack was chosen to meet the needs of an agentic financial workflow with multiple steps. Selected components are summarized below and the logic and justification for the two components that are most required, the AI agent framework and the underlying language model, is explained.
+Component
+Selected technology
+Reason
+Frontend
+React JS
+Component based structure suited to a dashboard heavy interface with repeated UI elements (status cards, charts, upload forms).
+Backend
+Python (FastAPI)
+A Python API framework built around type hints that provides automatic interactive API documentation, useful when the React frontend and multiple internal services need to consume the backend.
+Dashboard
+Apache Superset
+A financial dashboard can be embedded directly inside the web app; Apache provides an official pre-built tool to securely fetch dashboards from Superset and render them inside the React app with minimal code.
+Containerisation
+Docker
+Packages each service consistently for development, testing and deployment.
+Orchestration
+Kubernetes
+Manages deployment and scaling of the containerised backend, agent and dashboard services.
+Workflow Orchestration
+Temporal
+To manage and coordinate the different steps of the financial reporting workflow, including reminders, processing, retries, and task dependencies.
+AI agent framework
+LangGraph
+Builds each agent's workflow as a controlled graph of steps rather than letting the AI act freely.
+Language model
+Qwen
+Provides reasoning, structured tool calling and open-weight deployment.
+3.1.1. Why LangGraph
+LangGraph is the recommended agent framework because it allows each agent's work stream to be constructed as a regulated graph of steps, instead of allowing AI free rein, thus this directly supports humans in loop. For instance, the Reporting Agent can be prevented from publishing a report until either a critic node or a human approves it, and the work can automatically enter a revision loop when it produces a negative result. LangGraph also offers native functionality to stop a work stream and await human approval, fulfilling the mandate that a report is not circulated without human approval.
+3.1.2. Why Qwen
+Qwen was selected as the base model because the system requires strong multi-step reasoning, tool use, financial document interpretation, and report generation. Unlike FinGPT, which focuses mainly on financial sentiment analysis and trading signals, Qwen is better aligned with the broader tasks required by the proposed agents. Although Falcon can support basic tasks, it may require more task-specific fine-tuning to achieve the desired results. This choice is supported by existing research. FinSight uses Qwen models for retrieval and chart verification in a multi-agent financial system (Jin et al., 2026). Wang et al. (2024) also highlight the importance of agents being able to execute code, query data, and perform verifiable actions, capabilities relevant to the proposed Consolidation and Insights Agents. Furthermore, FinTeam (2025) reports that Qwen2.5-7B-Instruct scored 66.42 on FinEval, outperforming the finance-focused XuanYuan-13B, which scored 35.15, and approaching GPT-4o's score of 70.67. These findings support choosing a capable general-purpose model rather than relying solely on finance-specific fine-tuning.
+3.2. System and Agent Design
+This stage describes the architecture of the system to be built. This includes the overall layered structure of the system and the way in which each individual AI agent will function within it.
+3.2.1. Proposed System Architecture
+Our system follows a layered N-tier architecture consisting of four main layers: the Presentation Layer (frontend), Application Layer (backend), Agent Layer, and Data and Storage Layer. Each layer has specific responsibilities and communicates with the others to support the system's financial reporting workflow.
+Frontend Layer
+The Frontend layer is the interface providing interaction between the system and its users. The system allows its users ability to:
+• Upload financial reports
+• View submission status
+• View financial KPIs
+• View charts and trends
+• View detected anomalies
+• Access generated reports
+Backend Layer
+The backend application layer manages the core operational logic of the system, including
+• User requests
+• File processing
+• Financial calculations
+• Database communication
+• AI agent orchestration
+Data and Storage Layer
+The Data and Storage Layer offers persistent storage for all the structured and unstructured data used in a system. In this project, the structured data will be stored using PostgreSQL and the file storage will be using MinIO.
+PostgreSQL: PostgreSQL will be the main relational database for the system. It will contain all of the structured data required by the system and Financial number handling, like:
+• Details on the user and user authentication
+• Company and organizational information
+• Submission status
+• Financial statement data extraction
+• Validation results and error records
+• Consolidate financial information at company, sector, and group level.
+• Calculated financial KPIs
+• Detected anomalies and red flags
+• Audit and processing logs
+MinIO: MinIO will serve as the object storage component of the system. It will be used to store various files like uploaded monthly financial reports and generated reports securely. These include Monthly financial reports like Excel spreadsheets and PDF files and Generated reports
+The Application Layer and AI agents will have access to both PostgreSQL and MinIO based on the nature of data being handled. The financial reports uploaded will be stored into MinIO. The extracted, validated, and standardized financial data will be stored in PostgreSQL for further processing, consolidation, analysis, reporting, and dashboard visualizations. This division of storing financial documents and the structured financial data aims to establish an organized data architecture, with PostgreSQL for data querying and processing, and MinIO for storage and access to financial documents and other files.
+Agent Layer
+The Agent Layer follows a bounded autonomy approach, meaning that each agent operates within predefined rules, permissions, and limitations rather than acting completely autonomously. It consists of six specialized AI agents, each responsible for a specific part of the financial reporting process, while maintaining human oversight for important decisions and report approval.
+Notification Agent: Notification Agent delivers scheduled reminders to each of the subsidiary companies. It tracks submission frequencies and modifies message time and message type accordingly. It also knows how and whom to push overdue reminders escalations to the concerned higher level actors.
+Validation Agent: On receiving a company's monthly financial report, the AI validation agent would pull the files from MinIO and would then use the ingested data to ensure the required fields are populated on a validation basis. It would detect missing data points and explore the contents, looking for mismatch values,  out of range of values, and missing cross reference information. It would store the outcomes of the validation attempts in Postgres; if results are negative, it would automatically send follow up messages to the Notification Agent to notify the client what needs to be fixed.
+Consolidation Agent: transforms each subsidiary's approved reports into uniformly structured tables and creates and integrates the subsidiaries' data at the sector and the group level. It also reports incomplete data or record inconsistency and automatically rectifies errors and identifies records for reviews.
+Insights Agent: monitors financial trends monthly like detects anomalies in revenue or margins, liquidity issue, unusual cash outflow patterns. Gives commentary and recommendations for action based on comparative data from other subsidiary companies or historical performance.
+Reporting Agent: produces comprehensive monthly management reports (group overview, major observations, deviations, risk areas, and possible suggestions for improvement). Monthly reports can be combined into a single report via PDF format. The report produced will be automatically available in web application after human approval.
+Dashboard Agent:  manages financial dashboards with static and real time data from the submitted files. Allowing a snapshot of company and group, level, accounts, values, trends, projections, and submission status. Dashboards include AI driven features like anomaly flags and predictive visuals.
+3.2.2. Agent Skills and Tool Design
+Each AI agent is given a defined set of skills. A skill, in this system, is a specific ability or tool an agent can call upon when executing an action. The overall design takes the form:
+AI Agent  →  Skill / Tool  →  Python Function or API  →  Result  →  AI Agent
+This architecture gives a way for each AI agent to offload calculations, validation, and table and database lookups to a set of advanced software modules, and to free the language reasoning engine for roles of explanation and guidance in decision making. This is done hopefully avoid numerical errors, which could occur if it was used to generate financial computations.
+3.3. Iterative System Development Using Agile Scrum
+The system will be designed and developed iteratively and incrementally following agile approach. . The scrum process setup will be used to plan, focus on and develop, test, and evaluate the system components during the development phase. The development will be planned using five sprints, and each sprint will be broken down into numerous smaller tasks and Product Backlog Items. Each sprint will produce a usable product
+The Product Backlog will store the requirements of the system with pirority, functional features, technical tasks, tests, and refinement tasks will be developed from requirements and design phases. The industry guide of TTPL will act as Product Owner and focus on the backlog per the stakeholder and system requirements. The Scrum Master will coordinate with the team on sprint activities, track the progress, and help the impediments faced during development. The Developer team will undertake the activities of designing, developing, integrating, testing, and documenting the system.
+A Sprint Planning will be held at the beginning of each sprint to select and refine Product Backlog. The selected Product Backlog items will be placed in Sprint Backlog. The development and testing activities will be performed during the sprint. An ongoing monitoring of progress will take place through a set of Scrum meetings. A Sprint Review will be conducted at the end of each sprint to demonstrate the new system increment and collect feedback about it. Then a Sprint Retrospective will be performed to identify the problems encountered and improvements for the next sprint. During the five sprints the Product Backlog will be continually refined and adapted based on requirements, tests, and technical aspects, feedback from stakeholders. System increment implemented, tested, and integrated will gradually build up the entire system instead of gathering everything at the end of the project.
+3.3.1. System Development Plan
+Sprint
+Goal
+Selected backlog items
+Expected output
+1. Website Foundation and System Setup
+Establish the technical foundation
+Basic frontend website layout; navigation structure; backend API scaffolding; database connectivity; authentication and access control; initial system configuration
+A functional website foundation connected to the backend service and database
+2. Financial Submission Website Module
+Develop web based financial submission
+Financial report upload, file storage, submission status tracking, submission deadline display
+A functional financial report submission module
+3. AI Agent Integration and Financial Data Processing
+Integrate AI agents and data processing
+Financial data ingestion, data extraction, data validation, financial data consolidation, AI agent integration
+A functional financial data processing and AI agent layer integrated with the backend
+4. Financial Analysis and Dashboard Development
+Develop analysis and dashboard components
+Financial KPI calculation, monthly trend analysis, anomaly and red-flag detection, AI generated financial insights; interactive financial dashboards, company-level and group-level visualisation
+A functional financial analysis and dashboard module
+5. System Integration, Testing.
+Integrate and test the system
+Frontend and backend integration, AI-agent integration, database and object storage integration, end-to-end workflow testing, financial calculation accuracy testing, data validation testing, anomaly detection testing; AI insight evaluation, dashboard usability testing, correction of identified issues
+An integrated and tested system ready for s evaluation
+3.3.2. Unit and Integration Testing
+Testing will be performed continuously during the Design and Development phase rather than being postponed until the final stage. Unit testing will be used to verify individual functions and components independently. This will include financial calculation functions, data extraction and validation rules, database operations, agent tools, and other backend functions. Each unit will be tested using predefined inputs and expected outputs so that errors can be detected before the component is integrated with the rest of the system.
+Integration testing will be carried out progressively as the system components are connected. The tests will verify communication and data flow between the React frontend and FastAPI backend, FastAPI and PostgreSQL, FastAPI and MinIO, the AI agents and their Python or API tools, LangGraph workflow components, the Qwen language model service, and the dashboard. The purpose is to ensure that information is transferred correctly between modules and that one component does not cause unexpected failures in another. Unit and relevant integration tests will be conducted within each Agile sprint. As more components become available, the scope of integration testing will increase. . Issues identified during testing will be recorded, corrected, and re-tested before the system proceeds to demonstration and formal evaluation.
+3.4. Data and Ethical Considerations
+As the proposed system will process financial data the confidentiality of data and security will be taken into serious consideration throughout the project. Financial data will not be included unnecessarily in prompts to external services and the system is designed explicitly to be a decision support system and not an autonomous financial decision making system. Human review will be needed for all financial reports produced by the system. The data used to evaluate the agent and system will be used only after getting permission from DHI and TTPL.
+4. Phase 4: Demonstration
+The proposed system will be demonstrated on approved financial data provided by TTPL. The demonstration will be done on the data that flows through the flow chart shown below, representing the data processing pipeline from submission to display. This demonstration is to show if the developed system is able to support the organization's desired financial reporting workflow, from beginning to end.
+Financial data submission↓Data ingestion↓Data validation↓Data standardization↓Data consolidation↓KPI calculation↓Anomaly detection↓AI insight generation↓Report generation↓Dashboard visualization
+5. Phase 5: Evaluation
+The developed prototype will be evaluated to determine whether it satisfies the project's objectives. This evaluation will be conducted across five complementary dimensions.
+5.1. Functional Evaluation
+The user interface will be tested to confirm that its required functions operate correctly. This includes verifying that users are able to upload files, that unauthorized access is prevented, and that users can successfully access generated reports and the financial dashboard.
+5.2. Data Accuracy Evaluation
+The correctness of the system's calculations will be evaluated by comparing consolidated results produced by the system against results calculated manually or by a financial expert. This will include all the KPI needed by the DHI management. Representative test cases will be something like below.
+Test
+Expected Result
+System Result
+Revenue total
+Calculated manually
+System calculation
+Revenue growth
+Calculated manually
+System calculation
+KPI value
+Expected value
+Generated value
+5.3. Validation Performance
+The validation module will be tested with data with which it is intended to work, and data which will have been intentionally corrupted in various ways including missing values, formats problems, repeats, and incorrect totals to test the agent's performance.
+5.4. AI Insight Evaluation
+AI generated insights will be evaluated against accuracy, relevance, completeness, consistency with the available financial data and usefulness to end users
+Where applicable, financial staff of the company or expert will be asked for the quality of the generated insights. Following metrics will be used to assess the individual agents before the final system implementation.
+Component
+Evaluation Metric
+Data extraction
+Accuracy
+Validation
+Precision, Recall
+Consolidation
+Correctness
+KPI calculation
+Calculation accuracy
+Anomaly detection
+Precision, Recall
+AI insights
+Human evaluation
+Dashboard
+Usability feedback
+6. Phase 6: Communication
+The final phase will communicate the project problem, proposed Agentic AI artefact, design and development process, demonstration, testing and evaluation results, and the lessons identified through refinement. The system and its results will be documented and presented to the relevant academic and industry stakeholders. Documentation produced during development will also support the explanation of the system architecture, agent workflow, financial processing tools, testing results, limitations, and use of the developed system.

@@ -1,0 +1,21 @@
+FinAgenticAI · DEMONSTRATION REPORT
+
+TTPL
+
+August 2026
+
+TTPL August month.xlsx · Month Financials · reference fixture
+
+Revenue: Nu. 13,688,889.74
+
+Expenses: Nu. 13,779,722.71
+
+Net result: Nu. -90,832.97
+
+Monthly revenue is Nu. 13.69 million, compared with planned revenue of Nu. 42.65 million.
+Revenue decreased by 38.78% from July, while expenses increased by 2.82%.
+The monthly result is a loss of approximately Nu. 0.09 million. Review revenue timing and expense efficiency.
+
+Approval: Published
+
+This document uses predefined fixtures; it is not an official financial report.

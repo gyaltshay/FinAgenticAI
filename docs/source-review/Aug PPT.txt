@@ -1,0 +1,109 @@
+
+ppt/slides/slide1.xml
+Date:
+	7
+th
+ September 2026	
+Monthly Financials – August 2026
+
+ppt/slides/slide2.xml
+Key Highlights
+Financial performance – August  2026 actuals
+The Product Factory income less by Nu. 31.36m due  SAP & 
+IntegraSuite
+ ERP Project delivered ahead of time and  
+ePIS
+ AMC which is now being realized monthly.
+Center for ICT Excellence revenue increased by Nu. 1.64m due to training on Network, System, Security & Cloud Administration.
+Total employees exceeded by one due to the replacement of a Software Developer under the 
+IntegraSuite
+ ERP, who  resigned after the end of August.
+
+ppt/slides/slide3.xml
+Financial 
+performance
+ – August 2026 expense line by line
+
+ppt/slides/slide4.xml
+Financial performance - product / branch profitability – August 2026
+
+ppt/slides/slide5.xml
+Financial performance – rolling 12 month trend
+Financial performance – rolling 12 month trend
+
+ppt/slides/slide6.xml
+Financial performance – YTD’ actuals
+Product Factory income less by Nu.12.23m due to the 
+ePIS
+ AMC which is now being realized monthly.
+Center for ICT Excellence revenue increased by Nu.8.62m due to two new client onboardings for Microsoft.
+Under Others, income increased by Nu. 13.56m as CSD secured project under Access (World Bank) through the 
+GovTech
+ Agency to coordinate training programs for ICT Professionals. 
+Expenses
+ less than planned by Nu.29.10m – cost optimization.
+Key Highlights
+
+ppt/slides/slide7.xml
+Financial performance – YTD’ 2026 expense line by line
+
+ppt/slides/slide8.xml
+Financial performance - product / branch profitability – YTD’ 2026
+
+ppt/slides/slide9.xml
+Balance 
+sheet
+ – 
+YTD  2026 update
+ 
+Amount
+                                                            Current Assets 
+258.77
+ Cash & Cash Equivalents - TTPL
+145.95
+ Trade & Other Receivable - TTPL
+32.10
+ Other Current Assets - TTPL
+80.71
+                                                   Non-Current Assets
+279.62
+ Property, Plant & Equipment  - TTPL
+79.21
+ Investments Property - TTPL
+190.12
+ Defined Benefit Asset - TTPL
+9.35
+ Right-of-Use-of Asset - TTPL
+.94
+                                                                    Total Asset 
+538.39
+                                           Liabilities 
+Amount
+                                                           Current Liabilities 
+124.20
+ Other Current Liabilities - TTPL
+117.51
+ Tax Payable - TTPL
+1.04
+ Trade & Other Payables - TTPL
+5.35
+ Liabilities for Expenses - TTPL
+.30
+                                                   Non-Current Liabilities 
+2.21
+ Deferred Tax Liabilities - TTPL
+.62
+ Lease Liability - TTPL
+1.59
+                                                                 Total Liability
+126.41
+                                                   Equity 
+411.98
+ Owner Equity - TTPL
+223.09
+ Retained Earnings - TTPL
+119.70
+ Provisional Profit / Loss (Credit)
+69.19
+                                                Total Liability & Equity
+538.39

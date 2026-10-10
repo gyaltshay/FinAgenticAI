@@ -1,0 +1,2158 @@
+
+PAGE 1
+Computing Technologies Department                               College of Science and Technology 
+ 
+ 
+ 
+ 
+ 
+Proposal  
+For 
+Industry Research Project 
+Computing Technologies Department 
+ 
+ 
+ 
+Agentic AI System for Automated Financial Reporting and 
+Insights 
+ 
+Submitted by 
+Ms. Priya Ghimiray (02230143) 
+Mr. Passang Gyeltshen (02230140) 
+Mr. Chimi Gyeltshen (02230121) 
+Ms. Rinchen Om (02230144) 
+ 
+Under the Guidance of: Mr. Manoj Chhetri (guide) 
+Miss Dechen Tshomo (co-Guide) 
+ 
+College of Science and Technology 
+Royal University of Bhutan 
+
+
+PAGE 2
+Computing Technologies Department                               College of Science and Technology 
+ 
+Guidelines and Forms 
+ 
+Introduction 
+Considering the geographical terrain, the Royal Government of Bhutan has recognized 
+and endorsed ICT as an enabler of developmental activities. Therefore, installation of ICT 
+infrastructure in the 20 districts with Local Area Network has been initialized a nd 
+completed at the end of the 9th five year plan implementation phase. The potential of ICT 
+attracted the attention of the development planners in Bhutan and the 10th FYP was 
+designed to fully harness the potential of ICTs to achieve the developmental goal 
+especially of poverty reduction of the Mil lennium Declaration and Gross National 
+Happiness. 
+ 
+In order to address the IT HR need in the country and to promote and support IT industries 
+in the country, the Information Technology Department (ITD) proposed to introduce a four 
+year Bachelor of Engineering in Information Technology degree in 2009. The College 
+launched BE (IT) with 30 students from the winter semester of 2010. Presently, ITD is 
+supported by 13 teaching faculty and three technicians.  
+ 
+To provide wholesome IT knowledge and skills to the students, ITD introduced modular 
+courses from 2011 in collaboration with NIIT under Chiphen Rigphel Project.  
+ 
+Submission Procedure 
+Duly filled proposal  forms completed in all respects should be submitted in form of soft 
+copy and a hard copy  to project guide and project coordinator . On receipt of the 
+applications the proposals will be evaluated by reviewer panel and proposal would then 
+be defended by student groups. The project group may need to revise the proposal in light 
+of the evaluator’s recommendations.  
+ 
+ 
+For further information, please contact: 
+ 
+Yeshi Jamtsho 
+Project Coordinator/Lecturer 
+yjamtsho.cst@rub.edu.bt 
+ 
+
+PAGE 3
+Computing Technologies Department                               College of Science and Technology 
+ 
+Table of Contents 
+Description          Page # 
+1. Project Identification ............................................................................................................... 1 
+A. Reference Number: ............................................................................................................. 1 
+B. Project Title:........................................................................................................................ 1 
+C. Project Internal Guide: ........................................................................................................ 1 
+D. Organizations Involved in the Project: ............................................................................... 1 
+E. Key Words: ......................................................................................................................... 2 
+F. Research and Development Theme: ................................................................................... 3 
+G. Project Status: ..................................................................................................................... 3 
+H. Project Duration: ................................................................................................................. 3 
+2.  Scope, Introduction and Background of the Project ........................................................... 3 
+A. Scope of the Project: ........................................................................................................... 3 
+B. Introduction (Project Background and Literature Review, Current State of the Art): ........ 4 
+C. Challenges: ........................................................................................................................ 14 
+D. Motivation and Need: ....................................................................................................... 15 
+3.  Aim and Objectives of the Project .................................................................................... 16 
+4. Methodology ......................................................................................................................... 17 
+A. Development / Research / Test Methodology:.................................................................. 17 
+B. Project Team: .................................................................................................................... 31 
+C. Project Activities:.............................................................................................................. 32 
+D. Key Milestones and Deliverables: .................................................................................... 34 
+5. Benefits of the Project (Expected output/outcomes): ........................................................... 35 
+6. Risk Analysis/Feasibility ...................................................................................................... 36 
+A. Risks of the Project: .......................................................................................................... 36 
+A1.   Comments: ....................................................................................................................... 36 
+2. Timing and Schedule Risks .................................................................................................. 37 
+Table 6  : Timing Risk ............................................................................................................... 38 
+3. Budget and Resource Risks .................................................................................................. 38 
+7. Project Approval Certificate ................................................................................................. 39 
+8. Reviewers Panel Comments ................................................................................................. 41 
+10. Project Schedule / Milestone Chart /Workplan ................................................................ 42 
+13. Report Writing Guidelines ................................................................................................ 42 
+References ..................................................................................................................................... 43 
+ 
+Note: To update the table of contents, right click in the table and select ‘ update field’ and then select 
+‘Update Entire Table’. 
+ 
+
+PAGE 4
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 1 
+Application for Final Year Project  
+ 
+1. Project Identification 
+A. Reference Number:  
+(for office use only) 
+ 
+B. Project Title:  
+Agentic AI System for Automated Financial Reporting and Insights  
+C. Project Internal Guide:  
+Name:   Mr. Manoj Chhetri, Miss Dechen Tshomo 
+Designation: Lecturer, Associate Lecturer 
+Organization: College of Science and Technology 
+Mobile # : 17695710, 17300192 Tel. # :  
+Email: Manoj_chettri.cst@rub.edu.bt, dechentshomo.cst@rub.edu.bt 
+C1.   Project External Guide: 
+Name:   Mr. Phurpa Thinley 
+Designation: Lead, Analytics and Software Development Unit (ASDU) 
+Organization: Thimphu TechPark Limited 
+Mobile # : 17698137 Tel. # :  
+Email: phurpa.thinley@thimphutechpark.bt 
+C2.   Student Group Lead: 
+Name:   Miss Priya Ghimiray 
+Roll No: 21 
+Department: Computing Technologies Department 
+Mobile # : 77766463 Tel. # :  
+Email: 02230143.cst@rub.edu.bt 
+D. Organizations Involved in the Project:  
+(Please identify all affiliated organizations collaborating in the project, and describe their 
+role/contribution to the project.) 
+ 
+
+PAGE 5
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 2 
+ 
+D1.    Industrial Organizations: 
+# Organization Name Role / Contribution 
+1.  Thimphu TechPark Limited Role: 
+Host Organisation and Industry 
+Guide  
+Contribution: 
+Facilitate a real-world project by 
+providing relevant respurces, 
+technical guidance, and practical 
+support to bridge academic 
+research with technology adoption 
+2.    
+D2.    Academic Organizations:  
+# Organization Name Role / Contribution 
+1.  College of Science and Techology Role: 
+Academic Host and Primary 
+Research Institution 
+Contribution: 
+Provide academic supervision, 
+ensure alignment with the 
+academic requirements and 
+provide the theoretical foundation 
+for the project. 
+2.    
+D3.    Funding Organizations:  
+# Organization Name Role / Contribution 
+1.    
+2.    
+E. Key Words:  
+(Please provide a maximum of 5 key words that describe the project. The key  words will be 
+incorporated in our database.) 
+ 
+Agentic Artificial Intelligence, Multi -Agent Systems, Financial Reporting Automation, 
+Large Language Models (LLMs), Intelligent Financial Analytics 
+ 
+ 
+
+PAGE 6
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 3 
+F. Research and Development Theme:  
+AI Driven Automation for Smarter Financial Reporting 
+G. Project Status:  
+(Please mark ) 
+☑  New         
+   Modification to previous Project  
+    Extension of existing project  
+ 
+H. Project Duration:  
+Expected Starting Date: 18 December, 2026 
+Planned Duration in months: 6 Months 
+ 
+ 
+ 
+2.  Scope, Introduction and Background of the Project 
+A. Scope of the Project:  
+The scope of this research focuses on the analysis and development of an agentic AI 
+system for automating the monthly financial reporting workflow of DHI . The research 
+will examine the current financial reporting procedure, from the financial submission, 
+collection, validation, consolidation, analysis and reporting of monthly financial data. It 
+will require a knowledge of the functional, data and workflow re quirements of the 
+reporting process and be able to design and develop the proposed system based on these 
+requirements. 
+ 
+The key areas to be covered in the research will encompass the development of a web 
+based system that can be used to submit, manage and track financial data monthly, have 
+an automated system for data ingestion, extraction, validation, and consolidation of the 
+data submitted for the financial data and have an automated AI based system that will  
+analyze the consolidated financial data to detect anomalies, red flags, trends and 
+variances. The research will also explore ways to automatically generate financial 
+reporting and management reports and dashboards that present processed financial 
+information and AI generated insights to the appropriate end users, such as those in the 
+financial reporting and management process. 
+ 
+The research will only focus on the identified financial reporting workflow for the month 
+and financial data needed for that financial reporting. It will neither cover creation of a 
+
+PAGE 7
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 4 
+general purpose financial or accounting management system nor replacement of existing 
+accounting systems nor make financial decisions without human intervention by the AI 
+system. Any areas not included in the identified monthly financial reporting process will 
+not be included in the study. 
+ 
+ 
+B. Introduction (Project Background and Literature Review, Current State of the Art): 
+ 
+(Detailed summary of what all has been done internationally in the proposed area quoting 
+references and bibliography. Please note that this section demonstrates the depth of knowledge 
+of the project team and builds the confidence of the evaluators about ca pability of the team in 
+achieving the stated objectives.)  
+(Please describe the current state of the art specific to this research topic.)  
+ 
+Project Background  
+Now a new generation of AI is emerging from the synthesis (generating content from a given 
+prompt) paradigm to the concept of autonomous agents that not only synthesize content but can 
+plan, use tools, and execute multiple actions with minimal input from t he user (Wang et al., 
+2024). It's an important point to make because it's a significant leap in capabilities between the 
+AI agent and the agentic AI.  An AI agent is usually modular, task oriented and can be seen as 
+a specific and discrete AI system, while  agentic AI is defined as an AI system that can 
+dynamically break up a task, maintain memory over time, and feature coordinated autonomy 
+between multiple specialised agents that collaborate towards a shared goal (Sapkota et al., 
+2025). One area severely impacted by the transition is financial reporting, as financial 
+performance of large diversified organisations, holding companies, conglomerates and 
+government investment arms are all subject to the same common and recurring headaches that 
+is financial consolidation across numerous subsidiaries into timely, accurate and decision ready 
+reports. 
+ 
+This transformation is reflected in the world financial technology literature. Gong (2026) points 
+out that after the first generation of rule-based algorithms, we then entered the second predictive 
+age using machine learning techniques, and now into the th ird agentic age, creation of self 
+contained systems that can engage in the entire financial decision making  process from 
+perception to reasoning, strategy generation to execution. Since this third generation is 
+beginning to grow, the focus of the research has shifted towards developing more complex 
+financial systems that have a financial agent with a special ro le assigned to each agent instead 
+of a single agent doing all the jobs (Guo et al., 2024).   This body of work mirrors a global 
+appreciation of the fact that financial reporting has moved beyond a compliance process, it is 
+an input to strategic decision mak ing and entities which are able to consolidate and interpret 
+their financial information more quickly have a distinct governance or oversight edge. 
+
+PAGE 8
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 5 
+ 
+This global revolution has its own significance for Bhutan and in a special way for Druk 
+Holding and Investments Limited (DHI). DHI is a Bhutanese government commercial company 
+created by Royal Grant in 2007 under Royal charter with mandate of holding and managing the 
+future and existing investments of the Royal Government of Bhutan during their long tenure 
+for long term benefit of the Bhutanese people. It is the country's biggest and single state owned 
+holding company. DHI has a stake in 24 portfolios (eleven fully owned, five controlled and 
+eight linked) ranging from manufacturing, energy and resources, financial services, 
+communication and transportation, real estate and construction and trading sectors. Their values 
+are to contribute to Gross National Happiness, protect and enhance the wealth of the nation for 
+Bhutan's current and future generations through prudent investments and to be recognized as 
+the foremost organization in the country for wealth management and creation to help in 
+transforming Bhutan's economy into a globally competitive one. To achieve this objective, DHI 
+needs to in tegrate quarterly reporting performance with respect to its diverse revit  portfolios 
+(hydropower generation, telecom, banking, mining and manufacturing industry) and achieve a 
+stable financial performance on a monthly basis. This integrated overview drives DHI's 
+governance function as it oversees the performance of its subsidia ries, reports the dividend 
+payments to the government, and helps inform investment and resource allocation decisions as 
+a major element of its charter. 
+ 
+ 
+Problem Statement 
+A monthly financial reporting process takes place with various companies and involves the 
+aggregation of financial data, monitoring, verification, consolidation, analysis and presentation 
+of financial data. Work, where manual coordination is paramount, involves many management 
+finance staff having to chase submissions, verify if the necessary data was submitted, check 
+information for consistency and lack of it from different companies, compare variations in 
+financial performance, and prepare reports and han douts for management. This also adds up 
+additional time and effort needed to accomplish each reporting cycle. 
+ 
+Several companies have multiple companies involved in the process, which can create even 
+more challenges, as the reports are submitted at different times or the information is outlined in 
+differing ways or missing. At present, financial reports in DHI comp anies are submitted via 
+email, in either PDF or Excel format, and this can lead to manual processes when it comes to 
+collecting and handling reports. The data must be processed through the efforts of finance staff 
+going through every corresponding email at tachment, finding, downloading, perusing and 
+decrypting it. The data must then be processed by manual effort of a finance staff searching, 
+downloading, reviewing and decryption of corresponding individual emails. Lack of timeliness 
+of submission can then lead to delays in later validation, consolidation, analysis and reporting 
+
+PAGE 9
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 6 
+to management. Manual processing can also cause delays in providing management with group 
+level timely financial information and consistently identifying important trends, anomalies and 
+financial concerns. 
+ 
+DHI therefore has a need for an integrated solution to automate submission reminders, track 
+pending reports, validate submitted data, combine company level financial data, analyse  the 
+company's financial trends and anomalies, and create management ready reports and 
+dashboards. Overall, one of the core challenges solved by the present project will be the need 
+for repetitive and manually coordinated activities in the financial reporting process, which can 
+result in delays in financial reporting, more people to do more work, uneven processing, and a 
+lack of timely financial information available to management. To automate and coordinate 
+these activities, achieve coordination of financi al data, and deliver timely information for 
+effective financial management decision making, an agentic AI based financial reporting 
+system is proposed. 
+ 
+ 
+Introduction 
+Financial reporting is a key part of organisations monitoring and performance evaluation, to 
+accountability and managing financial decision making. For organisations with multiple 
+subsidiaries, the reporting process can be a multi -step task that calls for collecting financial 
+information from various sources, verifying complete and consistent, consolidating, analysing  
+and rendering the information into one that can be used by management. As Large Language 
+Models (LLMs) are becoming more common in financial applications, they are providing 
+opportunities to assist various financial activities, including data analysis, fi nancial research, 
+risk identification, and decision support. Additionally, the research has grown, which 
+underscores the need for the reliable numerical processing, appropriate coordination, protection 
+of privacy, and limits and scrutiny of AI's operations  in the context of real -world financial 
+applications (Dong et al., 2025). In recent work on LLM autonomous agents, trajectory 
+planning, tool usage and maintaining context as a memory has given way to multi -step 
+workflows that include actions (Wang et al., 2024). Multi -agent systems like FinCon and 
+FinRobot illustrate the ability of dividing complex tasks among specialized agents, as opposed 
+to a single generalist model (Yu et al., 2024; Yang et al., 2024). 
+ 
+The proposed project aims at implementing an Agentic AI system to automate Financial 
+Reporting and Insights processes for DHI companies. The planned system should help the 
+monthly reporting cycle, with features like reminders, data collection, data validat ion, 
+consolidation, analysis, generation of monthly reports, and presenting of the data in dashboards. 
+The conceptual architecture also suggests a structured store within PostgreSQL as well as a 
+store for files and generated documents in object storage such as MinIO or other S3 compatible 
+
+PAGE 10
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 7 
+storage. The project will then explore the ways in which specialists AI agents, deterministic 
+financial processing tools, workflow orchestration, the management of structured data, and a 
+web based user interface can be integrated together to assist in financial reporting every month. 
+The system should decrease manual repetitive activities and give timely consolidated financial 
+information and insights within a proper human supervision. Specifically , building a 
+trustworthy AI deployment involves managing for reliability, governance, transparency and 
+human oversight throughout the AI lifecycle in financial systems (Tabassi, 2023). 
+ 
+ 
+Literature Review 
+ 
+AI powered automation has progressed from general -purpose large language models (LLMs) 
+to LLM-based agents that are equipped with structured capabilities like planning, memory, and 
+interactions with external environments, tools, etc. This evolution has sub sequently led to the 
+development of multi-agent systems (MAS) that involve specialized agents working together 
+to implement complex multi -step workflows. Agentic AI offers greater adaptability and 
+autonomy in dynamic and unpredictable environments compared  to traditional rule-based and 
+machine-learning systems, which are typically suitable for well-defined and structured tasks as 
+they are consistent, reproducible, and easily audited  (Acharya et al., 2025). ReAct shows that 
+reasoning can be mixed into actions, allowing an agent to obtain and then observe the results 
+of its actions, and then tweak its responses during that action (Yao et al., 2023). Likewise, 
+Toolformer demonstrates how  Language Models can be trained to use external tools like 
+calculators, search engines, and Question -Answering systems to enhance task completion 
+(Schick et al., 2023). Task decomposition, plan selection, reflection, memory, and external 
+modules, are also identified as important mechanisms for multi -step problem solving in 
+research on planning oriented agents (Huang et al., 2024). There are also reflection -based 
+techniques which try to enhance the performance of an agent by analyzing the information 
+generated by its previous action and use a textual message as feedback for the next attempt 
+(Shinn et al., 2023).  
+ 
+Multi-agent systems are an extension of agentic AI that involve a group of specialized agents 
+working together, communicating, coordinating, and collaborating to achieve a shared goal 
+such as a complex task. These architectures can be composed of multiple agents for planning, 
+validation, document retrieval, data analysis, reporting, communication, and human escalation 
+rather than using a generic single -agent architecture.   CAMEL offers insight into how 
+structured communication between role-playing agents can facilitate the completion of the task, 
+revealing that the definition of roles can indeed help agents cooperate to complete the task (Li 
+et al., 2023). Similarly, AutoGen  offers a structure for multiple LLM agents, software tools, 
+and human users to communicate via configurable conversations  (Wu et al., 2024). Guo et al. 
+(2024) have conducted a wide -ranging survey of multi -agent systems that can be built using 
+
+PAGE 11
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 8 
+LLM components and identify agent profiling, memory, planning, communication, and 
+environmental interaction as key components of the LLM -based multi-agent systems. Human 
+review should remain necessary for material financial exceptions, errors that cannot b e 
+resolved, and approval of official reports as reliable AI needs also to be reliable, accountable, 
+transparent, explained, and governed (National Institute of Standards and Technology [NIST], 
+2023).  
+ 
+ 
+1. Agentic AI in Finance 
+Building on these general architectures, the financial sector has started using LLM for data 
+analysis, investment research, market interpretation, risk analysis, and decision support, and 
+research has shifted from answering questions and generating texts to multi-step financial tasks 
+using LLM-based agents. They also document ongoing challenges such as numerical reasoning, 
+adapting to changing information, multi -agent coordination, privacy, and compliance. In this 
+field literature describing and evaluating concrete systems is focused on trading and market 
+behaviour. According to Ding et al. (2024), most LLM -powered trading agents integrate 
+numerical market data with the unstructured text found in news and filings.   Liu et al. (2026) 
+argue that traditional econometric methods are not adequate to incorporate the interactive and 
+strategic properties of financial systems and employ LLM -based MAS to simulate market 
+participants. The studies indicate that it is possible to have role differentiated financial agents. 
+Their aim is to predict or model market behavior, while an internal reporting system is evaluated 
+based on validated data, reconcilability and auditing. The difference will matter when reading 
+below in terms of h ow the systems below are evaluated as they rely on trading results for 
+success reporting.  
+ 
+ 
+1.1 Multi - agent decision systems: FinCon, FinAgent, and FinMem 
+The leading multi-agent framework in this stream is FinCon. This has a hierarchy of manager 
+agent and analyst agent which is similar to that used in investment companies to have specialist 
+information processed by the analyst, and the outputs from the anal ysts integrated and 
+coordinated by the manager (Yu et al., 2024). The hierarchy is designed to enable agents to 
+work together in a cross functional manner without all agents communicating with each other. 
+Its most transferable feature for the present project is not its investment logic. It is a mixture of 
+role separation and explicit restrictions on autonomous actions. An Insights Agent which raises 
+an alarm on unexpected spending or falling margins should not be converted to a management 
+verdict without going through defined controls first, and significant outputs should be done so.  
+ 
+
+PAGE 12
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 9 
+There are two related systems each dealing with a different design aspect. FinAgent (Zhang et 
+al., 2024) is a multimodal trading agent, which handles numerical, textual, and visual market 
+information and integrates market intelligence, memory, reflection, and tool augmentation. 
+FinMem (Yu et al., 2025) adds a layered memory, which reflects the relevance and timeliness 
+of information, consisting of profile, memory and decision-making parts, and the authors claim 
+better trading performance in comparison with algorithmic comparison agents on a large real -
+world data set. Their limitations are equally shared. All three are assessed on general trading 
+skills, with profit targets, so gains in backtest profit may indicate the evaluation context rather 
+than the abili ty of the architecture, their evidence for reporting correctness is therefore 
+circumstantial. Furthermore, the architecture of multi-agent Fin Con runs counter to the caution 
+by Cemri et al. (2025). None of the works reviewed here confirm that the hierarch y, not other 
+architectural characteristics, carries the gains. Fin Con, however, does imply that choice of 
+model should not be decided in the absence of an agent workflow. What these systems offer 
+the project is therefore a set of transferable principles: bounded autonomy, tool-verified inputs, 
+and memory of prior periods.  
+ 
+ 
+1.2 Research and reporting agents: FinSight and FinRobot 
+A more directly relevant group of systems targets research and report production. Fin Sight (Jin 
+et al., 2026), a multi -agent architecture for end -to-end research and multimodal reports, has 
+Data Collection Agents, a Data Analysis Agent, and a Report Gener ation Agent all sharing a 
+programmable environment of data, tools, and agents rather than placing data into the LLM's 
+text context.  Two design choices are important. The first is executable data, financial tables 
+remain as objects and various tools operate on them, enabling the LLM to choose what analyses 
+to run and how to interpret them while the calculations happen by tool. The secon d is a Two-
+Stage Writing Framework in which structured Chain -of-Analysis segments are produced first 
+and then combined into a report.  These findings support staged separation of the stages of 
+computation, analysis, and writing, and should be interpreted with caution. The ablation paper 
+shows the benefit of separating processing stages within the report pipeline, but does not 
+establish th at multiple autonomous agents are necessary (and therefore cannot address the 
+concern raised by Cemri et al., 2025).   FinSight is nevertheless the reviewed system most 
+similar to the proposed project. Fin Sight provides strong support to the analysis-and-reporting 
+portion of the pipeline, but nothing to the collection, validation, and consolidation stages that 
+precede it.  FinRobot (Yang et al., 2024) is an open -source platform that includes a Financial 
+AI Agents layer, financial LLM algorithms, DataOps and LLMOps layers, and multiple 
+foundation models, where more complex tasks are broken down into logical steps instead of 
+answering the question without stopping. The equity research implementation of later robots 
+divide collection, concept building and thesis synthesis by specialized agents.  
+ 
+1.4 Comparative analysis   
+ 
+
+PAGE 13
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 10 
+System Primary task Distinguishing 
+design feature 
+Reported evidence Limitation for the 
+present project 
+FinCon 
+(Yu et al., 
+2024) 
+Stock trading 
+and portfolio 
+management 
+Manager–analyst 
+hierarchy; risk-
+triggered self-
+critique 
+Generalisation across 
+trading and portfolio 
+tasks 
+Trading 
+objective; 
+contribution of 
+hierarchy not 
+isolated 
+FinAgent 
+(Zhang et 
+al., 2024) 
+Multimodal 
+financial 
+trading 
+Tool 
+augmentation, 
+memory, 
+reflection 
+Outperformed 12 
+comparison 
+approaches on six 
+datasets (>36% 
+average profit 
+improvement) 
+Profit-based 
+evaluation; no 
+reporting task 
+FinMem 
+(Yu et al., 
+2025) 
+Trading Layered memory 
+(relevance, 
+timeliness) 
+Improved trading 
+performance over 
+algorithmic 
+comparison agents 
+Trading task; 
+memory not 
+tested on 
+reporting 
+FinSight 
+(Jin et al., 
+2026) 
+Financial 
+research report 
+generation 
+Executable data; 
+Two-Stage 
+Writing 
+Framework 
+7.93 vs 6.44 and 5.73 
+for two commercial 
+research systems; 
+ablation shows drops 
+when stages are 
+merged 
+Authors' own 
+benchmark; 
+external market 
+data, not internal 
+submissions 
+FinRobot 
+(Yang et 
+al., 2024) 
+Modular 
+financial-agent 
+platform; 
+equity research 
+Task 
+decomposition; 
+multiple models 
+and tools 
+Architectural 
+description 
+Little 
+comparative 
+effectiveness 
+evidence in the 
+reviewed text 
+FinGPT 
+(Yang et 
+al., 2023) 
+Financial 
+language 
+modelling 
+Data-centric 
+adaptation 
+(LoRA) 
+Potential applications 
+demonstrated 
+Model-level 
+contribution only; 
+no workflow 
+ 
+Table 1 : Comparative Analysis 
+ 
+ 
+ 
+
+PAGE 14
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 11 
+2. Financial Reporting and Data Reliability 
+ 
+Building on these design principles, financial reporting is increasingly supported by artificial 
+intelligence, and in particular by LLMs, because financial documents contain large volumes of 
+structured and unstructured information that must be extracted, i nterpreted, compared, and 
+communicated. Financial reporting, however, is different from general text processing tasks. 
+One important aspect is that financial information must be numerically accurate, consistently 
+represented across sources, traceable to it s original evidence, and reliable enough to support 
+decision making. Recent research on financial question answering, financial document 
+processing, and more recently agentic financial workflows demonstrates both the potential of 
+LLMs in this domain and th e specific limitations that must be addressed before they can be 
+trusted with financial data 
+ 
+Financial data ingestion is the first major technical challenge in an automated reporting system. 
+Company information may arrive as spreadsheets, PDF reports, tables, or other documents with 
+different layouts, terminology, units, and structures. Extracting  financial information is 
+therefore not simply a matter of reading text; the system must correctly identify financial 
+concepts and associate them with their corresponding values. Hanne et al. (2024) studied LLMs 
+used for table-based extraction and interpre tation of information from annual financial report 
+tables, assessing ChatGPT -4 and BARD on financial tables from 46 publicly traded Swiss 
+companies. It provides evidence that LLMs can be useful for financial-table extraction, as well 
+as the difficulties th at can arise from accessing the quantity of information embedded within 
+PDFs. Buholzer et al. (2025) similarly studied LLM -based extraction of financial information 
+from financial-report tables, and explored the accuracy and error distribution of a few different 
+extraction strategies.These papers reinforce the lesson that, when extracting financial table 
+values, they should be evaluated instead of assuming an LLM will always correctly interpret a 
+financial report table.Taken together, these pieces of work s uggest that LLMs are well suited 
+as financial table extractors in semi-structured documents, but should be used as part of a more 
+extensive data pipeline. The bigger sources of information become, the more it is difficult to 
+ingest them. The sheer size of the annual reports means that simply feeding them into an LLM 
+does not ensure that it will find and rationalise the relevant information.It is not enough to do 
+the extraction either, as financial sense may need to make mathematical calculations on several 
+values from the tables and other text surrounding the data. 
+ 
+After we've harvested and confirmed financial data, the next hurdle is ensuring that data from 
+various companies are compatible and can be joined at the hip in terms of scope and definition. 
+The first part of FinReporting transforms the information from multiple sources into a common 
+schema that incorporates the core framework of the income statement, balance sheet and cash 
+flow statement ( Zhang et al., 2026). This directly applies to the proposed Consolidation Agent, 
+If one companies report Sales, one companies report Revenue, one companies report Operating 
+
+PAGE 15
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 12 
+Revenue, then one should be aligned to a common field for the purposes of consolidation the 
+first pass semantics problem is the one that should be solved, the second -pass arithmetic 
+problem is secondary. The code agent with variable memory provided by FinS ight is 
+complimentary evidence for structured, executable data -processing (Jin et al., 2026). Data 
+quality issues remain with consolidation and unusual values need to be identified. The anomaly 
+logging feature is part of FinReporting's workflow philosophy,  and is defined as an error that 
+has not been supported with separate statements in the final report but is rather included in the 
+processing history of the report (Zhang et al., 2026). Likely detection should be based on data 
+and rules rather than being the judgment of the LLM which could create false alarms.  
+ 
+Beyond the correctness of individual processing steps, accuracy and auditability are central to 
+financial reporting because financial information can influence management decisions, and 
+convincing but incorrect explanations have limited practical value. Ve rification (Zhang et al. 
+2026) and/or evidence grounding ( Zhang et al. 2026) are emphasized in training to achieve 
+accuracy in FinReporting, while citation aware generation ( Jin et al. 2026) are emphasized in 
+training to achieve accuracy in FinSight. Wit h respect to systemic risk, Gong (2026) doesn't 
+suggest the intelligence or knowledge of the model is a vital part of the answer, Discussions is 
+the important one. Where they reported such a claim, revenue for example increased by 18% 
+then they should prov ide the calculation, and they should be able to link back to the values 
+extracted and the reporting event. Empirically, Lu et al. (2026)  agree that novel financial tools 
+cannot be validated via success or failure of the agents by introducing the FinToolBench, a tool 
+executable financial benchmark for validation of auditable, agentic, financial execution. The 
+purpose of this is to create a system that will collect all of the calls to the tools (e.g., extracts, 
+calculations, mapping, etc.) and the calls will be able to be independently verified without 
+having to rely on the rest of the system 
+ 
+The extensive review of literature mentioned above revealed that it would be possible to break 
+up the financial reporting function to certain agents. The Ingestion or Validation Agent is 
+backed by empirical evidence that LLM can be used for information ext raction from financial 
+documents and tables, as well as a lack of reliability when extracting information from long 
+documents without prior retrieval or structuring (Hanne et al., 2024; Buholzer et al., 2025). 
+Then, the agent should combine the deterministic validation with the LLM powered extraction, 
+even something as basic as the ability to self -critique the context has been demonstrated for 
+FinCon (Yu et al., 2024). The Consolidation Agent is based on Zhang et al. (2026)'s canonical 
+ontology and mapping method while the Consolidation is performed in a structured code based 
+processing (Jin et al. 2026). The Insights Agent is then able to utilise the validated and 
+consolidated information, which will reduce the amount of information the LLM needs to 
+process, offer a solid foundation to identify trends and anomalies and create explanations 
+without having to deal with unstructured documents. The Reporting Agent will take validated 
+information and transform it into management friendly reports. These studies by FinSight et al. 
+
+PAGE 16
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 13 
+(2026) and Gong (2026) followed by Schmitt (2026) indicate that the following actions, human 
+approval and traceability should be added on this agent starting from the early stages of the 
+writing process to improve the quality of the report. Developing this  agent based structure 
+requires those domain specific results as well as broader improvements in LLMs' planning, tool 
+use, information retrieval, visualisation of outputs, and assessment and control.  
+ 
+ 
+3. LLM Tools, Visualization, and Evaluation 
+Once financial data are established through tool use and recall mechanisms, those reasonings 
+still need to be delivered to decision makers. Multimodal AI capabilities have expanded beyond 
+simply processing of text to include the generation of visual images , dashboards, and charts 
+(Han et al., 2023).   Another type of multimodal systems, Vision Language Models (VLMs), 
+work as the visual critics in chart generation pipelines. VLMs combine visual encoders with an 
+LLM backbone to judge the generated visual output such as following input instructions, code 
+readability, and aesthetics, keeping readability and correctness for the users  (Han et al., 2023). 
+Using a VLM as a visual critic is one example of automated evaluation trend, since the 
+evaluation of open ended conversational models, retrieval systems, and visual outputs has to 
+shift away from static to reference based metrics (Es et  al., 2025; Zheng et al., 2023). When it 
+comes to retrieval pipelines automated evaluation appears in the form Ragas, which evaluates 
+three independent and comprehensive metrics without ground truth, human provided labels. 
+Faithfulness, which verifies whether generated claims are inferable from the retrieved context, 
+Relevance, which evaluates the relevance of the output response to the input prompt, and 
+Context Relevance, which evaluates the conciseness and relevance of the retrieved passages 
+(Es et al., 2 025). At the same time, the LLM -as-a-Judge way of thinking makes use of large 
+language models to act as an automated replacement for human experts in pairwise comparison 
+tasks or single answer scalar ratings.  
+ 
+Both scalability and interpretability are important for LLM judges, but they are still known to 
+suffer from systematic biases and Unpredictable variance (Yagubyan, 2025; Zheng et al., 2023). 
+Typical systematic biases include selection in favor of the respo nse presented first,   favor of 
+repetitive text, and possible illusory superiority (Zheng et al., 2023). Repeated trial evaluation 
+also shows dramatic pairwise -pointwise gap and intra -judge inconsistency. When the scalar 
+pointwise scores of the two models are almost the same the  judge will yet pick a statistically 
+significant pairwise winner instead of calling it tie (Yagubyan, 2025). Since   automated LLM 
+judges have constraints, human oversight is still needed, at the evaluation level extending the 
+governance level. Since automated judges excel at cost effective scaling, human evaluation 
+remains an essential baseline to evaluate model alignme nt, helpfulness, and safety (Zheng et 
+al., 2023). Today, modern human review is shifting from purely passive human scoring towards 
+active human-in-the-loop collaboration (Yao et al., 2022). In an interactive agentic context, 
+
+PAGE 17
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 14 
+users can study and directly edit the agent's intermediate reasoning style (Yao et al., 2022). 
+Deleting or rewriting even one hallucinated thought propagates dynamically through the LLM's 
+internal belief state, which in turn alters its subsequent sequence of actions, resulting in a fully 
+transparent and steerable human AI collaboration setup for task solving (Yao et al., 2022). 
+ 
+The papers read none of the identified work spans over the entire workflow. The extraction 
+paper focus on just tables extraction, the FinQA and DocFinQA work is reasoning only, the 
+financial agent work is mostly for trading, and FinReporting involves only localised reporting 
+in multiple countries rather than intra -organisation consolidation (Zhang et al., 2026). The 
+closest to an end-to-end pipeline, FinSight takes in market data from outside the group (Jin et 
+al., 2026). None of the above mentioned paper b egins with request for monthly subsidiaries' 
+financial reports and tracking submissions from them, consolidating group reports and 
+concludes with visualised and explained reports. The project tries to solve monthly reporting, 
+for several different subsidia ries under DHI, where data entries must be queried and tracked, 
+validated, aggregated, analysed and turned into management reports and dashboards. It will be 
+using concepts from the literature while tackling end to end processes not represented in 
+reviewed papers. Its contribution will be a concrete architecture which is auditable and agent 
+based, for multiple subsidiary financial reporting, whose components are supported  and fixed 
+processes and LLM-based modules are explicitly separated. 
+ 
+C. Challenges:  
+(Please describe the challenges, specific to this research topic, currently being faced 
+internationally.) 
+ 
+1. AI Reliability and Financial Accuracy 
+ 
+The adoption of AI for financial data processing and analysis presents difficulties in keeping 
+the results accurate, constant and understandable. LLMs can generate wrong conclusions or 
+results, financial calculations and consolidation must be highly accura te. Creating the 
+appropriate agents to create validation rules, to make deterministic calculations, to put in place 
+an audit trail and to establish human rules for approval will, therefore, be crucial. 
+ 
+  
+2. System Integration and Technical Complexity 
+ 
+The project will include integration of various AI agents with web application, backend, 
+workflow engine, Postgres, MinIO, AI and Dashboard. This integration of these elements into 
+a unified end -to-end reporting system could be a technically intricate task , especially when 
+integrating AI reasoning with traditional software functions. 
+ 
+
+PAGE 18
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 15 
+  
+3. Stakeholder Coordination and Requirement Changes 
+ 
+The project relies on collaboration with TTPL to gain insight into existing financial reporting 
+processes, and to confirm system requirements. The expectation of stakeholders, lack of staff 
+for consultations, delayed feedback, and requirements may influenc e development decisions 
+and the development process. 
+  
+4. Research Uncertainty and Model Selection 
+ 
+The project combines the study of various AI designs, agentic designs, extraction methods, 
+validation methods, and evaluation methods. It may not be apparent at the start of the project 
+what the best solution will be and testing results may mean changing t he architecture or 
+implementation plans. This ambiguity can lead to more research and development changes than 
+anticipated. 
+  
+5. Time, Team Coordination and Project Scope 
+ 
+The project involves integrating requirements and literature research, AI research, system 
+development, agent development, testing, evaluating, documenting and stakeholder activities 
+in a fixed time. Sharing the work across 4 team members and having consistent integration and 
+meeting deadlines for milestones can be difficult. Any unexpected technical or research 
+problems could also lead to changes in the timetable. 
+  
+6. User Adoption and Practical Acceptance 
+ 
+While the IT system may meet performance expectations, there is a risk customers may not be 
+comfortable relying on AI generated financial insights, or investigating how existing reporting 
+processes can be altered. Acceptance may be influenced by variations in the level of familiarity 
+among users, the familiarity with existing processes, and the requirement of human verification 
+of AI based systems. The system should thus be able to produce understandable outputs, bring 
+in an appropriate level of human oversight and ensure suitable documentation. 
+ 
+ 
+D. Motivation and Need:  
+(Please describe the motivation and need for this work.) 
+There is a need for exploring the use of Agentic AI to enhance the Monthly Financial Reporting 
+process. There are a number of financial tasks to be performed each month such as getting 
+financial information from different companies, the examination of the submitted information, 
+consolidating financial data, the analysis of the financial performance and the preparation of 
+financial reports for management. In addition to generating information, these exercises enable 
+
+PAGE 19
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 16 
+the use of different specialised agents together to support and coordinate the entire reporting 
+process by using AI. 
+ 
+The need for the project since effective monitoring and decision making of the financial 
+reporting process depends on timely, well organized and accurate financial information. Having 
+the right system in place that facilitates the collection, validation, c onsolidation, analysis and 
+presentation of financial information can make these activities easier and alleviate some manual 
+repetitive tasks. Additionally, AI driven insights and a dashboard can offer a single source of 
+truth for financial performance and assist companies better recognize crucial trends, anomalies, 
+and opportunities. The project is underta ken to study, design, build, and test an Agentic AI 
+approach to improve the monthly financial reporting process, to achieve an efficient, timely, 
+centralized and insight driven reporting process. 
+ 
+ 
+ 
+3.  Aim and Objectives of the Project 
+ 
+ (Please write the actual aim of your project. Also,  describe the measurable objectives of the 
+project and define the expected results. Use results -oriented wording with verbs such as ‘to 
+develop..’, ‘to implement..’, ‘to research..’, ‘to determine..‘, ‘to identify..’ The objectives should not 
+be statements and should not include explanations and benefits. The objective should actually 
+specify in simple words what the project team intends to achieve (something concrete and 
+measurable/ deliverable). Fill only those objectives that are applicable to the proposed project .) 
+Aims:   
+ 
+To study, develop, and implement an agentic AI system for automating the monthly financial 
+reporting workflow of DHI subsidiaries.  
+ 
+ 
+Objectives: 
+ 
+The Project Objectives are To: 
+ 
+1. Identify the functional, data, and workflow requirements for monthly financial reporting 
+of DHI companies. 
+ 
+2. Design and develop a web-based system for collecting, managing, and tracking monthly 
+financial reports. 
+ 
+3. Develop AI agents for automated financial data ingestion, validation, consolidation, and 
+analysis. 
+ 
+
+PAGE 20
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 17 
+4. Develop automated management reporting and dashboard functionalities for presenting 
+financial information and AI generated insights. 
+ 
+5. Integrate and evaluate the developed system within the identified DHI organizational 
+environment. 
+ 
+ 
+4. Methodology 
+A. Development / Research / Test Methodology: 
+(Please describe the technical details and justification of your development and research plan and 
+test plan and testing strategies. Identify specialized equipment, facilities and infrastructure which 
+are required for the project and their utilization plan. The block diagrams, system flow charts, high 
+level algorithm details etc. have to be provided in this section.  Also, d escribe the overall 
+methodology to be used for the particular research topic) 
+ 
+This chapter presents the methodology used for the research, design, development and 
+evaluation of the proposed Agentic AI based Financial Reporting and Dashboard System. The 
+project is a research and software development project. The research component ai ms to 
+investigate the current financial reporting process, understand its shortcomings, collect 
+stakeholder requirements and examine available research on Agentic AI, financial data 
+processing, multi -agent systems, financial reporting, anomaly detection an d AI assisted 
+decision support. The development aspect involves creating and deploying a web based 
+solution with the use of specialized AI agents to facilitate the monthly financial reporting 
+process. Therefore, the overall methodology in this project is Design Science Research 
+Methodology (DSRM).  
+ 
+DRSM is an appropriate approach because the project will create, develop, demonstrate, and 
+evaluate an IT artifact to solve an actual organisational problem. The artifact for this project 
+is a web based Agentic AI financial reporting system that includes a website for the frontend, 
+services provided by backend, a database, a workflow orchestration, different specialized 
+financial agents, tools for financial processing, financial reporting capabilities, and an 
+interactive financial reporting dashboard. The iterative development will be utilized in design 
+and development phases of DSRM. This will enable the development of the system in smaller 
+and testable steps instead of trying to implement the whole system at once. The development 
+will include the following : Financial Data Ingestion, Validation, Consolidation, Analysis, 
+Reporting, Website Development and Dashboard Visualization.  The following are the phases 
+that will be implemented for the project. 
+ 
+
+PAGE 21
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 18 
+ 
+Figure 1 : Overall Methodology 
+ 
+1. Phase 1: Problem Identification and Motivation 
+ 
+The initial phase of the project is to understand the current financial reporting process and 
+pinpoint the issues surrounding it. This will include analyzing the current methods of data 
+
+
+PAGE 22
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 19 
+collection, processing, consolidating and reporting financial information for the subsidiary 
+companies across the organization. The difficulties of coordinating the submissions of 
+multiple companies at the same time and reporting monthly activities across the group will be 
+addressed in particular. The aim of this phase is to demonstrate through evidence that the 
+proposed system is a solution to a real and clearly defined organizational problem and not a 
+solution based on a technology driven solution. This b ase is critical in making subsequent 
+design decisions which remain consistent with the true operational needs of the organisation. 
+ 
+ 
+2. Phase 2: Requirements Gathering and Analysis 
+ 
+Once the problem is identified, requirements will be collected directly from the organisation 
+and then compared with the current financial reporting workflow. These requirements will be 
+accomplished in two complementary ways. 
+ 
+2.1. Stakeholder Interviews and Discussions 
+Structured discussions will be conducted, via Zoom, with the industry guide from the 
+organization, subject to their availability and permission. These conversations will be 
+centered around learning about the following parts of the existing reporting system: 
+ 
+• The current financial reporting process. 
+• The type of financial reports that are produced: 
+• Current methods used by subsidiary companies to submit. 
+• Financial key performance indicators (KPIs) needed by management. 
+• Company's data formats for reporting. 
+• Validation Conditions for data submitted. 
+• Requirements for consolidation across companies, sectors and the group 
+• Required dashboard features 
+• The desired results that the proposed system produces. 
+ 
+2.2.  Document Analysis 
+Existing financial reporting templates will be gathered and reviewed with permission. 
+These documents could cover: 
+ 
+• Financial Report Templates for Monthly Reports 
+• Excel spreadsheets 
+• Consolidated financial reports 
+• Existing reporting guidelines 
+ 
+
+PAGE 23
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 20 
+The aim of this document analysis is to understand the organisation's financial 
+information and to determine the specific data fields the proposed system will need to 
+be able to extract, validate and process. 
+ 
+ 
+3.  Phase 3: Definition of Solution Objectives 
+The goals of the proposed solution will be formally stated along with its functional and non -
+functional requirements based on the problems identified in Phase 1 and the requirements 
+collected in Phase 2. The proposed solution is designed to help and modern ize the financial 
+reporting process at the organization, using the assistance of artificial intelligence in 
+processing and analysing data. These objectives will be clearly aligned with the project's needs 
+and then serve as a basis for the final evaluation in Phase 7. The tech stack will be set up 
+according to the project development needs.  
+ 
+3.1. Technology Stack Selection 
+The technology stack was chosen to meet the needs of an agentic financial workflow 
+with multiple steps. It demands automated reminders and escalation, Excel and PDF 
+report interpretability, data validation and error explanations, financial data 
+consolidation, anomaly/tendency analysis, generation of management reports, 
+dashboard and database interaction, multi-step workflows in both PostgreSQL, MinIO 
+and communication channels like e -mail, WhatsApp, Slack, and deployment via 
+containerized backend services. Selected components are summarized below and the 
+logic and justification for the two components that are most required, the AI agent 
+framework and the underlying language model, is explained.  
+ 
+Component Selected 
+technology 
+Reason 
+Frontend React JS Component based structure suited to a dashboard heavy 
+interface with repeated UI elements (status cards, charts, 
+upload forms). 
+Backend Python 
+(FastAPI) 
+A Python API framework built around type hints that 
+provides automatic interactive API documentation, useful 
+when the React frontend and multiple internal services 
+need to consume the backend. 
+Dashboard Apache 
+Superset 
+A financial dashboard can be embedded directly inside the 
+web app; Apache provides an official pre -built tool to 
+
+PAGE 24
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 21 
+securely fetch dashboards from Superset and render them 
+inside the React app with minimal code. 
+Containerisation Docker Packages each service consistently for development, 
+testing and deployment. 
+Orchestration Kubernetes Manages deployment and scaling of the containerised 
+backend, agent and dashboard services. 
+AI agent 
+framework 
+LangGraph Builds each agent's workflow as a controlled graph of 
+steps rather than letting the AI act freely. 
+Language 
+model 
+Qwen Provides reasoning, structured tool calling and open -
+weight deployment. 
+Table 2 : Tech Stack 
+ 
+Why LangGraph 
+LangGraph is the recommended agent framework because it allows each agent's work 
+stream to be constructed as a regulated graph of steps, instead of allowing AI free rein, 
+thus this directly supports humans in loop.. For instance, the Reporting Agent's work 
+can be prevented from publishing a report until either a critic node or a human approves 
+it, with the work being automatically taken to a revising loop when a negative result is 
+obtained. LangGraph also offers native functionality for stopping a work stream and 
+awaiting human approval, fulfilling the desired mandate where a report is not to be 
+circulated without human approval. 
+ 
+Why Qwen 
+Qwen was chosen as the base model for the agentic financial reporting system over 
+finance targeted options like FinGPT and lightweight options like Falcon because the 
+systems central   tasks (ingestion, validation, consolidating, and reasoning over 
+messages, explaining anomalies detected in the consolidation, creating the final 
+manager quality report) require extensive multi -step reasoning and tooluse ability. 
+FinGPT is designed for market sentiment classification and generating trading signals, 
+not multi-step document reasoning and report creation, while Falcon can handle basic 
+routing and tool calling, it would require heavier task specific fine-tuning to derive the 
+document interpretation and reporting quality required. This is supported by direct 
+findings from the literature surveyed. FinSight (Jin et al., 2026), a comparable system 
+that uses multiple agents to collect, analyze, and report on financial data, directly chose 
+to use Qwen models (Qwen3 -Embedding for retrieval, Qwen2.5 -VL for chart 
+verification). Wang et al. (2024) asserts that effective agents require strong action 
+module capability, run code, query data, and do verifiable actions, which directly apply 
+to the responsibilities of the set of Consolidation and Insights Agents proposed here. 
+
+PAGE 25
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 22 
+Finally, FinTeam (2025) offers direct benchmark evidence against the assumption that 
+finance specific fine -tuning is all that matters, on the FinEval benchmark, general 
+purpose Qwen2.5 -7 B -Instruct scored 66.42, nearly double the 35.15 scored by 
+XuanYuan-13 B a model buil t in particular for finance and nearly twice Qwen's size 
+and close to GPT-4o's 70.67. Since both FinGPT and XuanYuan-13 B are themselves 
+general models (LLaMA-2) fine tuned for finance, and base model Qwen2.5-7 B with 
+no financial fine -tuning at all still outperformed XuanYuan -13B across every 
+benchmark reported, research finds that base model quality matters more than domain 
+specific fine tuning alone, reinforcing Qwen as t he stronger foundation for this 
+project's agents. 
+ 
+ 
+4. Phase 4: System and Agent Design 
+This stage describes the architecture of the system to be built. This includes the overall layered 
+structure of the system and the way in which each individual AI agent will function within it.  
+ 
+
+
+PAGE 26
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 23 
+Figure 2 : System Architecture 
+ 
+  
+4.1.  Proposed System Architecture 
+The design of this system can be separated into four large architectural layers: a 
+Presentation Layer (frontend layer) , an Application Layer (Backend layer) , database, 
+and storage layer, Agent Layer.  
+ 
+Frontend Layer 
+The Frontend layer is the interface providing interaction between the system and its 
+users. The system allows its users ability to:   
+• Upload financial reports 
+• View submission status 
+• View financial KPIs 
+• View charts and trends 
+• View detected anomalies 
+• Access generated reports 
+ 
+ 
+Backend Layer 
+The backend application layer manages the core operational logic of the system, 
+including  
+• User requests 
+• File processing 
+• Financial calculations 
+• Database communication 
+• AI agent orchestration 
+ 
+Data and Storage Layer 
+The Data and Storage Layer offers persistent storage for all the structured and 
+unstructured data used in a system. In this project the structured data will be stored 
+using PostgreSQL and the file storage will be using MinIO. 
+ 
+PostgreSQL: PostgreSQL will be the main relational database for the system. It will 
+contain all of the structured data required by the system and Financial number 
+handling, like: 
+• Details on the user and user authentication  
+• Company and organizational information 
+• Submission status 
+
+PAGE 27
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 24 
+• Financial statement data extraction 
+• Validation results and error records 
+• Consolidate financial information at company, sector, and group level. 
+• Calculated financial KPIs 
+• Detected anomalies and red flags 
+• Audit and processing logs 
+ 
+ 
+MinIO: MinIO will serve as the object storage component of the system.It will be 
+used to store various files like uploaded monthly financial reports and generated 
+reports securely. These include: 
+• Monthly financial reports 
+• Excel spreadsheets 
+• PDF files 
+• Generated management reports 
+ 
+ 
+The Application Layer and AI agents will have the access to both PostgreSQL and 
+MinIO based on the nature of data being handled. The financial reports uploaded will 
+be stored into MinIO. The extracted, validated, and standardized financial data will be 
+stored in PostgreSQL for further processing, consolidation, analysis, reporting, and 
+dashboard visualizations. This division of storing financial documents and the 
+structured financial dat a aims to establish an organized data architecture, with 
+PostgreSQL for data querying and processing, and MinIO for storage and access to 
+financial documents and other files. 
+ 
+ 
+Agent Layer 
+The Agent Layer is comprised of six specialized AI agents that each oversee an 
+individual part of the financial reporting process: 
+ 
+Notification Agent: Notification Agent delivers scheduled reminders to each of the 
+subsidiary companies. It tracks submission frequencies and modifies message time and 
+message type accordingly. It also knows how and whom to push overdue reminders 
+escalations to the concerned higher level actors. 
+ 
+Validation Agent: On receiving a company's monthly financial report, the AI 
+validation agent would pull the files from MinIO and  would then use the ingested data 
+and ensure the required fields are populated on a validation basis. It would detect 
+missing data points and explore the contents looking for mismatch values, atypical out 
+
+PAGE 28
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 25 
+of range of values and missing cross reference information. It would store the 
+outcomes of the validation attempts in Postgres, if result negative are , would 
+automatically send follow up messages to the Notification Agent to notify the client 
+what needs to be fixed. 
+ 
+Consolidation Agent: transforms each subsidiary's approved reports into uniformly 
+structured tables and creates as well as integrates the subsidiaries data at the sector and 
+the group level. It also reports incomplete data or record inconsistency and 
+automatically rectifies errors and identifies records for reviews. 
+ 
+Insights Agent: monitors financial trends monthly like detects anomalies in revenue 
+or margins, liquidity issue, unusual cash outflow patterns. Gives commentary and 
+recommendations for action based on comparative data from other subsidiary 
+companies or historical performance. 
+ 
+Reporting Agent: produces comprehensive monthly management reports (group 
+overview, major observations, deviations, risk areas, and possible suggestions for 
+improvement). Monthly reports can be combined into a single report via PDF format. 
+The report produced will be autom atically available in web application after human 
+approval. 
+ 
+Dashboard Agent:  manages financial dashboards with static and real time data from 
+the submitted files. Allowing a snapshot of company and group, level, accounts, 
+values, trends, projections, and submission status. Dashboards include AI driven 
+features like anomaly flags and predictive visuals. 
+ 
+ 
+4.2.  Agent Skills and Tool Design 
+Each AI agent is given a defined set of skills. A skill, in this system, is a specific ability 
+or tool an agent can call upon when executing an action. The overall design takes the 
+form: 
+ 
+AI Agent  →  Skill / Tool  →  Python Function or API  →  Result  →  AI Agent 
+ 
+This architecture gives a way for each AI agent to offload calculations, validation, and 
+table and database lookups to a set of advanced software modules, and to free the 
+language reasoning engine for roles of explanation and guidance in decision making. 
+This is done hopefully avoid numerical errors, which could occur if it was used to 
+generate financial computations. 
+
+PAGE 29
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 26 
+ 
+ 
+Figure 3 : Agent Architecture 
+ 
+ 
+5. Phase 5: Iterative System Development Using Agile Scrum 
+The system will be designed and developed iteratively and incrementally following agile 
+approach. The development team will execute it using the scrum process. The scrum process 
+setup will be used to plan, focus on and develop, test, and evaluate the syste m components 
+during the development phase. The development will be planned using five sprints, and each 
+sprint will be broken down into numerous smaller tasks and Product Backlog Items. Each 
+sprint will produce a usable product  
+ 
+The Product Backlog will store the requirements of the system with pirority, functional 
+features, technical tasks, tests, and refinement tasks will be developed from requirements and 
+design phases. The industry guide of TTPL will act as Product Owner and focus on the backlog 
+per the stakeholder and system requirements. The Scrum Master  will coordinate with the team 
+on sprint activities, track the progress, and help the impediments faced during development. 
+
+
+PAGE 30
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 27 
+The Developer team will undertake the activities of designing, developing, integrating, testing, 
+and documentation of the system. 
+ 
+A Sprint Planning will be held at the beginning of each sprint to select and refine Product 
+Backlog (the features to be implemented during that sprint). The selected Product Backlog 
+items will be placed in Sprint Backlog. The development and testing activi ties will be 
+performed during the sprint. An ongoing monitoring of progress will take place through a set 
+of Scrum meetings. A Sprint Review will be conducted at the end of each sprint to demonstrate 
+the new system increment and collect feedback about it. Then a Sprint Retrospective will be 
+performed to identify the problems encountered and improvements for the next sprint. During 
+the five sprints the Product Backlog will be continually refined and adapted based on 
+requirements, tests, and technical aspects, feedback from stakeholders and end users. System 
+increment implemented, tested, and integrated will gradually build up the entire system instead 
+of gathering everything at the end of the project. 
+ 
+Figure 4 : Scrum Cycle 
+
+
+PAGE 31
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 28 
+ 
+System Development Plan as follows: 
+ 
+Sprint Goal Selected backlog items Expected output 
+1. Website 
+Foundation and 
+System Setup 
+Establish the 
+technical 
+foundation 
+Basic frontend website layout; 
+navigation structure; backend API 
+scaffolding; database connectivity; 
+authentication and access control; 
+initial system configuration 
+A functional 
+website foundation 
+connected to the 
+backend service 
+and database 
+2. Financial 
+Submission 
+Website 
+Module 
+Develop web 
+based 
+financial 
+submission 
+Financial report upload, file 
+storage, submission status tracking, 
+submission deadline display 
+A functional 
+financial report 
+submission module 
+3. AI Agent 
+Integration and 
+Financial Data 
+Processing 
+Integrate AI 
+agents and 
+data 
+processing 
+Financial data ingestion, data 
+extraction, data validation, financial 
+data consolidation, AI agent 
+integration 
+A functional 
+financial data 
+processing and AI 
+agent layer 
+integrated with the 
+backend 
+4. Financial 
+Analysis and 
+Dashboard 
+Development 
+Develop 
+analysis and 
+dashboard 
+components 
+Financial KPI calculation, monthly 
+trend analysis, anomaly and red-
+flag detection, AI generated 
+financial insights; interactive 
+financial dashboards, company-
+level and group-level visualisation 
+A functional 
+financial analysis 
+and dashboard 
+module 
+5. System 
+Integration, 
+Testing and 
+Refinement 
+Integrate and 
+test the whole 
+system 
+Frontend and backend integration, 
+AI-agent integration, database and 
+object storage integration, end-to-
+end workflow testing, financial 
+calculation accuracy testing, data 
+validation testing, anomaly 
+detection testing; AI insight 
+evaluation, dashboard usability 
+testing, correction of identified 
+issues 
+An integrated and 
+tested system 
+ready for 
+demonstration and 
+evaluation 
+ 
+Table 3 : Sprint plan 
+ 
+
+PAGE 32
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 29 
+6.  Phase 6: Demonstration 
+The proposed system will be demonstrated on approved financial data provided by TTPL. The 
+demonstration will be done on the data that flows through the flow chart shown below, 
+representing the data processing pipeline from submission to display. This demon stration is 
+to show if the developed system is able to support the organization's desired financial reporting 
+workflow, from beginning to end. 
+ 
+Financial data submission 
+↓ 
+Data ingestion 
+↓ 
+Data validation 
+↓ 
+Data standardization 
+↓ 
+Data consolidation 
+↓ 
+KPI calculation 
+↓ 
+Anomaly detection 
+↓ 
+AI insight generation 
+↓ 
+Report generation 
+↓ 
+Dashboard visualization 
+ 
+ 
+7. Phase 7: System Evaluation 
+The developed prototype will be evaluated to determine whether it satisfies the project's 
+objectives. This evaluation will be conducted across five complementary dimensions. 
+ 
+7.1. Functional Evaluation 
+The user interface will be tested to confirm that its required functions operate correctly. 
+This includes verifying that users are able to upload files, that unauthorized access is 
+
+PAGE 33
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 30 
+prevented, and that users can successfully access generated reports and the financial 
+dashboard. 
+ 
+7.2. Data Accuracy Evaluation 
+The correctness of the system's calculations will be evaluated by comparing 
+consolidated results produced by the system against results calculated manually or by 
+a f inancial expert. This will include all the KPI needed by the DHI management. 
+Representative test cases will be something like below.  
+Test Expected Result System Result 
+Revenue total Calculated manually System calculation 
+Revenue growth Calculated manually System calculation 
+KPI value Expected value Generated value 
+ 
+7.3. Validation Performance 
+The validation module will be tested with data with which it is intended to work, and 
+data which will have been intentionally corrupted in various ways including missing 
+values, formats problems, repeats, and incorrect totals to test the agent's performance.  
+ 
+7.4. AI Insight Evaluation 
+AI generated insights will be evaluated against the following criteria: 
+• Accuracy 
+• Relevance 
+• Completeness 
+• Consistency with the available financial data 
+• Usefulness to end users 
+ 
+Where applicable, financial staff of the company or expert will be asked for the quality 
+of the generated insights. Following metrics will be used to assess the individual agents 
+before the final system implementation.  
+ 
+
+PAGE 34
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 31 
+Component Evaluation Metric 
+Data extraction Accuracy 
+Validation Precision, Recall 
+Consolidation Correctness 
+KPI calculation Calculation accuracy 
+Anomaly detection Precision, Recall 
+AI insights Human evaluation 
+Dashboard Usability feedback 
+ 
+ 
+ 
+8.  Phase 8: Refinement 
+Identified issues noted during the testing and evaluation stages during system evaluation will 
+then be tackled through subsequent refinements. Unit and integration testing will be handled 
+during each sprint. The iterative nature of the development process has enabled the prototype 
+to be improved upon following the evaluation stage rather than sole completion of the design 
+before its performance has been accessed.  
+ 
+Data and Ethical Considerations 
+As the proposed system will process financial data the confidentiality of data and security will 
+be taken into serious consideration throughout the project. Financial data will not be included 
+unnecessarily in prompts to external services and the system is  designed explicitly to be a 
+decision support system and not an autonomous financial decision making  system. Human 
+review will be needed for all financial decisions and reports produced by the system. The data 
+used to evaluate the agent and system will be used only after getting permission from DHI and 
+TTPL. 
+ 
+ 
+B. Project Team:   
+ 
+Title / Position Number 
+Project Internal Guide 2 
+Project External Guide 1 
+
+PAGE 35
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 32 
+Student Team Members 4 
+Others (please specify)  
+Add more rows if required  
+C. Project Activities:  
+(Please list and describe the main project activities, including those associated with the transfer 
+of the research results to customers/beneficiaries. The timing and duration of research activities 
+are to be shown in the Gantt chart in Section 8.) 
+Activity 1: Project Requirements Gathering and Analysis 
+Discuss with TTPL and relevant stakeholders to understand the current financial reporting 
+process and the pattern, templates, formats, deadlines, follow up, escalations, and issues. 
+Review past financial submissions and management reports and find patterns  in reporting 
+requirements, format of reports; terminology used. Utilize the results of discussion to establish 
+a system requirement, user profiles, reporting needs, and assessment needs. 
+  
+Activity 2: Literature review and research design 
+The project involves a literature review and the development of a research design. Become 
+familiar with the literature on financial reporting with AI, financial data processing, data 
+reliability, tools using LLM, anomaly detection tools, financial visualiz ation tools, and 
+evaluation tools. Write a research gap by doing a research and development plan for a project. 
+Establish methodology, and suitable methods for evaluating the developed system. 
+ 
+Activity 3: Applied Research on Agentic AI for Financial Reporting  
+Incorporate applied research when developing the system to look at which AI model, 
+framework, agent structure and financial processing methods are suitable for use. The activity 
+will consist of: 
+• Analyze appropriate open weight LLMs and agentic AI systems with regards to specific 
+financial reporting tasks. 
+• Explore LLM based financial data extraction with validation. 
+• Analyse anomaly detection, trend analysis and financial explanations generated by LLM. 
+• Understand tasks that can be performed with deterministic functions and those requiring 
+LLM reasoning. 
+• Implement human oversight, validation and approval mechanisms for AI generated 
+content. 
+ 
+Activity 4: System architecture, website and data infrastructure development. 
+Define and ideate system and platform design, based on the needs and investigations. Create 
+the Web Frontend, backend APIs, the database (PostgreSQL), the object storage system 
+
+PAGE 36
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 33 
+(MinIO) and the workflow modules with the selected technologies. Create user authentication, 
+file upload, file tracking, data storage and communication. Create application system flow, 
+database schema, storage layout and integration of application, database and object storage. 
+ 
+Activity 5: Development and Integration of AI Agents 
+Design and develop an AI agent to support financial reporting. Make audit trail, deterministic 
+financial calculations, validation controls,   and have them approved by humans before the 
+reports are released. 
+ 
+Activity 6: System Integration, Testing and Evaluation 
+Integrate the website, database and storage, workflow and AI agents with a complete financial 
+reporting pipeline. Conduct functional, integration, data accuracy, validation, data 
+consolidation, security, usability, and AI output testing. Ensure financial p rocessing, 
+consolidation, for anomaly detection, AI generated insights and report quality through available 
+historical data, automated checks and expert review. Record issues and make improvements 
+based on the assessments. 
+ 
+Activity 7: System Demonstration, Pilot Deployment and Knowledge Transfer 
+The purpose of this activity is to demonstrate the system, make it operational and transfer this 
+knowledge to the company. Show integrated functional systems to the appropriate persons and 
+take input on its usability and operability. Include selected month ly reporting cycles or 
+representative financial data, if organizations allow and provide access. Adjust system based 
+on stakeholder and system feedback and evaluation results. Create User Documentation, 
+Technical Documentation and User Manual for future use. 
+ 
+ Activity 8: Final Refinement, Documentation and Dissemination 
+System testing, evaluation and stakeholder input to finalize the system. Complete final technical 
+documentation, user documentation, evaluation results, project report, presentation material 
+and final system demonstration. Communicate research results and system products to relevant 
+stakeholders, noting suggestions for future product improvements and system expansions. 
+ 
+Activity 9: Project Management and Monitoring 
+Coordinate project activities and assign roles to project members, monitor progress and 
+milestones/deliverables, review regularly and manage technical, schedule and resource risks 
+identified. Maintain project records and complete research, development, tes ting, 
+documentation and stakeholder activities as per project plan. 
+ 
+
+PAGE 37
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 34 
+D. Key Milestones and Deliverables:  
+(Please list and describe the principal milestones and associated deliverables of the project. A 
+key milestone is reached when a significant phase in the project is concluded, e.g. selection and 
+simulation of algorithms, completion of architectural design and design documents, 
+commissioning of equipment, completion of test, etc.) The timing of milestones is also to be shown 
+in the Gantt chart in Section 8. 
+ 
+No. Elapsed time 
+from start (in 
+months) of the 
+project 
+Milestone Deliverables 
+1.  0 Project Proposal 
+Presentation Completed 
+The stakeholder needs, the Financial 
+Reporting Process analysis, functional and 
+non-functional requirements and Software 
+Requirements Specification (SRS) 
+document. 
+2.  0 – 1 Project Proposal 
+Approved and 
+Requirements Analysis 
+Completed 
+Stakeholder requirements, existing 
+financial reporting process analysis, 
+functional and non-functional 
+requirements, and Software Requirements 
+Specification (SRS) document 
+3.  1 System and Agent 
+Architecture Completed 
+Overall System Architecture, Agent 
+Architecture, PostgreSQL database design 
+and MinIO storage design. 
+4.  1 Website, Database and 
+Storage Foundation 
+Completed 
+ 
+Building a functional web app, a 
+PostgreSQL database and schema, a MinIO 
+object store, and an integrated application, 
+database and object store 
+5.  1 Functional Prototype 
+Completed 
+Basic web app with one selected agent, 
+with basic flow demonstrated. 
+6.  1 Functional Prototype 
+Presentation Completed 
+Simple web app + one agent (working 
+prototype demo), prototype presentation 
+and feedback for next step. 
+7.  2 - 4  Remaining Agents 
+Development 
+Completed 
+Every agent has been developed and unit-
+tested separately: Consolidation Agent, 
+Insights Agent (anomaly and trend 
+detection, KPI analysis, AI generated 
+
+PAGE 38
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 35 
+financial insights), Reporting Agent 
+(automated generation of management 
+reports), Dashboard Agent (interactive 
+financial dashboard). 
+8.  4 – 4.5 Full System Integration 
+Completed 
+The strong PostgreSQL and MinIO 
+integration of the web backend, API layer 
+and all agents, in addition to the built-in 
+financial submission, storage, validation, 
+consolidation, AI analysis, report and 
+dashboard functions. 
+9.  4.5 – 5.5 System Testing and 
+Evaluation Completed 
+The results of functional tests, checking the 
+accuracy of financial information, 
+consolidation testing, anomaly detection 
+evaluation, and AI insight evaluation, 
+among others, are required.Results of 
+functional tests, accuracy testing of 
+financial information, consolidation 
+testing, anomaly detection evaluation, AI 
+insight evaluation, usability evaluation and 
+identified issues are required. 
+10.  5.5 - 6 Final Refinement and 
+Project Documentation 
+Completed 
+System design, final test outputs, technical 
+documentation, user documentation, final 
+project report, presentation materials, and 
+final demonstration of the system. 
+Table 4 : Key Deliverables 
+ 
+5. Benefits of the Project (Expected output/outcomes):  
+ 
+The overall financial reporting process of DHI companies is expected to be improved at the 
+month level by the project (efficiency, timeliness, accuracy and centralization). Implementing 
+the proposed Agentic AI system is expected to boost automation in fina ncial reporting 
+functions, potentially saving time and manual labor. Additionally, it is anticipated that the 
+project will enhance the financial visibility and monitoring, providing users with centralised  
+dashboards, automated detection of anomalies and trends, plus AI generated reports. This will 
+help management have more immediate access to pertinent financial data and detect any 
+problems earlier on in the process. In general will the project help to imp rove the financial 
+reporting process to be streamlined and predictable and be more insightful to enable more 
+timely monitoring. 
+
+PAGE 39
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 36 
+ 
+ 
+6. Risk Analysis/Feasibility 
+A. Risks of the Project:  
+(Please describe the factors that may cause delays in, or prevent implementation of, the project 
+as proposed above; estimate the degree of risk.) 
+(Please mark  where applicable) Low Medium High 
+• Technical risk 
+   ☑ 
+   
+• Timing risk 
+   
+   ☑ 
+• Budget risk ☑ 
+   
+   
+ 
+A1.   Comments: 
+ 
+1. Technical Risk 
+ 
+Ri
+sk 
+ID 
+Technical Risk Likeliho
+od 
+Impact Mitigation Strategy 
+T1 Data extraction from PDF 
+reports may be less 
+reliable than extraction 
+from structured Excel 
+files. 
+High High Support PDF structures and add 
+confidence checks to Excel files 
+and identifies unknown values to 
+be reviewed. 
+T2 AI-generated financial 
+insights may contain 
+inaccurate, unsupported, 
+or misleading 
+explanations. 
+Medium High Only use validated and 
+consolidated data as input; only do 
+financial calculations using 
+deterministic functions; trace any 
+claims generated to the source 
+data; mandate that significant 
+outputs are reviewed by humans. 
+T3 Validation rules may fail 
+to detect some missing, 
+inconsistent, or invalid 
+financial information. 
+Medium High Set up validation rules in 
+consultation with stakeholders, test 
+the Validation Agent with 
+deliberately wrong sets of data and 
+calculate precision, recall, and F1-
+score. 
+T4 Incorrect consolidation 
+may produce inaccurate 
+sector- or group-level 
+financial figures. 
+Medium High Implement pre-programmed 
+mapping rules, reconciliation 
+checks, automated totals and 
+manual comparison to 
+
+PAGE 40
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 37 
+independently created reference 
+values. 
+T5 Integration between React, 
+FastAPI, PostgreSQL, 
+MinIO, workflow 
+orchestration, AI agents, 
+and dashboard 
+components may create 
+compatibility problems. 
+low Mediu
+m 
+Add components gradually 
+throughout development; use 
+clearly defined APIs; document 
+interfaces; and perform integration 
+tests/sprints. 
+T6 The selected LLM may 
+not perform sufficiently 
+well for financial 
+reasoning, structured 
+output, or tool use. 
+Medium High Identify and choose candidate 
+models for the project before 
+selecting the final model, and 
+design the model as a module to 
+allow for a change if necessary. 
+T7 The workflow 
+orchestration system may 
+execute agents in an 
+incorrect order or fail 
+during processing. 
+Low High Recognize explicit states in a 
+workflow, and dependencies of 
+agents, retries, error handling, 
+logging and human checkpoint. 
+T8 Financial information 
+could be exposed through 
+inappropriate use of 
+external AI services. 
+Low – 
+Medium 
+High Limit access, minimize data sent to 
+external services, when possible, or 
+avoid sending unnecessary 
+sensitive data in prompts. 
+T9 The Notification Agent 
+may send incorrect, 
+duplicate, or inappropriate 
+reminders or escalation 
+messages. 
+Medium Mediu
+m 
+  
+Set notification rules, approval 
+thresholds, logging and test 
+notification workflows prior to 
+enabling live communication. 
+. 
+T1
+0 
+Anomaly detection may 
+generate excessive false 
+positives or fail to identify 
+meaningful anomalies. 
+Medium Mediu
+m–High 
+Test detection on labeled/expert 
+cases, refine thresholds, and 
+incorporate automated detection 
+and manual review. 
+T1
+1 
+Dashboard information 
+may become inconsistent 
+with the underlying 
+financial database if 
+updates fail. 
+Low – 
+Medium 
+Mediu
+m 
+Use controlled data-refresh 
+methods, monitor any failed data 
+refreshes and populate dashboards 
+with validated data from the 
+central data source. 
+Table 5 :  Technical Risk 
+ 
+2. Timing and Schedule Risks 
+Ri
+sk 
+ID 
+Timing Risk Likeliho
+od 
+Impact Mitigation Strategy 
+
+PAGE 41
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 38 
+S1 Stakeholder meetings or 
+requirement discussions may 
+be delayed because of 
+differences in schedule. 
+Medium High Coordinate meetings, prepare 
+questions, make notes of 
+decisions and check requirements 
+step-by-step. 
+S2 Access to financial 
+templates or authorised 
+sample data may take longer 
+than expected. 
+High High   
+Ensure access to data as soon as 
+possible, and develop initial 
+modules using known 
+representative/ anonymized data 
+prior to receipt of real data.  
+S3 Changes to requirements 
+during development may 
+require redesign or rework. 
+High High Adopt an iterative development 
+process, have a prioritized 
+backlog and review requirements 
+at the end of every sprint. 
+S4 Development of ingestion 
+and validation for multiple 
+Excel and PDF formats may 
+require more time than 
+initially estimated. 
+High High Use the most popular formats 
+and specify a minimum set of 
+supported formats and then 
+gradually add more formats. 
+S5 AI-agent development and 
+evaluation may take longer 
+than standard web-
+development tasks. 
+High High Develop the core processing first, 
+add the agents gradually, and 
+wait for the development of 
+advanced AI functions until the 
+core is completed. 
+S6 Integration of all system 
+modules may expose issues 
+late in the project. 
+Medium High Make sure to integrate parts all 
+the time, not during the last 
+sprint. 
+S7 Evaluation by finance 
+personnel may be delayed 
+due to stakeholder 
+availability. 
+Medium Medium Make a schedule of evaluation 
+meetings as early as possible, 
+and prepare documents for 
+evaluation and list additional 
+authorized reviewers (if any).  
+S8 Unexpected technical 
+problems may delay 
+completion of one or more 
+sprints. 
+Medium Medium
+–High 
+Keep contingency time to buffer, 
+prioritize core requirements, and 
+explore scope of sprint when big 
+technical issues occur. 
+Table 6  : Timing Risk 
+ 
+3. Budget and Resource Risks 
+Ris
+k 
+ID 
+Budget / Resource Risk Likeliho
+od 
+Impa
+ct 
+Mitigation Strategy 
+B1 Storage requirements may 
+increase as Excel files, 
+Low Low Forecast storage expansion, define 
+storage retention & archival 
+
+PAGE 42
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 39 
+PDFs, logs, generated 
+reports, and archived records 
+accumulate. 
+policies and use scalable object 
+storage (MinIO). 
+B2 Model changes may require 
+additional compute or 
+redevelopment effort. 
+Medium Mediu
+m 
+Implement modular interfaces 
+between the AI model and system 
+parts to enable them to be replaced 
+by different AI models without the 
+need to redesign the application.  
+ 
+Table 7 : Budget and Resource Risk 
+ 
+ 
+7. Project Approval Certificate 
+ (Approval of Project Proposal by the Competent Authority (Department Chairman) and Project Review 
+Team is mandatory before the start of project execution.) 
+Project Review Team: 
+ 
+Sl # Name Signature 
+      
+      
+      
+      
+      
+      
+      
+      
+(Please add more rows if required.) 
+ 
+Project Coordinator 
+Name: Yeshi Jamtsho 
+Designation: Lecturer 
+Email: yjamtsho.cst@rub.edu.bt 
+Date:   Signature: 
+ 
+ 
+Competent Authority – Head of Department 
+Name: Parshu Ram Dhungyel  
+Designation: Lecturer 
+Email: parshuram.cst@rub.edu.bt 
+
+PAGE 43
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 40 
+Date:   Signature 
+& stamp: 
+  
+ 
+
+PAGE 44
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form  Page 41 
+8. Reviewers Panel Comments 
+ 
+
+PAGE 45
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form Page 42 
+10. Project Schedule / Milestone Chart /Workplan 
+ 
+(Project schedule using MS-Project (or similar tools) with all tasks, deliverables, milestones, clearly 
+indicated are preferred. Task should be measured in terms of hours) 
+ 
+ 
+Figure 5 :  Semester1 Timeline 
+ 
+ 
+ 
+Figure 6 : Semester2 Timeline 
+ 
+ 
+13. Report Writing Guidelines 
+ 
+(Project report will be written under the specified guidelines.) 
+
+
+PAGE 46
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form Page 43 
+References 
+ 
+Buholzer, M. A., Fischer, F., Simonella, G., & Hanne, T. (2025). Evaluation of large language 
+ models for extracting financial data from tables in annual reports. Advances in Artificial 
+ Intelligence and Machine Learning, 5(1), Article 190.     
+ https://www.oajaiml.com/uploads/archivepdf/576651190.pdf 
+ 
+Cemri, M., Pan, M. Z., Yang, S., Agrawal, L. A., Chopra, B., Tiwari, R., Keutzer, K., 
+ Parameswaran, A., Klein, D., Ramchandran, K., Zaharia, M., Gonzalez, J. E., & Stoica, I. 
+ (2025). Why do multi-agent LLM systems fail? arXiv. 
+ https://doi.org/10.48550/arXiv.2503.13657 
+ 
+Chen, J., Lin, H., Han, X., & Sun, L. (2024). Benchmarking large language models in retrieval-
+ augmented generation. Proceedings of the AAAI Conference on Artificial Intelligence, 
+ 38(16), 17754–17762. https://doi.org/10.1609/aaai.v38i16.29728 
+ 
+Chen, Z., Chen, W., Smiley, C., Shah, S., Borova, I., Langdon, D., Moussa, R., Beane, M., 
+ Huang, T.-H., Routledge, B., & Wang, W. Y. (2021). FinQA: A dataset of numerical 
+ reasoning over financial data. In Proceedings of the 2021 Conference on Empirical 
+ Methods in Natural Language Processing (pp. 3697–3711). Association for 
+ Computational Linguistics. https://doi.org/10.18653/v1/2021.emnlp-main.300 
+ 
+Ding, H., Li, Y., Wang, J., Chen, H., Guo, D., & Zhang, Y. (2024). Large language model agent 
+ in financial trading: A survey. arXiv. https://doi.org/10.48550/arXiv.2408.06361 
+ 
+Dong, Y., Wu, F., Zhang, K., Dai, Y., Zhang, S., Ye, W., Chen, S., & Cheng, Z.-Q. (2025). 
+ Large language model agents in finance: A survey bridging research, practice, and real-
+ world deployment. Findings of the Association for Computational Linguistics: EMNLP 
+ 2025, 17889–17907. https://doi.org/10.18653/v1/2025.findings-emnlp.972 
+ 
+Es, S., James, J., Espinosa Anke, L., & Schockaert, S. (2024). RAGAs: Automated evaluation of 
+ retrieval augmented generation. In Proceedings of the 18th Conference of the European 
+ Chapter of the Association for Computational Linguistics: System Demonstrations (pp. 
+ 150–158). Association for Computational Linguistics. 
+ https://doi.org/10.18653/v1/2024.eacl-demo.16 
+ 
+Gong, H. (2026). AI agents in financial markets: Architecture, applications, and systemic 
+ implications. FinTech, 5(2), Article 34. https://doi.org/10.3390/fintech5020034 
+ 
+Guo, T., Chen, X., Wang, Y., Chang, R., Pei, S., Chawla, N. V., Wiest, O., & Zhang, X. (2024). 
+ Large language model based multi-agents: A survey of progress and challenges. In K. 
+ Larson (Ed.), Proceedings of the 33rd International Joint Conference on Artificial 
+ Intelligence (IJCAI-24) (pp. 8048–8057). IJCAI Organization. 
+ https://doi.org/10.24963/ijcai.2024/890 
+ 
+
+PAGE 47
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form Page 44 
+Han, Y., Zhang, C., Chen, X., Yang, X., Wang, Z., Yu, G., Fu, B., & Zhang, H. (2023).  
+ ChartLlama: A multimodal LLM for chart understanding and generation. arXiv. 
+ https://doi.org/10.48550/arXiv.2311.16483 
+ 
+Hanne, T., Buholzer, M. A., & Fischer, F. (2024). Assessing large language models used for 
+ extracting table information from annual financial reports. Computers, 13(10), Article 
+ 257. https://doi.org/10.3390/computers13100257 
+ 
+Hong, S., Zhuge, M., Chen, J., Zheng, X., Cheng, Y., Wang, J., Zhang, C., Wang, Z., Yau, S. K. 
+ S., Lin, Z., et al. (2023). MetaGPT: Meta programming for a multi-agent collaborative 
+ framework. International Conference on Learning Representations.    
+ https://arxiv.org/abs/2308.00352 
+ 
+Jin, J., Zhang, Y., Xu, Y., Qian, H., Zhu, Y., & Dou, Z. (2026). FinSight: Towards real-world 
+ financial deep research. In Proceedings of the 64th Annual Meeting of the Association for 
+ Computational Linguistics (Volume 1: Long Papers) (pp. 5868–5894). Association for 
+ Computational Linguistics. https://doi.org/10.18653/v1/2026.acl-long.265 
+ 
+Liu, Q., Yao, L., Wang, Z., Yang, Y., Tang, Y., Cheng, D., & Jiang, C. (2026). Large language 
+ model-based multi-agent systems for financial markets simulation: A survey. Science 
+ China Information Sciences. https://doi.org/10.1007/s11432-026-4986-x 
+ 
+Lu, J., Wang, K., Wang, Y., Tang, Q., Zeng, H., Chen, X., Pi, J., Deng, S., Chen, L., Fu, Y., 
+ Yang, K., & Sun, X. (2026). FinToolBench: Evaluating LLM agents for real-world 
+ financial tool use (arXiv:2603.08262). arXiv. https://doi.org/10.48550/arXiv.2603.08262 
+ 
+Qian, C., Liu, W., Liu, H., Chen, N., Dang, Y., Li, J., Yang, C., Chen, W., Su, Y., Cong, X., Xu, 
+ J., Li, D., Liu, Z., & Sun, M. (2024). ChatDev: Communicative agents for software 
+ development. In Proceedings of the 62nd Annual Meeting of the Association for 
+ Computational Linguistics. https://arxiv.org/abs/2307.07924 
+ 
+Reddy, V., Koncel-Kedziorski, R., Lai, V. D., Krumdick, M., Lovering, C., & Tanner, C. (2024). 
+ DocFinQA: A long-context financial reasoning dataset. In Proceedings of the 62nd  
+ Annual Meeting of the Association for Computational Linguistics (Volume 2: Short  
+ Papers) (pp. 445–458). Association for Computational Linguistics. 
+ https://doi.org/10.18653/v1/2024.acl-short.42 
+ 
+Sapkota, R., Roumeliotis, K. I., & Karkee, M. (2025). AI agents vs. agentic AI: A conceptual 
+ taxonomy, applications and challenges. Information Fusion, 126(Pt. B), Article 103599. 
+ https://doi.org/10.1016/j.inffus.2025.103599 
+ 
+Schick, T., Dwivedi-Yu, J., Dessì, R., Raileanu, R., Lomeli, M., Hambro, E., Zettlemoyer, L., 
+ Cancedda, N., & Scialom, T. (2023). Toolformer: Language models can teach themselves 
+ to use tools. Advances in Neural Information Processing Systems, 36. 
+ https://arxiv.org/abs/2302.04761 
+ 
+
+PAGE 48
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form Page 45 
+Schmitt, M. (2026). The agentic turn in finance: AI agents in financial decision-making 
+ [Working paper]. SSRN. https://doi.org/10.2139/ssrn.7118938 
+ 
+Sumers, T. R., Yao, S., Narasimhan, K., & Griffiths, T. L. (2023). Cognitive architectures for  
+ language agents. Transactions on Machine Learning Research. 
+ https://arxiv.org/abs/2309.02427 
+ 
+Tabassi, E. (2023). Artificial intelligence risk management framework (AI RMF 1.0) (NIST AI 
+ 100-1). National Institute of Standards and Technology. 
+ https://doi.org/10.6028/NIST.AI.100-1  
+ 
+Wang, L., Ma, C., Feng, X., Zhang, Z., Yang, H., Zhang, J., Chen, Z., Tang, J., Chen, X., Lin, 
+ Y., Zhao, W. X., Wei, Z., & Wen, J. (2024). A survey on large language model based 
+ autonomous agents. Frontiers of Computer Science, 18(6), Article 186345.   
+ https://doi.org/10.1007/s11704-024-40231-1 
+ 
+Yagubyan, A. (2026). The coin flip judge? Reliability and bias in LLM-as-a-judge evaluation. 
+ arXiv. https://doi.org/10.48550/arXiv.2606.13685 
+ 
+Yang, H., Liu, X.-Y., & Wang, C. D. (2023). FinGPT: Open-source financial large language 
+ models. arXiv. https://doi.org/10.48550/arXiv.2306.06031 
+ 
+Yang, H., Zhang, B., Wang, N., Guo, C., Zhang, X., Lin, L., Wang, J., Zhou, T., Guan, M., 
+ Zhang, R., & Wang, C. D. (2024). FinRobot: An open-source AI agent platform for 
+ financial applications using large language models. arXiv. 
+ https://doi.org/10.48550/arXiv.2405.14767 
+ 
+Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: 
+ Synergizing reasoning and acting in language models. In International Conference on 
+ Learning Representations. https://doi.org/10.48550/arXiv.2210.03629 
+ 
+Yu, Y., Yao, Z., Li, H., Deng, Z., Jiang, Y., Cao, Y., Chen, Z., Suchow, J. W., Cui, Z., Liu, R., 
+  Xu, Z., Zhang, D., Subbalakshmi, K., Xiong, G., He, Y., Huang, J., Li, D., & Xie, Q. 
+ (2024). FinCon: A synthesized LLM multi-agent system with conceptual verbal 
+ reinforcement for enhanced financial decision making. Advances in Neural Information 
+ Processing Systems, 37.  
+ https://proceedings.neurips.cc/paper_files/paper/2024/hash/f7ae4fe91d96f50abc2211f09b
+ 6a7e49-Abstract-Conference.html 
+ 
+Zhang, F., Song, M., Elbadry, R., Chen, Y., Wang, S., Zhou, Y., Zheng, X., He, Y., Dai, Y., 
+ Georgiev, G. N., Gull, A., Safder, M. U., Wu, F., Meng, L., Ji, F., Zhao, J., Peng, X., 
+ Huang, J., Chen, Y., . . . Xie, Z. (2026). FinReporting: An agentic workflow for localized 
+ reporting of cross-jurisdiction financial disclosure. In Proceedings of the 64th Annual 
+ Meeting of the Association for Computational Linguistics (Volume 3: System 
+ Demonstrations) (pp. 728–735). Association for Computational Linguistics. 
+ https://doi.org/10.18653/v1/2026.acl-demo.71 
+
+PAGE 49
+Computing Technologies Department                               College of Science and Technology 
+FYP Proposal Form Page 46 
+ 
+Zheng, L., Chiang, W.-L., Sheng, Y., Zhuang, S., Wu, Z., Zhuang, Y., Lin, Z., Li, Z., Li, D., 
+ Xing, E. P., Zhang, H., Gonzalez, J. E., & Stoica, I. (2023). Judging LLM-as-a-judge 
+ with MT-Bench and Chatbot Arena. Advances in Neural Information Processing 
+ Systems, 36. https://doi.org/10.48550/arXiv.2306.05685 
+ 
+ 
+ 
+ 
+ 
+ 
