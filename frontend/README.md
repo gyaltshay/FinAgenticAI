@@ -22,7 +22,11 @@ Every correction creates a new version. Final approval records exact included su
 
 Company and user administration support add/edit/activation. Reporting-period administration supports opening date, deadline and Open/Closed state. Company requirements and assignments freeze at first opening.
 
-To demonstrate a complete cycle quickly, sign in as Admin, open Consolidation Readiness, and use the clearly labelled demo completion control. This creates successful mock versions for outstanding companies, then shows the simulated processing stages. It does not validate real files.
+To prepare a complete cycle, sign in as Admin, open Consolidation Readiness, and choose Prepare reporting cycle. This existing control still creates successful mock versions for outstanding companies and shows simulated processing stages; it does not validate real files. Its label has changed, not its behavior.
+
+## Presentation
+
+The interface uses a compact blue, graphite, and gold design with a light sidebar, tabular status strips, consistent line icons, and a restrained reporting layout. Prototype labels and decorative headings/footers have been removed from the working screens. Source fixtures, state transitions, access rules, persistence, and all controls remain unchanged. `src/product.css` and `src/components/productText.js` provide presentation styles and display wording only.
 
 Company users cannot access Admin pages or financial results before approval. The backend must enforce real authentication, confidentiality and transaction rules later; see `INTEGRATION.md`.
 
