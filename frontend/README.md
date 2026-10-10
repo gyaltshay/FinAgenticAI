@@ -26,8 +26,6 @@ To demonstrate a complete cycle quickly, sign in as Admin, open Consolidation Re
 
 Company users cannot access Admin pages or financial results before approval. The backend must enforce real authentication, confidentiality and transaction rules later; see `INTEGRATION.md`.
 
-## Checks
-
 ## GitHub Pages
 
 The live demo is https://gyaltshay.github.io/FinAgenticAI/ . GitHub Pages serves the prepared static files at the repository root. Source code remains in `frontend/`.
