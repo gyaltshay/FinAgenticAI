@@ -1,0 +1,11 @@
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {resolve,dirname} from 'node:path';
+import {cp,writeFile} from 'node:fs/promises';
+const frontend=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const project=resolve(frontend,'..');
+const result=spawnSync(process.execPath,[resolve(frontend,'node_modules/vite/bin/vite.js'),'build'],{cwd:frontend,env:{...process.env,VITE_BASE_PATH:'/FinAgenticAI/'},stdio:'inherit'});
+if(result.status!==0)process.exit(result.status||1);
+for(const file of ['index.html','assets','logos'])await cp(resolve(frontend,'dist',file),resolve(project,file),{recursive:true});
+await writeFile(resolve(project,'.nojekyll'),'');
+console.log('GitHub Pages files prepared at the repository root.');

@@ -28,6 +28,14 @@ Company users cannot access Admin pages or financial results before approval. Th
 
 ## Checks
 
+## GitHub Pages
+
+The live demo is https://gyaltshay.github.io/FinAgenticAI/ . GitHub Pages serves the prepared static files at the repository root. Source code remains in `frontend/`.
+
+After changing the frontend, run `npm.cmd run build:pages` from `frontend/`, then commit and push the updated source and generated root files. The script builds for the `/FinAgenticAI/` URL and copies the HTML, assets, and logos to the site root. Local `npm.cmd run dev` still uses the normal `/` path.
+
+## Checks
+
 ```powershell
 npm.cmd test
 npm.cmd run build
