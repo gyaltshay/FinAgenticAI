@@ -13,8 +13,8 @@ Prototype for an Agentic AI System for Automated Financial Reporting and Insight
 
 Company upload -> Versioned validation -> All-company readiness -> Consolidation -> Analysis -> Final management report -> DHI approval and publication -> Company-specific approved results.
 
-The initial frontend uses mock data, with login, dashboard, upload, validation results, financial insights, and report history. Backend integration follows later.
+The frontend keeps browser-local accounts and demo reporting-cycle stages. Company workbook uploads use the local Gemini API server to run deterministic Python validation; Gemini can explain findings but cannot decide validation status.
 
 ## Current status
 
-The revised two-role frontend is implemented in `frontend/`, with submission version history, all-company readiness, automatic demo processing, DHI review and approval/publication, and company-specific approved results. Company/user/period management, notifications, audit history, official local logos, and responsive styling are retained. See `frontend/README.md` for demo steps and `frontend/INTEGRATION.md` for future backend contracts. Backend and AI services are not connected.
+The revised two-role frontend is implemented in `frontend/`, with submission version history, all-company readiness, browser-local processing stages, DHI review and approval/publication, and company-specific approved results. Company/user/period management, notifications, audit history, official local logos, and responsive styling are retained. The local upload validator runs deterministic workbook checks and returns the configured JSON Schema result; Gemini only explains findings after consent. See `frontend/README.md` for local setup and `frontend/INTEGRATION.md` for future backend contracts.

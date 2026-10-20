@@ -1,6 +1,6 @@
 # FinAgenticAI frontend
 
-React/Vite frontend with the revised two-role financial-reporting workflow. Financial data and AI output are predefined fixtures. Excel validation and downstream processing are simulated; files are not read or uploaded.
+React/Vite frontend with the two-role financial-reporting workflow. Company uploads are parsed locally by the deterministic Python TTPL workbook validator. Gemini receives only validation findings and cell references for an advisory explanation, and only after per-upload consent. Consolidation and report-generation stages remain prototype workflow simulations.
 
 ## Run
 
@@ -14,7 +14,7 @@ Open the printed local URL. Choose DHI Finance Officer/Admin or Company Finance 
 
 ## Workflow
 
-Company users: dashboard → upload Excel → immediate simulated validation → correct/re-upload if needed → wait for all required companies → wait for DHI approval → view only their own approved results.
+Company users: dashboard → upload `.xlsx` → deterministic workbook validation → finance review or correction when findings require it → wait for all required submissions → wait for DHI approval → view only their own approved results.
 
 DHI Finance/Admin: monitor submissions → inspect readiness blockers → automatic processing once all required latest versions are valid → view analysis/insights → review the final management report → approve and publish together, or request revision and regenerate.
 
@@ -22,7 +22,7 @@ Every correction creates a new version. Final approval records exact included su
 
 Company and user administration support add/edit/activation. Reporting-period administration supports opening date, deadline and Open/Closed state. Company requirements and assignments freeze at first opening.
 
-To prepare a complete cycle, sign in as Admin, open Consolidation Readiness, and choose Prepare reporting cycle. This existing control still creates successful mock versions for outstanding companies and shows simulated processing stages; it does not validate real files. Its label has changed, not its behavior.
+Legacy demo records migrate as pending and cannot make a reporting cycle ready. The consolidation and report-generation stages are still browser-local prototype workflows.
 
 ## Presentation
 
@@ -58,4 +58,16 @@ npm.cmd run build
 - `src/services/api.js`: future FastAPI HTTP adapter, currently unused.
 - `public/logos/`: retained DHI and company logos.
 
-The revised workspace migrates available records from the earlier demo without deleting its storage key. It cannot restore earlier revisions that the old demo had overwritten. No backend/AI integration has been enabled.
+The revised workspace migrates available records from the earlier demo without deleting its storage key. Legacy fixture statuses are reset to pending because they are not real validation results. The local upload validator is connected; authentication and durable report storage remain browser-local.
+
+
+## Gemini insights (local development)
+
+The Analysis & Insights page can request a financial summary from Gemini. The API key stays in this local backend and is never exposed to Vite client code. Each request sends the selected period, analysis scope, and aggregate metrics to Google Gemini. On report upload, Python validates the workbook locally. With consent, the server sends deterministic findings and relevant cell references—not the workbook—to Gemini for plain-language explanation. Gemini does not decide validation status, normalize monetary values, or run arithmetic rules. The upload validator supports `.xlsx` only.
+
+1. Ensure Python 3 is on PATH as `python` (or set `PYTHON_EXECUTABLE`). Copy .env.example to .env.local in the frontend directory and set GEMINI_API_KEY. Never prefix the key with VITE_.
+2. In one terminal, run npm.cmd run gemini from frontend/.
+3. In another terminal, run npm.cmd run dev from frontend/.
+4. Open Analysis & Insights and choose Generate with Gemini, or consent when uploading an `.xlsx` report.
+
+GitHub Pages is static and cannot run this local API server. A hosted backend with a server-side key is required to enable Gemini on the live Pages site.

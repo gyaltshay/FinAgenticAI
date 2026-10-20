@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Financial Validation Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_id",
+    "validation_status",
+    "checks"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reporting_period": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "currency": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scale_status": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "CONFIRMED",
+        "REVIEW_REQUIRED",
+        "UNKNOWN",
+        null
+      ]
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "NEEDS_REVIEW",
+        "ERROR"
+      ]
+    },
+    "workbook": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "filename": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sheets_found": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sheets_missing": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unexpected_sheets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rule_id",
+          "status",
+          "severity",
+          "message",
+          "requires_human_review"
+        ],
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "field": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sheet": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cell": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "FAIL",
+              "WARNING",
+              "REVIEW_REQUIRED",
+              "NOT_CHECKED"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "INFO",
+              "WARNING",
+              "ERROR",
+              "CRITICAL"
+            ]
+          },
+          "expected_value": {},
+          "actual_value": {},
+          "recomputed_value": {},
+          "difference": {},
+          "message": {
+            "type": "string"
+          },
+          "source_evidence": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "workbook": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "sheet": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "cell": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "formula": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "raw_value": {}
+            }
+          },
+          "requires_human_review": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
