@@ -28,7 +28,7 @@ Legacy demo records migrate as pending and cannot make a reporting cycle ready. 
 
 The interface uses a charcoal navigation rail, cool white reporting surfaces, one self-hosted Inter font, and a continuous sector-grouped monitoring ledger. The header shows DHI's logo for the administrator and the corresponding company logo for finance officers. Statuses use clock, check, error, shield, and progress symbols rather than colored-dot rectangles. Prototype labels and decorative headings/footers have been removed from working screens. Source fixtures, state transitions, access rules, persistence, and all controls remain unchanged. `src/interface.css` and the shared status/header components provide presentation only. The Inter font license is included beside its font asset.
 
-Company users cannot access Admin pages or financial results before approval. The backend must enforce real authentication, confidentiality and transaction rules later; see `INTEGRATION.md`.
+Company users cannot access Admin pages or financial results before approval in this browser-based demo. Production deployment still needs server-side authentication, authorization, and secure report storage.
 
 ## GitHub Pages
 
