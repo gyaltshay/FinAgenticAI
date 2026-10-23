@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Financial Insight Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "overall_summary",
+    "insights",
+    "limitations",
+    "review_status"
+  ],
+  "properties": {
+    "report_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reporting_period": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "overall_summary": {
+      "type": "string"
+    },
+    "insights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "severity",
+          "title",
+          "interpretation",
+          "suggested_action",
+          "source_references",
+          "requires_human_review"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "variance",
+              "trend",
+              "anomaly",
+              "positive_performance",
+              "management_summary",
+              "data_quality_impact",
+              "other"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW",
+              "INFO",
+              "REVIEW_REQUIRED"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "metric",
+                "value"
+              ],
+              "properties": {
+                "metric": {
+                  "type": "string"
+                },
+                "value": {},
+                "unit": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "comparison": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "source_reference": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "interpretation": {
+            "type": "string"
+          },
+          "suggested_action": {
+            "type": "string"
+          },
+          "source_references": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requires_human_review": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "review_status": {
+      "type": "string",
+      "enum": [
+        "READY_FOR_REVIEW",
+        "REVIEW_REQUIRED",
+        "INSUFFICIENT_DATA"
+      ]
+    }
+  }
+}
