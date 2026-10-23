@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reporting-output",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "input_hash": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "snapshot_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "input_signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "company",
+            "sector",
+            "group",
+            "dhi"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "period": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "generation_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "partial"
+      ]
+    },
+    "review_status": {
+      "type": "string",
+      "const": "Awaiting review"
+    },
+    "currency": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "entity_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "period": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "revenue",
+              "expenses",
+              "profit",
+              "headcount",
+              "assets",
+              "liabilities",
+              "equity",
+              "other"
+            ]
+          },
+          "time_basis": {
+            "type": "string",
+            "enum": [
+              "month",
+              "quarter",
+              "ytd",
+              "year",
+              "point_in_time"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "actual",
+              "plan",
+              "prior_month",
+              "prior_year",
+              "forecast"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "pattern": "^-?\\d{1,18}(\\.\\d{1,12})?$",
+            "maxLength": 32
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "currency",
+              "count"
+            ]
+          },
+          "scale": {
+            "type": "string",
+            "enum": [
+              "units",
+              "thousands",
+              "millions"
+            ]
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "minItems": 1,
+            "maxItems": 2000
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "entity_id",
+          "period",
+          "metric",
+          "time_basis",
+          "role",
+          "value",
+          "unit",
+          "scale",
+          "source_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 2000
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "document": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "id",
+          "document",
+          "location"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 2000
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 6000
+                },
+                "record_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "minItems": 0,
+                  "maxItems": 2000
+                },
+                "source_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "minItems": 0,
+                  "maxItems": 2000
+                },
+                "finding_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "minItems": 0,
+                  "maxItems": 2000
+                }
+              },
+              "required": [
+                "text",
+                "record_refs",
+                "source_refs",
+                "finding_refs"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0,
+            "maxItems": 2000
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 2000
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "minItems": 0,
+      "maxItems": 2000
+    }
+  },
+  "required": [
+    "schema_version",
+    "id",
+    "input_hash",
+    "snapshot_id",
+    "input_signature",
+    "scope",
+    "period",
+    "title",
+    "generated_at",
+    "generation_status",
+    "review_status",
+    "currency",
+    "records",
+    "sources",
+    "sections",
+    "limitations"
+  ],
+  "additionalProperties": false
+}

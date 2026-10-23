@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "snapshot_id": "ttpl-aug-example-v1",
+  "input_signature": "ttpl-aug-example-v1",
+  "scope": {
+    "type": "company",
+    "id": "TTPL"
+  },
+  "period": "August 2026",
+  "validation": {
+    "status": "PASS",
+    "reviewer": null,
+    "reason": null
+  },
+  "currency": "BTN",
+  "units_confirmed": true,
+  "consolidated": false,
+  "records": [
+    {
+      "id": "revenue",
+      "label": "Revenue",
+      "entity_id": "TTPL",
+      "period": "August 2026",
+      "metric": "revenue",
+      "time_basis": "month",
+      "role": "actual",
+      "value": "13688889.74",
+      "unit": "currency",
+      "scale": "units",
+      "source_refs": [
+        "src-revenue"
+      ]
+    },
+    {
+      "id": "revenue-plan",
+      "label": "Revenue",
+      "entity_id": "TTPL",
+      "period": "August 2026",
+      "metric": "revenue",
+      "time_basis": "month",
+      "role": "plan",
+      "value": "42649663.03273972",
+      "unit": "currency",
+      "scale": "units",
+      "source_refs": [
+        "src-revenue-plan"
+      ]
+    },
+    {
+      "id": "expenses",
+      "label": "Expenses",
+      "entity_id": "TTPL",
+      "period": "August 2026",
+      "metric": "expenses",
+      "time_basis": "month",
+      "role": "actual",
+      "value": "13779722.71",
+      "unit": "currency",
+      "scale": "units",
+      "source_refs": [
+        "src-expenses"
+      ]
+    },
+    {
+      "id": "profit",
+      "label": "Profit",
+      "entity_id": "TTPL",
+      "period": "August 2026",
+      "metric": "profit",
+      "time_basis": "month",
+      "role": "actual",
+      "value": "-90832.97",
+      "unit": "currency",
+      "scale": "units",
+      "source_refs": [
+        "src-profit"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-revenue",
+      "document": "August month.xlsx",
+      "location": "Month Financials!C11"
+    },
+    {
+      "id": "src-revenue-plan",
+      "document": "August month.xlsx",
+      "location": "Month Financials!D11"
+    },
+    {
+      "id": "src-expenses",
+      "document": "August month.xlsx",
+      "location": "Month Financials!C12"
+    },
+    {
+      "id": "src-profit",
+      "document": "August month.xlsx",
+      "location": "Month Financials!C15"
+    }
+  ],
+  "insights": {
+    "schema_version": "1.0",
+    "scope_id": "TTPL",
+    "period": "August 2026",
+    "input_signature": "ttpl-aug-example-v1",
+    "summary": "Revenue was below plan.",
+    "findings": [
+      {
+        "id": "finding-1",
+        "category": "variance",
+        "severity": "attention",
+        "text": "Revenue was below plan; the cause requires finance review.",
+        "record_refs": [
+          "revenue",
+          "revenue-plan"
+        ],
+        "source_refs": [
+          "src-revenue",
+          "src-revenue-plan"
+        ],
+        "recommendation": "Request a supported explanation of the revenue shortfall."
+      }
+    ]
+  }
+}

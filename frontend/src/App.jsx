@@ -1,16 +1,17 @@
+import ReportingAgentPanel from './components/ReportingAgentPanel';
 import React,{useState,useEffect} from 'react';
 import Icon from './components/Icon';
 import {Brand,Logo,Notice,Panel,Field,Empty,CatalogContext} from './components/UI';
 import {useReportingCycle} from './hooks/useReportingCycle';
 import {AuthContext,canOpen} from './hooks/auth';
-import {submitVersion,saveValidationResult,failValidation,saveGeminiExplanation,reviewValidation,reviewFinal,generateFinal,configurePeriod} from './services/cycle';
-import {CycleDashboard,Monitoring,VersionHistory,CycleValidation,CycleUpload,ApprovedResults,AnalysisPage,FinalReportReview,NotificationsPage} from './pages/CyclePages';
+import {submitVersion,saveValidationResult,failValidation,saveGeminiExplanation,reviewValidation,reviewFinal,generateFinal,configurePeriod,completeDemoReports} from './services/cycle';
+import {CycleDashboard,Monitoring,ReadinessPage,VersionHistory,CycleValidation,CycleUpload,ApprovedResults,AnalysisPage,FinalReportReview,NotificationsPage} from './pages/CyclePages';
 import {CompanyAdministration,UserAdministration,PeriodAdministration} from './pages/AdministrationPages';
 import {AuditPage} from './pages/WorkspacePages';
 
-const titles={dashboard:'Dashboard',upload:'Upload monthly report',history:'My submissions',validation:'Validation result',approved:'Approved results',monitoring:'Submission monitoring',analysis:'Financial Analysis & Insights',management:'Management reports',companies:'Companies & sectors',users:'Users',periods:'Reporting periods',notifications:'Notifications',settings:'Workspace settings',audit:'Audit trail'};
+const titles={dashboard:'Dashboard',upload:'Upload monthly report',history:'My submissions',validation:'Validation result',approved:'Approved results',monitoring:'Submission monitoring',readiness:'Consolidation readiness',analysis:'Financial Analysis & Insights',management:'Management reports',companies:'Companies & sectors',users:'Users',periods:'Reporting periods',notifications:'Notifications',settings:'Workspace settings',audit:'Audit trail'};
 const companyNav=[['dashboard','▦','Dashboard'],['upload','↑','Upload Report'],['history','▤','My Submissions'],['approved','✓','Approved Results'],['notifications','◷','Notifications']];
-const adminNav=[['dashboard','▦','Dashboard'],['monitoring','▤','Submission Monitoring'],['analysis','▥','Analysis & Insights'],['management','▧','Management Reports'],['companies','◈','Companies & Sectors'],['users','♙','Users'],['periods','▣','Reporting Periods']];
+const adminNav=[['dashboard','▦','Dashboard'],['monitoring','▤','Submission Monitoring'],['readiness','⇄','Consolidation Readiness'],['analysis','▥','Analysis & Insights'],['management','▧','Management Reports'],['companies','◈','Companies & Sectors'],['users','♙','Users'],['periods','▣','Reporting Periods']];
 function getRoute(){const [page,id]=location.hash.slice(1).split('/');let decoded=null;try{decoded=id?decodeURIComponent(id):null}catch{}return {page:page||'dashboard',id:decoded}}
 function readSession(){try{return JSON.parse(sessionStorage.getItem('finagenticai.session.v3'))}catch{return null}}
 function Login({w,onLogin}){
@@ -32,7 +33,7 @@ export default function App(){
  const catalog=<CatalogContext.Provider value={w.companies}>{!session?<Login w={w} onLogin={login}/>:renderWorkspace()}</CatalogContext.Provider>;
  return <AuthContext.Provider value={{session,login,logout}}>{catalog}</AuthContext.Provider>;
  function renderWorkspace(){
-  const requested=route.page==='consolidation'?'monitoring':route.page==='readiness'?'monitoring':route.page==='insights'?(session.role==='admin'?'analysis':'approved'):route.page==='ai'?'analysis':route.page;
+  const requested=route.page==='consolidation'?'readiness':route.page==='insights'?(session.role==='admin'?'analysis':'approved'):route.page==='ai'?'analysis':route.page;
   const allowed=!!titles[requested]&&canOpen(session.role,requested);const page=allowed?requested:'dashboard';const report=w.reports.find(r=>r.id===route.id&&(session.role==='admin'||r.company===session.company));
   const nav=session.role==='admin'?adminNav:companyNav;
   function correct(r){const p=w.periods.find(p=>p.period===r.period);if(p)setPeriodId(p.id);navigate('upload')}
@@ -49,6 +50,7 @@ export default function App(){
     const response=await fetch(import.meta.env.BASE_URL+'api/gemini/validate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({submissionId:id,version:submitted.revision,company:input.company,period:period.period,fileName:input.file.name,fileBase64:btoa(binary)})});
     const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.error||'The workbook could not be validated.');
     mutate(old=>saveValidationResult(old,id,{validation:payload,gemini:{status:'pending',summary:'Gemini is preparing an advisory explanation of deterministic findings.',explanations:[]}}));
+    if(!input.allowGemini){mutate(old=>saveGeminiExplanation(old,id,{status:'not_requested',summary:'Workbook checks completed locally. No explanation was requested.',explanations:[]}));return;}
     try{
      const explanationResponse=await fetch(import.meta.env.BASE_URL+'api/gemini/explain-validation',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({consent:input.allowGemini,company:input.company,period:period.period,validation:payload})});
      const explanation=await explanationResponse.json().catch(()=>({}));if(!explanationResponse.ok)throw new Error(explanation.error||'Gemini explanation is unavailable.');
@@ -59,18 +61,20 @@ export default function App(){
   return <div className="app-layout"><aside className={mobileMenu?'menu-open':''}><Brand/><div className="sidebar-dhi"><Logo/><span>DHI GROUP<small>Financial reporting</small></span></div><div className="workspace-label">{session.role==='admin'?'DHI FINANCE':session.company+' WORKSPACE'}</div><nav aria-label="Main navigation">{nav.map(([key,icon,label])=><button key={key} aria-label={label} className={page===key?'active':''} aria-current={page===key?'page':undefined} onClick={()=>navigate(key)}><Icon name={key}/>{label}</button>)}</nav><div className="sidebar-bottom">{session.role==='admin'&&<button className="logout" onClick={()=>navigate('settings')}>Workspace settings</button>}<button className="logout" onClick={logout}><Icon name="logout"/>Logout</button></div></aside><div className="main-shell"><header><button className="menu-button secondary" aria-label="Toggle navigation" aria-expanded={mobileMenu} onClick={()=>setMobileMenu(!mobileMenu)}><Icon name="menu"/></button><div className="workspace-identity"><Logo id={session.role==='admin'?'DHI':session.company}/><div><strong>{session.role==='admin'?'DHI Finance Officer/Admin':session.company+' · Company Finance Officer'}</strong><small>{session.role==='admin'?'Druk Holding & Investments':w.companies.find(c=>c.id===session.company)?.name}</small></div></div><div className="user"><span className="avatar">{session.name[0]}</span><span>{session.name}<small>{session.role==='admin'?'DHI Finance':session.company}</small></span></div></header><main className="content"><div className="page-heading"><div><h1>{titles[page]}</h1></div><div className="period-switch"><Field label="Workspace reporting period"><select value={period.id} onChange={e=>{setPeriodId(e.target.value);navigate('dashboard')}}>{w.periods.map(p=><option key={p.id} value={p.id}>{p.period} · {p.state}</option>)}</select></Field></div></div>{!allowed&&<Notice type="error">This page is not available to your role.</Notice>}{error&&<Notice type="error">{error}</Notice>}{storageError&&<Notice type="error">Browser storage is unavailable. Changes will not survive refresh.</Notice>}
    {page==='dashboard'&&<CycleDashboard w={w} period={period} session={session} navigate={navigate}/>}
    {page==='monitoring'&&<Monitoring w={w} period={period} navigate={navigate}/>}
+   {page==='readiness'&&<ReadinessPage w={w} period={period} onCompleteDemo={()=>mutate(old=>completeDemoReports(old,period.id))}/>}
    {page==='history'&&<VersionHistory w={w} period={period} session={session} navigate={navigate} onCorrection={correct}/>}
    {page==='upload'&&<CycleUpload key={`${period.id}-${session.company}`} w={w} period={period} session={session} onSubmit={submitReport}/>}
    {page==='validation'&&<CycleValidation w={w} report={report} session={session} navigate={navigate} onCorrection={correct} onReview={(id,decision,reason)=>{const next=mutate(old=>reviewValidation(old,id,session,decision,reason));if(next)setToast(decision==='approve'?'Validation findings were recorded as reviewed.':'Validation findings were rejected.')}}/>}
    {page==='approved'&&<ApprovedResults key={route.id||'list'} w={w} session={session} id={route.id}/>}
    {page==='analysis'&&<AnalysisPage key={period.id} w={w} period={period}/>}
+   {page==='management'&&<ReportingAgentPanel key={'reporting-'+period.id} w={w} period={period}/>}
    {page==='management'&&<FinalReportReview key={period.id} w={w} period={period} session={session} onReview={(id,action,remark)=>{const next=mutate(old=>reviewFinal(old,id,action,session,remark));if(next)setToast(action==='approve'?'Approved and published to the included company dashboards.':'Revision requested.')}} onRegenerate={id=>mutate(old=>generateFinal(old,id))}/>}
    {page==='companies'&&<CompanyAdministration w={w} onSave={saveCompany}/>}
    {page==='users'&&<UserAdministration w={w} onSave={saveUser}/>}
    {page==='periods'&&<PeriodAdministration w={w} onSave={savePeriod} onSelect={id=>{setPeriodId(id);navigate('dashboard')}}/>}
    {page==='notifications'&&<NotificationsPage w={w} session={session} onRead={id=>mutate(old=>({...old,notifications:old.notifications.map(n=>n.id===id?{...n,readBy:[...new Set([...n.readBy,session.userId])]}:n)}))}/>}
    {page==='audit'&&<AuditPage audit={w.audit}/>}
-   {page==='settings'&&<><Panel title="Workspace controls" className="form-panel"><p>Review reporting activity and manage the records in this workspace.</p><button className="secondary" onClick={()=>navigate('audit')}>View audit trail</button></Panel><Panel title="Reset workspace records" className="form-panel spaced"><p>Restore the initial reporting records. Current submissions and approval history will be cleared.</p>{resetConfirm?<div className="form-actions"><button className="danger" onClick={()=>{reset();setResetConfirm(false);logout()}}>Confirm reset</button><button className="secondary" onClick={()=>setResetConfirm(false)}>Cancel</button></div>:<button className="secondary" onClick={()=>setResetConfirm(true)}>Reset workspace</button>}</Panel></>}
+   {page==='settings'&&<><Panel title="Workspace controls" className="form-panel"><p>Review reporting activity and manage the records in this workspace.</p><button className="secondary" onClick={()=>navigate('audit')}>View audit trail</button></Panel><Panel title="Reset workspace records" className="form-panel spaced"><p>Restore the initial reporting records. Current submissions and approval history will be cleared.</p>{resetConfirm?<div className="form-actions"><button className="danger" onClick={()=>{reset();localStorage.removeItem('finagenticai.reporting-drafts.v1');setResetConfirm(false);logout()}}>Confirm reset</button><button className="secondary" onClick={()=>setResetConfirm(false)}>Cancel</button></div>:<button className="secondary" onClick={()=>setResetConfirm(true)}>Reset workspace</button>}</Panel></>}
    </main></div>{toast&&<div className="toast" role="status">✓ {toast}<button aria-label="Dismiss notification" onClick={()=>setToast('')}>×</button></div>}</div>;
  }
 }

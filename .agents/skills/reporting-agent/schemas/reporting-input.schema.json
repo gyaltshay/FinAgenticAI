@@ -1,0 +1,392 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reporting-input",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "input_signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "company",
+            "sector",
+            "group",
+            "dhi"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "period": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "NEEDS_REVIEW",
+            "FAIL",
+            "ERROR"
+          ]
+        },
+        "reviewer": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "reviewer",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "currency": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10
+    },
+    "units_confirmed": {
+      "type": "boolean"
+    },
+    "consolidated": {
+      "type": "boolean"
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "entity_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "period": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "revenue",
+              "expenses",
+              "profit",
+              "headcount",
+              "assets",
+              "liabilities",
+              "equity",
+              "other"
+            ]
+          },
+          "time_basis": {
+            "type": "string",
+            "enum": [
+              "month",
+              "quarter",
+              "ytd",
+              "year",
+              "point_in_time"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "actual",
+              "plan",
+              "prior_month",
+              "prior_year",
+              "forecast"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "pattern": "^-?\\d{1,18}(\\.\\d{1,12})?$",
+            "maxLength": 32
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "currency",
+              "count"
+            ]
+          },
+          "scale": {
+            "type": "string",
+            "enum": [
+              "units",
+              "thousands",
+              "millions"
+            ]
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "minItems": 1,
+            "maxItems": 2000
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "entity_id",
+          "period",
+          "metric",
+          "time_basis",
+          "role",
+          "value",
+          "unit",
+          "scale",
+          "source_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 2000
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "document": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "id",
+          "document",
+          "location"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 2000
+    },
+    "insights": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "schema_version": {
+              "const": "1.0",
+              "type": "string"
+            },
+            "scope_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "period": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "input_signature": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "summary": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "variance",
+                      "trend",
+                      "anomaly",
+                      "risk",
+                      "opportunity"
+                    ]
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "information",
+                      "attention",
+                      "significant"
+                    ]
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "record_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "minItems": 0,
+                    "maxItems": 2000
+                  },
+                  "source_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "minItems": 0,
+                    "maxItems": 2000
+                  },
+                  "recommendation": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "category",
+                  "severity",
+                  "text",
+                  "record_refs",
+                  "source_refs",
+                  "recommendation"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 0,
+              "maxItems": 2000
+            },
+            "limitations": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "maxItems": 100
+            }
+          },
+          "required": [
+            "schema_version",
+            "scope_id",
+            "period",
+            "input_signature",
+            "summary",
+            "findings"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "snapshot_id",
+    "input_signature",
+    "scope",
+    "period",
+    "validation",
+    "currency",
+    "units_confirmed",
+    "consolidated",
+    "records",
+    "sources",
+    "insights"
+  ],
+  "additionalProperties": false
+}

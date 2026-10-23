@@ -71,3 +71,33 @@ The Analysis & Insights page can request a financial summary from Gemini. The AP
 4. Open Analysis & Insights and choose Generate with Gemini, or consent when uploading an `.xlsx` report.
 
 GitHub Pages is static and cannot run this local API server. A hosted backend with a server-side key is required to enable Gemini on the live Pages site.
+
+
+## Reporting agent (local prototype)
+
+Start `npm run gemini` and `npm run dev` in separate terminals in this directory. Reporting itself requires no API key and makes no external model calls. Sign in as DHI Finance/Admin and open **Management Reports**.
+
+1. Select the latest passed TTPL submission. For NEEDS_REVIEW, finance must first accept its exceptions with a reason; FAIL/ERROR are blocked.
+2. Confirm the underlying currency and source scale, then tick the confirmation box. Do not infer scale from the workbook heading alone.
+3. Download the financial input for your teammate. The insights producer returns the structure in `../.agents/skills/reporting-agent/schemas/insights.schema.json`, with matching scope, period, signature and valid evidence references.
+4. Import that insights JSON and generate the management draft. Without insights, generation remains available as a partial financial draft.
+5. Review the sections and evidence, download JSON or Markdown, or use Print / Save PDF. Draft history is browser-local (30 most recent). New financial versions, changed scale/currency, or changed insights make old drafts stale. This panel does not approve or publish drafts and does not change the existing group-report review controls.
+
+Implementation: `server/reporting.mjs`; contracts and skill: `../.agents/skills/reporting-agent/`; representative TTPL input: `tests/fixtures/reporting-input.json`. The server supports monthly, quarterly, YTD and point-in-time records through its contract; the current UI adapter extracts monthly revenue, expenses, reported profit and headcount plus available comparisons from TTPL's `Month Financials` evidence. Other layouts need explicit mapping. It does not build a full balance sheet, forecasts or intercompany consolidation from missing data. Source amounts are preserved, and absolute comparisons use exact decimal subtraction; ratios and stakeholder-unconfirmed KPI definitions are not guessed.
+
+API: `POST /api/reporting/generate` with the input-schema body; returns `{report, markdown}`. Invalid requests return 422. Structured insights are treated as upstream evidence-linked analysis: schema validation cannot prove their prose is factually correct. The engine uses deterministic report composition, not a second LLM narrative call. This makes it usable while the insights agent is developed independently.
+
+Checks: `npm test`; `node tests/reporting-browser.mjs` with both local servers running. The browser script uses the same workstation Playwright/Edge setup as the existing browser tests and isolated browser storage. GitHub Pages cannot execute this API.
+
+
+## Restored consolidation frontend and workflow review
+
+Consolidation Readiness is restored in the Admin sidebar (`#readiness`; `#consolidation` is an alias), including the original blocker table, stage list and confirmed Prepare reporting cycle action. Preparation creates browser-only sample submission versions tagged `frontendFixture`; previous versions remain in history. These records survive reload and can drive the simulated group approval flow, but have no fabricated workbook-validation result. Live insights are disabled for scopes containing samples, and the reporting agent only accepts real passed/reviewed validations. Preparation requires an already opened period. No backend consolidation agent or external notification delivery was added.
+
+Workbook summary mappings now prefer Month Financials evidence so repeated PPR/expense totals do not erase the mapped results. Header detection follows the nearest table heading through long sheets and distinguishes dated current, prior-month and prior-year Actuals columns. Source discrepancies still require correction or finance review; this does not certify the original TTPL report as valid. The original August workbook exposes a missing PPR actual at C39 and ambiguous units; neither is silently repaired.
+
+Company insights now identify the company submission ID, can be downloaded as JSON, and can be imported directly into Reporting Agent. The adapter validates native evidence against the selected submission and converts it into the reporting handoff contract. Existing canonical insights JSON remains accepted. Synthetic provider output is used only in automated tests, not inserted into live data.
+
+Workbook validation runs locally without requiring an external model. Users explicitly opt in to send findings to Gemini for explanation. Without that choice, no explanation request is sent. Reset workspace also clears browser-local reporting drafts.
+
+Additional checks: `python -m unittest discover -s tests -p test_ttpl_validation.py` and `node tests/workspace-review.mjs`. The latter starts isolated test servers on ports 5180/3010, uses a separate browser context, tests both roles and live local Python/reporting endpoints, and explicitly mocks the Gemini provider. It covers CRUD, period gates, prepared consolidation, corrections, review, approval, persistence, native insights import and mobile overflow. It does not claim to verify Google Gemini access or Superset embedding.

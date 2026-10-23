@@ -352,13 +352,44 @@ def classify_header(header: str) -> str | None:
 
 
 def data_columns(sheet: Sheet, row_number: int) -> dict[str, list[int]]:
+    # Locate the nearest real table header, not merely the six preceding rows.
+    # This preserves the roles for long expense tables and repeated sections.
+    candidates = []
+    simple = {"actual", "actuals", "plan", "budget", "actualexpense", "planexpense"}
+    for index, cells in sheet.rows.items():
+        if index >= row_number:
+            continue
+        headings = [normalized_label(str(cell.raw_value)) for cell in cells.values()]
+        if sum(value in simple for value in headings) >= 2:
+            candidates.append(index)
+    if not candidates:
+        return {}
+    header_row = max(candidates)
+    roles = {col: classify_header(str(cell.raw_value)) for col, cell in sheet.rows[header_row].items()}
+    roles = {col: role for col, role in roles.items() if role}
+    dates = {}
+    for col, role in roles.items():
+        if role != "actual":
+            continue
+        for index in range(max(1, header_row - 2), header_row + 1):
+            cell = sheet.rows.get(index, {}).get(col)
+            if cell:
+                try:
+                    dates[col] = dt.date.fromisoformat(str(cell.parsed_value if cell.parsed_value is not None else cell.raw_value)[:10])
+                except (ValueError, TypeError):
+                    pass
+    if dates:
+        current = max(dates.values())
+        previous_month = (current.replace(day=1) - dt.timedelta(days=1)).replace(day=1)
+        for col, date in dates.items():
+            if date.year == current.year - 1 and date.month == current.month:
+                roles[col] = "prior_year"
+            elif date.year == previous_month.year and date.month == previous_month.month:
+                roles[col] = "previous_month"
+            # Other dates remain ambiguous actual columns; do not guess their role.
     result: dict[str, list[int]] = {}
-    max_col = max((max(row) for row in sheet.rows.values() if row), default=0)
-    for col in range(1, max_col + 1):
-        context = header_context(sheet, row_number, col)
-        role = classify_header(context)
-        if role:
-            result.setdefault(role, []).append(col)
+    for col, role in roles.items():
+        result.setdefault(role, []).append(col)
     return result
 
 

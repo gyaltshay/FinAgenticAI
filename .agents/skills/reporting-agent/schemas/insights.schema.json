@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "insights",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "type": "string"
+    },
+    "scope_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "period": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "input_signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "variance",
+              "trend",
+              "anomaly",
+              "risk",
+              "opportunity"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "information",
+              "attention",
+              "significant"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "record_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "minItems": 0,
+            "maxItems": 2000
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "minItems": 0,
+            "maxItems": 2000
+          },
+          "recommendation": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "category",
+          "severity",
+          "text",
+          "record_refs",
+          "source_refs",
+          "recommendation"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 2000
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "maxItems": 100
+    }
+  },
+  "required": [
+    "schema_version",
+    "scope_id",
+    "period",
+    "input_signature",
+    "summary",
+    "findings"
+  ],
+  "additionalProperties": false
+}

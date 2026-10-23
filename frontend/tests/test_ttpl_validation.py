@@ -49,22 +49,22 @@ def workbook_bytes(*, missing=(), revenue=100, ppr_revenue=100, expense=80, ppr_
             1: {1: text_cell("A1", "Metric"), 2: text_cell("B1", "Actual"), 3: text_cell("C1", "Plan"), 4: text_cell("D1", "Variance (Actual - Plan)"), 5: text_cell("E1", "In Nu (Millions)" if scale_heading else "Nu")},
             2: {1: text_cell("A2", "Revenues" if not omit_revenue_label else "Sales"), 2: number_cell("B2", revenue), 3: number_cell("C2", 90), 4: formula_cell("D2", "B2-C2", variance)},
             3: {1: text_cell("A3", "Expenses"), 2: number_cell("B3", expense), 3: number_cell("C3", 90), 4: formula_cell("D3", "B3-C3", expense - 90)},
-            4: {1: text_cell("A4", "Margin"), 2: number_cell("B4", revenue - expense), 3: number_cell("C4", 10)},
-            5: {1: text_cell("A5", "EBT"), 2: number_cell("B5", -90833), 3: number_cell("C5", -1)},
-            6: {1: text_cell("A6", "Net Profit After Tax"), 2: number_cell("B6", -90833), 3: number_cell("C6", -1)},
-            7: {1: text_cell("A7", "Operating Efficiency"), 2: number_cell("B7", 0.8), 3: number_cell("C7", 0.8)},
-            8: {1: text_cell("A8", "Total Headcount"), 2: number_cell("B8", 10), 3: number_cell("C8", 10)},
+            4: {1: text_cell("A4", "Margin"), 2: number_cell("B4", revenue - expense), 3: number_cell("C4", 10), 4: number_cell("D4", revenue - expense - 10)},
+            5: {1: text_cell("A5", "EBT"), 2: number_cell("B5", -90833), 3: number_cell("C5", -1), 4: number_cell("D5", -90832)},
+            6: {1: text_cell("A6", "Net Profit After Tax"), 2: number_cell("B6", -90833), 3: number_cell("C6", -1), 4: number_cell("D6", -90832)},
+            7: {1: text_cell("A7", "Operating Efficiency"), 2: number_cell("B7", 0.8), 3: number_cell("C7", 0.8), 4: number_cell("D7", 0)},
+            8: {1: text_cell("A8", "Total Headcount"), 2: number_cell("B8", 10), 3: number_cell("C8", 10), 4: number_cell("D8", 0)},
         },
         "Monthly PPR": {
             1: {1: text_cell("A1", "Business Line"), 2: text_cell("B1", "Actual"), 3: text_cell("C1", "Plan")},
             2: {1: text_cell("A2", "Total")},
             3: {1: text_cell("A3", "Revenue"), 2: number_cell("B3", ppr_revenue), 3: number_cell("C3", 90)},
             4: {1: text_cell("A4", "Expense"), 2: number_cell("B4", ppr_expense), 3: number_cell("C4", 90)},
-            5: {1: text_cell("A5", "Commercial Space"), 2: number_cell("B5", 40)},
-            6: {1: text_cell("A6", "Product Factory"), 2: number_cell("B6", 20)},
-            7: {1: text_cell("A7", "Center for ICT Excellence"), 2: number_cell("B7", 10)},
-            8: {1: text_cell("A8", "BITC Operation"), 2: number_cell("B8", 10)},
-            9: {1: text_cell("A9", "Others"), 2: number_cell("B9", 20)},
+            5: {1: text_cell("A5", "Commercial Space"), 2: number_cell("B5", 40), 3: number_cell("C5", 40)},
+            6: {1: text_cell("A6", "Product Factory"), 2: number_cell("B6", 20), 3: number_cell("C6", 20)},
+            7: {1: text_cell("A7", "Center for ICT Excellence"), 2: number_cell("B7", 10), 3: number_cell("C7", 10)},
+            8: {1: text_cell("A8", "BITC Operation"), 2: number_cell("B8", 10), 3: number_cell("C8", 10)},
+            9: {1: text_cell("A9", "Others"), 2: number_cell("B9", 20), 3: number_cell("C9", 20)},
         },
         "Monthly Expense LBL": {
             1: {1: text_cell("A1", "Expense Lines"), 2: text_cell("B1", "Actual Expense"), 3: text_cell("C1", "Plan Expense")},
@@ -109,6 +109,20 @@ def matching_schema_shape(result):
 
 
 class TTPLValidationTests(unittest.TestCase):
+    def test_distant_headers_keep_current_prior_month_and_prior_year_distinct(self):
+        rows = {
+            4: {2: text_cell('B4', '2026-08-01'), 3: text_cell('C4', '2026-08-01'), 4: text_cell('D4', '2025-08-01'), 5: text_cell('E4', '2026-07-01')},
+            5: {2: text_cell('B5', 'Actuals'), 3: text_cell('C5', 'Plan'), 4: text_cell('D5', 'Actuals'), 5: text_cell('E5', 'Actual')},
+            50: {1: text_cell('A50', 'Revenue'), 2: number_cell('B50', 100)},
+        }
+        original = workbook_bytes()
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(io.BytesIO(original)) as source, zipfile.ZipFile(buffer, 'w') as output:
+            for name in source.namelist():
+                output.writestr(name, sheet_xml(rows) if name == 'xl/worksheets/sheet1.xml' else source.read(name))
+        sheets, _ = validator.parse_ooxml(buffer.getvalue(), 'test.xlsx')
+        self.assertEqual(validator.data_columns(sheets[0], 50), {'actual': [2], 'plan': [3], 'prior_year': [4], 'previous_month': [5]})
+
     def test_required_and_unexpected_sheets_are_reported(self):
         result = validate(workbook_bytes(missing=("Monthly Expense LBL",)))
         self.assertIn("Monthly Expense LBL", result["workbook"]["sheets_missing"])

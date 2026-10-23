@@ -39,7 +39,7 @@ const labels={
 const normalize=value=>String(value??'').toLowerCase().replace(/[^a-z0-9]+/g,'');
 
 export function mapValidatedFinancialValues(validation) {
-  const evidence=(validation?.checks||[]).filter(check=>check.rule_id==='SOURCE-EVIDENCE').map(check=>check.actual_value||{});
+  const evidence=(validation?.checks||[]).filter(check=>check.rule_id==='SOURCE-EVIDENCE'&&(!check.sheet||check.sheet==='Month Financials')).map(check=>check.actual_value||{});
   return Object.fromEntries(Object.entries(labels).map(([field,{aliases,role}])=>{
     const accepted=new Set(aliases.map(normalize));
     const matches=evidence.filter(item=>accepted.has(normalize(item.original_label))&&item.column_role===role&&numeric(item.parsed_value));

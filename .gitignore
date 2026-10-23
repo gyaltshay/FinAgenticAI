@@ -1,3 +1,7 @@
 .npm-cache/
 node_modules/
 *.local
+
+# Python validation runtime artifacts
+__pycache__/
+*.pyc

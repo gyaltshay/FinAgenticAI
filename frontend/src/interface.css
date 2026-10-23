@@ -209,3 +209,6 @@ input::placeholder,textarea::placeholder{color:#a2b0bc}
 .login-card select{height:48px;border-radius:8px;border-color:#dfe4e9;background:#fbfcfd;padding:0 14px;font-size:12px}.login-card select:focus{border-color:#4385bb}
 .superset-panel{margin-bottom:24px}.superset-dashboard-slot{min-height:390px;width:100%;display:grid;place-items:center;border:1px dashed #cbd9e5;border-radius:8px;background:#f8fafc;color:#72869a;padding:20px;text-align:center}.superset-dashboard-slot p{font-size:12px;margin:0}.superset-dashboard-slot iframe{width:100%;min-height:390px;border:0}@media(max-width:760px){.superset-dashboard-slot,.superset-dashboard-slot iframe{min-height:320px}}
 
+
+.reporting-agent label{display:block;margin:12px 0}.report-evidence{display:block;color:#657386;margin-top:4px}.reporting-draft{border-top:1px solid #dbe1e8;margin-top:24px;padding-top:24px}.reporting-draft h3{margin-top:24px}.reporting-actions{display:flex;gap:12px;flex-wrap:wrap}
+@media print{body:has(.reporting-draft) aside,body:has(.reporting-draft) header,body:has(.reporting-draft) .reporting-agent> :not(.reporting-draft),body:has(.reporting-draft) .reporting-actions{display:none!important}body:has(.reporting-draft) .app-layout main{margin:0;padding:0}body:has(.reporting-draft) main> :not(.reporting-agent){display:none!important}}

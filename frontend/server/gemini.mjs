@@ -1,3 +1,4 @@
+import {generateReport,reportMarkdown} from './reporting.mjs';
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
@@ -22,7 +23,7 @@ try {
 }
 
 const apiKey=process.env.GEMINI_API_KEY;
-const model=(process.env.GEMINI_MODEL||'gemini-3.8-flash').trim();
+const model=(process.env.GEMINI_MODEL||'gemini-3.1-flash-lite').trim();
 const port=Number(process.env.GEMINI_PORT||3001);
 const projectRoot=resolve(frontendDir,'..');
 const schemaText=await readFile(resolve(projectRoot,'FinAgenticAI_Standard_Schema.md'),'utf8');
@@ -186,6 +187,11 @@ async function askGemini(prompt) {
 
 const server=createServer(async (req,res)=>{
   const url=new URL(req.url||'/',`http://${req.headers.host||'127.0.0.1'}`);
+  if(req.method==='POST'&&url.pathname==='/api/reporting/generate'){
+    if(!/^application\/json\b/i.test(req.headers['content-type']||''))return respond(res,415,{error:'Send a JSON request.'});
+    try{const report=generateReport(await readJson(req));return respond(res,200,{report,markdown:reportMarkdown(report)});}
+    catch(error){return respond(res,error.status||422,{error:error.message||'Report generation failed.'});}
+  }
   if (req.method==='GET'&&url.pathname==='/api/gemini/health') {
     return respond(res,200,{configured:Boolean(apiKey),model});
   }
@@ -235,6 +241,7 @@ const server=createServer(async (req,res)=>{
     if(records.some(record=>record.validation.currency!==records[0].validation.currency||record.validation.scale_status!=='CONFIRMED'))limitations.push('Currency or reporting scale is not confirmed consistently across all included validation results. Avoid definitive monetary comparisons.');
     if(findings.length)limitations.push('One or more validation findings require human attention; insights that depend on affected records are preliminary.');
     const result=await askGemini(makeInsightPrompt({period:input.period,scope:input.scope,reportId:input.reportId??null,metrics,evidence:references,findings,limitations}));
+    result.report_id=input.reportId??null;result.reporting_period=input.period;
     const errors=validateInsightResult(result,insightResultSchema,{metrics,references,findings});
     if(errors.length)return respond(res,502,{error:`Gemini insight result did not match insight-result.schema.json: ${errors[0]}`});
     result.limitations=[...new Set([...limitations,...result.limitations])];

@@ -1,8 +1,10 @@
+import {download} from '../services/reports';
 import React,{useState} from 'react';
 import {Notice} from './UI';
 import {productText} from './productText';
 
 export default function GeminiInsightPanel({period,scope,records,reportId,fallback}){
+ const liveEligible=records?.length>0&&records.every(r=>r.validation);
  const [result,setResult]=useState(null),[loading,setLoading]=useState(false),[error,setError]=useState('');
  async function generate(){
   setLoading(true);setError('');
@@ -17,7 +19,7 @@ export default function GeminiInsightPanel({period,scope,records,reportId,fallba
  return <section className="insight-panel">
   <span className="eyebrow">GEMINI FINANCIAL INSIGHTS</span>
   <h2>{scope} observations</h2>
-  <p>{result?.overall_summary||productText(fallback.narrative)}</p>
+  <p>{result?.overall_summary||productText(fallback.narrative||'Review the financial figures for this scope.')}</p>
   {result? <>
    <p className="helper">Review status: {result.review_status.replaceAll('_',' ')} · Insights require finance-officer review.</p>
    <div className="summary-list">{result.insights.map(item=><article key={item.id}>
@@ -28,8 +30,10 @@ export default function GeminiInsightPanel({period,scope,records,reportId,fallba
     {item.source_references.length>0&&<p className="helper">Sources: {item.source_references.join('; ')}</p>}
    </article>)}</div>
    {result.limitations.length>0&&<><h3>Limitations</h3><ul className="summary-list">{result.limitations.map((item,index)=><li key={index}>{item}</li>)}</ul></>}
-  </>:<ul className="summary-list">{fallback.summary.map((item,index)=><li key={index}>{productText(item)}</li>)}</ul>}
-  <div className="form-actions"><button className="secondary" onClick={generate} disabled={loading}>{loading?'Generating…':result?'Regenerate with Gemini':'Generate with Gemini'}</button></div>
+  </>:<ul className="summary-list">{(fallback.summary||[]).map((item,index)=><li key={index}>{productText(item)}</li>)}</ul>}
+  <div className="form-actions"><button className="secondary" onClick={generate} disabled={loading||!liveEligible}>{loading?'Generating…':result?'Regenerate with Gemini':'Generate with Gemini'}</button></div>
+  {!liveEligible&&<p className="helper">Prepared company records support this frontend cycle. Upload validated workbooks to generate live insights.</p>}
+  {result&&<button className="secondary" onClick={()=>download('financial-insights.json',JSON.stringify(result,null,2),'application/json')}>Download insights JSON</button>}
   <p className="helper">The local backend computes metrics from this scope’s validated submission records before sending metrics and validation references to Google Gemini. Review AI explanations before relying on them.</p>
   {error&&<Notice type="error">{productText(error)}</Notice>}
  </section>;
