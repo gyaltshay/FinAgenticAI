@@ -25,6 +25,17 @@
         "null"
       ]
     },
+    "scale": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "MILLIONS",
+        "THOUSANDS",
+        null
+      ]
+    },
     "scale_status": {
       "type": [
         "string",

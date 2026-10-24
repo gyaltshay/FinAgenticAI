@@ -712,6 +712,7 @@ def run_validation(payload: dict[str, Any]) -> dict[str, Any]:
         "report_id": str(payload.get("submission_id") or f"{filename}:{payload.get('version', 1)}"),
         "reporting_period": payload.get("period_id", payload.get("period")),
         "currency": currency,
+        "scale": scale,
         "scale_status": "REVIEW_REQUIRED" if not currency or scale_ambiguous else "CONFIRMED" if scale else "UNKNOWN",
         "validation_status": validation_status,
         "workbook": {"filename": filename, "sheets_found": [sheet.name for sheet in sheets], "sheets_missing": missing, "unexpected_sheets": unexpected},

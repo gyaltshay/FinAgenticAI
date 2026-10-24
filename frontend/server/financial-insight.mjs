@@ -40,10 +40,13 @@ const normalize=value=>String(value??'').toLowerCase().replace(/[^a-z0-9]+/g,'')
 
 export function mapValidatedFinancialValues(validation) {
   const evidence=(validation?.checks||[]).filter(check=>check.rule_id==='SOURCE-EVIDENCE'&&(!check.sheet||check.sheet==='Month Financials')).map(check=>check.actual_value||{});
+  // Store monetary values as base currency units for dashboard display. A
+  // missing/uncertain scale stays unavailable instead of being guessed.
+  const multiplier=validation?.scale_status===undefined?1:validation.scale_status!=='CONFIRMED'?null:validation.scale==='MILLIONS'?1e6:validation.scale==='THOUSANDS'?1e3:null;
   return Object.fromEntries(Object.entries(labels).map(([field,{aliases,role}])=>{
     const accepted=new Set(aliases.map(normalize));
     const matches=evidence.filter(item=>accepted.has(normalize(item.original_label))&&item.column_role===role&&numeric(item.parsed_value));
-    return [field,matches.length===1?matches[0].parsed_value:null];
+    return [field,matches.length===1&&multiplier!==null?matches[0].parsed_value*multiplier:null];
   }));
 }
 
