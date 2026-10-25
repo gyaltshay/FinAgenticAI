@@ -8,6 +8,9 @@ import {inflateRawSync} from 'node:zlib';
 import {posix} from 'node:path';
 import {spawn} from 'node:child_process';
 import {computeFinancialMetrics,collectValidationEvidence,validateInsightResult} from './financial-insight.mjs';
+import {createWorkbookStorage,storageSigningKey,workbookType} from './object-storage.mjs';
+import {databaseConfig} from './database-config.mjs';
+import {createDatabase} from './database.mjs';
 
 const frontendDir=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const envPath=resolve(frontendDir,'.env.local');
@@ -27,6 +30,12 @@ const apiKey=process.env.GEMINI_API_KEY;
 const model=(process.env.GEMINI_MODEL||'gemini-3.1-flash-lite').trim();
 const port=Number(process.env.GEMINI_PORT||3001);
 const projectRoot=resolve(frontendDir,'..');
+try{
+ const storageEnv=await readFile(resolve(projectRoot,'.env.storage.local'),'utf8');
+ for(const line of storageEnv.split(/\r?\n/)){const match=line.match(/^\s*(MINIO_[A-Z_]+)\s*=\s*(.*?)\s*$/);if(match&&!process.env[match[1]])process.env[match[1]]=match[2].replace(/^(['"])(.*)\1$/,'$2');}
+}catch(error){if(error.code!=='ENOENT')throw error;}
+const storage=createWorkbookStorage({endpoint:process.env.MINIO_ENDPOINT,bucket:process.env.MINIO_BUCKET,accessKey:process.env.MINIO_ACCESS_KEY||process.env.MINIO_ROOT_USER,secretKey:process.env.MINIO_SECRET_KEY||process.env.MINIO_ROOT_PASSWORD,signingKey:await storageSigningKey(resolve(projectRoot,'.local/minio/receipt-signing.key'))});
+const database=createDatabase(await databaseConfig());
 const schemaText=await readFile(resolve(projectRoot,'FinAgenticAI_Standard_Schema.md'),'utf8');
 const skillText=await readFile(resolve(projectRoot,'.agents','skills','validation-agent','SKILL.md'),'utf8');
 const validationResultSchema=JSON.parse(await readFile(resolve(projectRoot,'.agents','skills','validation-agent','schemas','validation-result.schema.json'),'utf8'));
@@ -188,6 +197,32 @@ async function askGemini(prompt) {
 
 const server=createServer(async (req,res)=>{
   const url=new URL(req.url||'/',`http://${req.headers.host||'127.0.0.1'}`);
+  // Only same-origin browser requests may write/read workbook capabilities.
+  if(req.headers.origin&&req.headers.origin!==`http://${req.headers.host}`)return respond(res,403,{error:'Cross-origin API requests are not allowed.'});
+  if(url.pathname==='/api/database/health'&&req.method==='GET'){
+    if(!database.configured)return respond(res,200,{configured:false,available:false});
+    try{return respond(res,200,await database.health());}catch(error){return respond(res,503,{configured:true,available:false,error:error.message});}
+  }
+  if(url.pathname==='/api/database/records'&&['GET','PUT'].includes(req.method)){
+    if(!database.configured)return respond(res,200,{configured:false});
+    try{
+      if(req.method==='GET')return respond(res,200,{configured:true,...await database.read()});
+      if(!/^application\/json\b/i.test(req.headers['content-type']||''))return respond(res,415,{error:'Send a JSON request.'});
+      return respond(res,200,{configured:true,...await database.save(await readJson(req))});
+    }catch(error){return respond(res,error.status||503,{configured:true,error:error.status?error.message:'PostgreSQL records could not be saved or loaded. Check Docker and the database setup.'});}
+  }
+  if(req.method==='GET'&&url.pathname==='/api/storage/health'){
+    try{return respond(res,200,await storage.health());}catch(error){return respond(res,error.status||503,{configured:storage.configured,available:false,error:error.message});}
+  }
+  if(req.method==='POST'&&['/api/storage/workbooks','/api/storage/workbooks/download'].includes(url.pathname)){
+    if(!/^application\/json\b/i.test(req.headers['content-type']||''))return respond(res,415,{error:'Send a JSON request.'});
+    try{
+      const input=await readJson(req);
+      if(url.pathname==='/api/storage/workbooks')return respond(res,201,{originalWorkbook:await storage.save(input)});
+      const {record,bytes}=await storage.read(input.originalWorkbook);
+      res.writeHead(200,{'content-type':workbookType,'content-length':bytes.length,'cache-control':'no-store','x-content-type-options':'nosniff','content-disposition':`attachment; filename="original.xlsx"; filename*=UTF-8''${encodeURIComponent(record.fileName).replace(/'/g,'%27')}`});return res.end(bytes);
+    }catch(error){return respond(res,error.status||503,{error:error.status?error.message:'Workbook storage is unavailable.'});}
+  }
   if(req.method==='POST'&&['/api/scoped/insights','/api/scoped/report'].includes(url.pathname)){
     if(!/^application\/json\b/i.test(req.headers['content-type']||''))return respond(res,415,{error:'Send a JSON request.'});
     try{
@@ -218,6 +253,10 @@ const server=createServer(async (req,res)=>{
     if(!/^application\/json\b/i.test(req.headers['content-type']||''))return respond(res,415,{error:'Send a JSON request.'});
     try{
       const input=await readJson(req);
+      if(input.originalWorkbook){
+        const {record,bytes}=await storage.read(input.originalWorkbook,input);
+        input.fileName=record.fileName;input.fileBase64=bytes.toString('base64');
+      }
       if(typeof input.fileName!=='string'||!input.fileName.toLowerCase().endsWith('.xlsx')||typeof input.fileBase64!=='string'||typeof input.period!=='string'||typeof input.company!=='string')return respond(res,400,{error:'Provide an .xlsx file, company, and reporting period.'});
       const validation=validateResultContract(await runPythonValidation({file_name:input.fileName,file_base64:input.fileBase64,submission_id:input.submissionId,company_id:input.company,period_id:input.period,version:input.version}));
       return respond(res,200,validation);

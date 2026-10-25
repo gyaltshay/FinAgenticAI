@@ -6,14 +6,15 @@ React/Vite frontend with local Python workbook validation, Gemini insights, fron
 
 1. Install Node.js and Python 3; run `npm install` in `frontend/`.
 2. Copy `.env.example` to `.env.local`, set your own `GEMINI_API_KEY` and `GEMINI_MODEL=gemini-3.1-flash-lite`. Never use a `VITE_` prefix for the key. `.env.local` is ignored by Git.
-3. Run `npm run gemini` in one terminal (local API port 3001).
-4. Run `npm run dev` in another terminal (frontend port 5173).
+3. Set up/start local MinIO using [Local storage setup](../docs/LOCAL_STORAGE_SETUP.md) and PostgreSQL using [Database setup](../docs/POSTGRESQL_SETUP.md). Original workbook uploads require the upload bucket; PostgreSQL stores administrative records and submission references.
+4. Run `npm run gemini` in one terminal (local API port 3001).
+5. Run `npm run dev` in another terminal (frontend port 5173).
 
-Select an active role/account and enter a nonempty prototype password. Authentication and application persistence remain browser-local. The local API is not a production authorization boundary.
+Select an active role/account and enter a nonempty prototype password. Authentication remains a frontend prototype. User profiles, companies, periods and submission metadata synchronize with PostgreSQL; agent results remain browser-local. The local API is not a production authorization boundary.
 
 ## Upload to report workflow
 
-1. Company officers upload `.xlsx` files under an open period. Python checks the workbook and records source evidence; Gemini explanations are optional via an explicit checkbox. Failures need correction. Review findings need a finance review and reason.
+1. Company officers upload `.xlsx` files under an open period. The backend saves the exact original in MinIO with a unique object for every submission version, then Python checks those stored bytes and records source evidence. **Download original** is available in history and validation details. Gemini explanations are optional via an explicit checkbox. Failures need correction. Review findings need a finance review and reason. Originals remain stored even when validation fails.
 2. Admin monitors submissions. Required companies and sector/group assignments freeze when the period opens; currently the August cycle has 23 required companies.
 3. In **Consolidation Readiness**, the original **Prepare reporting cycle** control can complete blocking companies using marked sample versions. Prior versions remain in history. This is frontend preparation, not actual workbook validation or statutory consolidation.
 4. All required latest versions must be ready, and processing must finish, before **Analysis & Insights** or **Management Reports** becomes available. A new correction closes this access until reprocessing.
@@ -29,7 +30,7 @@ Management Reports is the only report-generation and approval screen. Only confi
 - Aggregation is a frontend reporting aid without intercompany eliminations or statutory accounting adjustments.
 - Scope financial amounts are normalized to base BTN units from stored snapshots. Exact decimal addition is used for totals; descriptive ratios are deterministic.
 - Unknown financial values remain unavailable. The original August workbook still needs source review/correction (including the flagged PPR actual and currency/scale issues). Files are not silently repaired.
-- Superset dashboard slots remain placeholders. External notification delivery, backend authentication and durable shared storage are not implemented.
+- Superset dashboard slots remain placeholders. External notification delivery and backend authentication are not implemented. Raw workbooks persist in MinIO. PostgreSQL stores user profiles, companies, reporting periods and submission metadata/references; financial values and agent/approval results remain browser-local. Resetting browser records does not delete stored originals or database history.
 - GitHub Pages hosts only static files and cannot run Python or the Gemini/reporting API. Teammates need local setup or a separately hosted backend.
 
 ## Contracts and code
@@ -45,6 +46,9 @@ Management Reports is the only report-generation and approval screen. Only confi
 - `server/reporting.mjs`: deterministic report composition and exports.
 - `server/gemini.mjs`: local validation, scoped insights and scoped reporting APIs.
 - `server/validate_ttpl_workbook.py`: deterministic workbook parsing/checks.
+- `server/object-storage.mjs`: private MinIO uploads, unique version keys, signed download receipts and integrity checks.
+- `server/database.mjs` and `server/migrations/001-core.sql`: PostgreSQL metadata records and transaction/revision checks.
+- `shared/database-records.mjs`: explicit metadata projection that excludes all agent results.
 
 The service exposes `POST /api/scoped/insights` (`{cycle,scope}`) and `POST /api/scoped/report` (`{cycle,insightFile}`). Legacy single-company insight/report routes return 409. `.env.local` may override `GEMINI_PORT` and `PYTHON_EXECUTABLE`; `FINAGENTIC_API_URL` sets the Vite development proxy. `GEMINI_API_BASE_URL` optionally selects a trusted model endpoint, used by isolated tests. Its default is Google's Gemini API.
 
@@ -54,6 +58,8 @@ The service exposes `POST /api/scoped/insights` (`{cycle,scope}`) and `POST /api
 - `python -m unittest discover -s tests -p test_ttpl_validation.py`: workbook-validation checks.
 - `node tests/scoped-browser.mjs`: isolated browser/API test for all three scopes, stale files, corrections, persistence, mobile and print. It uses a local provider fixture, not real Gemini calls.
 - `node tests/workspace-review.mjs`: roles, administration, validation, original readiness controls.
+- `node tests/storage-browser.mjs`: live local MinIO and isolated browser/API checks for upload, correction, stored-byte validation, original download, restart persistence and storage failure. Requires running MinIO; creates and removes only synthetic test workbooks.
+- `node tests/database-browser.mjs`: live PostgreSQL/MinIO browser test using only its own temporary database and synthetic workbook. Checks metadata persistence, rollback, conflicting saves, and original download in another browser.
 - Browser scripts currently use this workstation's bundled Playwright and Edge paths, consistent with the existing QA scripts.
 - `npm run build`: standard Vite build.
 - `npm run build:pages`: rebuild static root assets for GitHub Pages at `/FinAgenticAI/`.

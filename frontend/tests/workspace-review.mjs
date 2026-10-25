@@ -5,7 +5,7 @@ import fs from 'node:fs/promises';
 const require=createRequire(import.meta.url);
 const {chromium}=require('C:/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const cwd=new URL('../',import.meta.url),base='http://127.0.0.1:5180/';
-const api=spawn(process.execPath,['server/gemini.mjs'],{cwd,env:{...process.env,GEMINI_PORT:'3010',GEMINI_API_KEY:''},windowsHide:true,stdio:'pipe'});
+const api=spawn(process.execPath,['server/gemini.mjs'],{cwd,env:{...process.env,FINAGENTIC_DATABASE_DISABLED:'1',GEMINI_PORT:'3010',GEMINI_API_KEY:''},windowsHide:true,stdio:'pipe'});
 const dev=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','5180','--strictPort'],{cwd,env:{...process.env,FINAGENTIC_API_URL:'http://127.0.0.1:3010'},windowsHide:true,stdio:'pipe'});
 let serverErrors='';for(const child of [api,dev])child.stderr.on('data',b=>{serverErrors+=b.toString();});
 let browser;

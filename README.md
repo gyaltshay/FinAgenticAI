@@ -5,7 +5,7 @@ Prototype for an Agentic AI System for Automated Financial Reporting and Insight
 ## Project folders
 
 - frontend: React user interface.
-- backend: FastAPI, extraction, validation, KPI calculations, and LangGraph/Qwen integration.
+- frontend/server: Current Node.js API, Python workbook validation, financial calculations, insights/report generation, and PostgreSQL/MinIO adapters.
 - data: Local sample financial reports.
 - docs: Project requirements and documentation.
 
@@ -13,8 +13,10 @@ Prototype for an Agentic AI System for Automated Financial Reporting and Insight
 
 Company upload -> Versioned validation -> All-company readiness -> Consolidation -> Analysis -> Final management report -> DHI approval and publication -> Company-specific approved results.
 
-The frontend keeps browser-local accounts and demo reporting-cycle stages. Company workbook uploads use the local Gemini API server to run deterministic Python validation; Gemini can explain findings but cannot decide validation status.
+Original workbooks are stored in MinIO before deterministic Python validation. PostgreSQL stores user profiles, companies, reporting periods, submission metadata, validation status, and original-workbook references. Detailed financial/agent results and approval/publication results remain browser-local. Gemini produces evidence-checked insights and optional finding explanations; it cannot decide validation status.
 
 ## Current status
 
-The revised two-role frontend is implemented in `frontend/`, with submission version history, all-company readiness, browser-local processing stages, DHI review and approval/publication, and company-specific approved results. Company/user/period management, notifications, audit history, official local logos, and responsive styling are retained. The local upload validator runs deterministic workbook checks and returns the configured JSON Schema result; Gemini only explains findings after consent. See `frontend/README.md` for local setup.
+The two-role frontend, versioned workbook storage, and PostgreSQL metadata persistence are implemented. Both storage services run in Docker with persistent volumes. The application still uses prototype authentication and browser-based cycle orchestration. Migration to FastAPI, LangGraph/Temporal integration, Superset dashboards, and shared agent-result persistence remain pending.
+
+See [frontend setup](frontend/README.md), [MinIO setup](docs/LOCAL_STORAGE_SETUP.md), and [PostgreSQL setup](docs/POSTGRESQL_SETUP.md). Teammates need their own private environment files and MinIO license; credentials, licenses, Docker volume data, and local downloads are excluded from Git. GitHub Pages serves the frontend only; the local backend and Docker services must run separately.

@@ -9,9 +9,12 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "node --test tests/*.test.mjs",
     "build:pages": "node scripts/build-pages.mjs",
-    "gemini": "node server/gemini.mjs"
+    "gemini": "node server/gemini.mjs",
+    "database:setup": "node scripts/setup-database.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1156.0",
+    "pg": "^8.23.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

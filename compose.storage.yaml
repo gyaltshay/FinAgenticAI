@@ -1,0 +1,22 @@
+name: finagenticai-storage
+services:
+  minio:
+    image: ${MINIO_IMAGE:?Set MINIO_IMAGE in .env.storage.local}
+    command: ["minio", "server", "/mnt/data", "--console-address", ":9001", "--license", "/minio.license"]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Set local storage username}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set local storage password}
+    volumes:
+      - minio-data:/mnt/data
+      - type: bind
+        source: ${MINIO_LICENSE_PATH:-./.local/minio/minio.license}
+        target: /minio.license
+        read_only: true
+        bind:
+          create_host_path: false
+volumes:
+  minio-data:

@@ -5,3 +5,7 @@ node_modules/
 # Python validation runtime artifacts
 __pycache__/
 *.pyc
+
+/.local/
+
+*.license

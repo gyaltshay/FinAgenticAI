@@ -25,14 +25,15 @@ function Login({w,onLogin}){
 }
 
 export default function App(){
- const {workspace:w,mutate,change,reset,error,setError,storageError}=useReportingCycle();const [loginRecord,setLoginRecord]=useState(readSession),[route,setRoute]=useState(getRoute),[periodId,setPeriodId]=useState(w.currentPeriod),[mobileMenu,setMobileMenu]=useState(false),[toast,setToast]=useState(''),[resetConfirm,setResetConfirm]=useState(false);
+ const {workspace:w,mutate,change,reset,error,setError,storageError,database}=useReportingCycle();const [loginRecord,setLoginRecord]=useState(readSession),[route,setRoute]=useState(getRoute),[periodId,setPeriodId]=useState(w.currentPeriod),[mobileMenu,setMobileMenu]=useState(false),[toast,setToast]=useState(''),[resetConfirm,setResetConfirm]=useState(false);
  const account=w.users.find(u=>u.id===loginRecord?.userId&&u.active);const session=account?{userId:account.id,name:account.name,role:account.role,company:account.company}:null;const period=w.periods.find(p=>p.id===periodId)||w.periods.find(p=>p.id===w.currentPeriod)||w.periods[0];
  useEffect(()=>{const fn=()=>{setRoute(getRoute());setError('')};window.addEventListener('hashchange',fn);return ()=>window.removeEventListener('hashchange',fn)},[]);
  useEffect(()=>{if(toast){const t=setTimeout(()=>setToast(''),4500);return ()=>clearTimeout(t)}},[toast]);
  function navigate(page,id){setMobileMenu(false);setError('');location.hash=`#${page}${id?'/'+encodeURIComponent(id):''}`;setRoute({page,id:id||null});window.scrollTo(0,0)}
  function login(user){setToast('');const record={userId:user.id};setLoginRecord(record);try{sessionStorage.setItem('finagenticai.session.v3',JSON.stringify(record))}catch{}window.dispatchEvent(new Event('finagenticai-session-changed'));setPeriodId(w.currentPeriod);navigate('dashboard')}
  function logout(){setToast('');setMobileMenu(false);setLoginRecord(null);try{sessionStorage.removeItem('finagenticai.session.v3')}catch{}window.dispatchEvent(new Event('finagenticai-session-changed'));navigate('dashboard')}
- const catalog=<CatalogContext.Provider value={w.companies}>{!session?<Login w={w} onLogin={login}/>:renderWorkspace()}</CatalogContext.Provider>;
+ if(database.loading)return <main className="content"><p role="status">Loading workspace records…</p></main>;
+ const catalog=<CatalogContext.Provider value={w.companies}>{database.error&&<Notice type="error">{database.error}</Notice>}{!session?<Login w={w} onLogin={login}/>:renderWorkspace()}</CatalogContext.Provider>;
  return <AuthContext.Provider value={{session,login,logout}}>{catalog}</AuthContext.Provider>;
  function renderWorkspace(){
   const requested=route.page==='consolidation'?'readiness':route.page==='insights'?(session.role==='admin'?'analysis':'approved'):route.page==='ai'?'analysis':route.page;
@@ -49,7 +50,11 @@ export default function App(){
    try{
     const buffer=await input.file.arrayBuffer(),bytes=new Uint8Array(buffer);let binary='';
     for(let offset=0;offset<bytes.length;offset+=32_768)binary+=String.fromCharCode(...bytes.subarray(offset,offset+32_768));
-    const response=await fetch(import.meta.env.BASE_URL+'api/gemini/validate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({submissionId:id,version:submitted.revision,company:input.company,period:period.period,fileName:input.file.name,fileBase64:btoa(binary)})});
+    const identity={submissionId:id,version:submitted.revision,company:input.company,period:submitted.period};
+    const storedResponse=await fetch(import.meta.env.BASE_URL+'api/storage/workbooks',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...identity,uploadedBy:session.name,fileName:input.file.name,fileBase64:btoa(binary)})});
+    const stored=await storedResponse.json().catch(()=>({}));if(!storedResponse.ok||!stored.originalWorkbook)throw new Error(stored.error||'The original workbook could not be stored.');
+    mutate(old=>({...old,reports:old.reports.map(r=>r.id===id?{...r,originalWorkbook:stored.originalWorkbook}:r)}));
+    const response=await fetch(import.meta.env.BASE_URL+'api/gemini/validate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...identity,originalWorkbook:stored.originalWorkbook})});
     const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.error||'The workbook could not be validated.');
     mutate(old=>saveValidationResult(old,id,{validation:payload,gemini:{status:'pending',summary:'Gemini is preparing an advisory explanation of deterministic findings.',explanations:[]}}));
     if(!input.allowGemini){mutate(old=>saveGeminiExplanation(old,id,{status:'not_requested',summary:'Workbook checks completed locally. No explanation was requested.',explanations:[]}));return;}
@@ -75,7 +80,7 @@ export default function App(){
    {page==='periods'&&<PeriodAdministration w={w} onSave={savePeriod} onSelect={id=>{setPeriodId(id);navigate('dashboard')}}/>}
    {page==='notifications'&&<NotificationsPage w={w} session={session} onRead={id=>mutate(old=>({...old,notifications:old.notifications.map(n=>n.id===id?{...n,readBy:[...new Set([...n.readBy,session.userId])]}:n)}))}/>}
    {page==='audit'&&<AuditPage audit={w.audit}/>}
-   {page==='settings'&&<><Panel title="Workspace controls" className="form-panel"><p>Review reporting activity and manage the records in this workspace.</p><button className="secondary" onClick={()=>navigate('audit')}>View audit trail</button></Panel><Panel title="Reset workspace records" className="form-panel spaced"><p>Restore the initial reporting records. Current submissions and approval history will be cleared.</p>{resetConfirm?<div className="form-actions"><button className="danger" onClick={()=>{reset();localStorage.removeItem('finagenticai.reporting-drafts.v1');localStorage.removeItem('finagenticai.scoped-insights.v2');setResetConfirm(false);logout()}}>Confirm reset</button><button className="secondary" onClick={()=>setResetConfirm(false)}>Cancel</button></div>:<button className="secondary" onClick={()=>setResetConfirm(true)}>Reset workspace</button>}</Panel></>}
+   {page==='settings'&&<><Panel title="Workspace controls" className="form-panel"><p>Review reporting activity and manage the records in this workspace.</p><button className="secondary" onClick={()=>navigate('audit')}>View audit trail</button></Panel><Panel title={database.status==='Browser storage'?'Reset workspace records':'Reset local results'} className="form-panel spaced"><p>{database.status==='Browser storage'?'Restore the initial reporting records. Current submissions and approval history will be cleared.':'Clear local analysis and approval results. Company, user, period and submission records, including original workbook references, are retained.'}</p>{resetConfirm?<div className="form-actions"><button className="danger" onClick={()=>{reset();localStorage.removeItem('finagenticai.reporting-drafts.v1');localStorage.removeItem('finagenticai.scoped-insights.v2');setResetConfirm(false);logout()}}>Confirm reset</button><button className="secondary" onClick={()=>setResetConfirm(false)}>Cancel</button></div>:<button className="secondary" onClick={()=>setResetConfirm(true)}>{database.status==='Browser storage'?'Reset workspace':'Reset local results'}</button>}</Panel></>}
    </main></div>{toast&&<div className="toast" role="status">✓ {toast}<button aria-label="Dismiss notification" onClick={()=>setToast('')}>×</button></div>}</div>;
  }
 }
