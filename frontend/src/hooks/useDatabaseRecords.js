@@ -9,6 +9,8 @@ export function useDatabaseRecords(workspace,commit){
   let disposed=false,retry;const db=state.current;db.stopped=false;
   async function request(method,body){
    const response=await fetch(import.meta.env.BASE_URL+'api/database/records',{method,headers:body?{'content-type':'application/json'}:{},...(body?{body:JSON.stringify(body)}:{})});
+   // Static hosting has no database API. Retain the browser-only prototype there.
+   if(method==='GET'&&response.status===404)return {configured:false};
    const payload=await response.json().catch(()=>({}));
    if(!response.ok)throw Object.assign(new Error(payload.error||'The local database API is unavailable.'),{status:response.status});
    return payload;
