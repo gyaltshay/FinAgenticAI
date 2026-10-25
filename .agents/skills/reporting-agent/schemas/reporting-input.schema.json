@@ -55,7 +55,8 @@
             "PASS",
             "NEEDS_REVIEW",
             "FAIL",
-            "ERROR"
+            "ERROR",
+            "PREPARED"
           ]
         },
         "reviewer": {
@@ -161,8 +162,8 @@
           },
           "value": {
             "type": "string",
-            "pattern": "^-?\\d{1,18}(\\.\\d{1,12})?$",
-            "maxLength": 32
+            "pattern": "^-?\\d{1,18}(\\.\\d{1,24})?$",
+            "maxLength": 44
           },
           "unit": {
             "type": "string",
@@ -371,6 +372,14 @@
         {
           "type": "null"
         }
+      ]
+    },
+    "data_origin": {
+      "type": "string",
+      "enum": [
+        "prepared",
+        "mixed",
+        "validated"
       ]
     }
   },

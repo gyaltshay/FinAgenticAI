@@ -212,3 +212,5 @@ input::placeholder,textarea::placeholder{color:#a2b0bc}
 
 .reporting-agent label{display:block;margin:12px 0}.report-evidence{display:block;color:#657386;margin-top:4px}.reporting-draft{border-top:1px solid #dbe1e8;margin-top:24px;padding-top:24px}.reporting-draft h3{margin-top:24px}.reporting-actions{display:flex;gap:12px;flex-wrap:wrap}
 @media print{body:has(.reporting-draft) aside,body:has(.reporting-draft) header,body:has(.reporting-draft) .reporting-agent> :not(.reporting-draft),body:has(.reporting-draft) .reporting-actions{display:none!important}body:has(.reporting-draft) .app-layout main{margin:0;padding:0}body:has(.reporting-draft) main> :not(.reporting-agent){display:none!important}}
+
+@media print{body:has(.reporting-draft) .reporting-draft,body:has(.reporting-draft) .reporting-draft *{visibility:visible!important}body:has(.reporting-draft) .reporting-draft{position:absolute;inset:0 auto auto 0;width:100%;background:white}body:has(.reporting-draft) .reporting-actions{display:none!important}}

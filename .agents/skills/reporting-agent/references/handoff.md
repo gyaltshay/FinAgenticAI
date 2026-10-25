@@ -1,18 +1,29 @@
-# Insights to reporting handoff
+# Scoped insights to reporting handoff
 
-POST `/api/reporting/generate` to the existing local server (`npm run gemini`). Reporting requires no Gemini key and makes no external AI calls: the agent composes an evidence-linked draft deterministically. The insights agent can use its own model independently.
+The normal workflow is: complete all required company validations and processing, choose Company/Sector/Group and entity in Analysis & Insights, generate insights, then select the same scope/entity in Management Reports for direct generation. JSON download/import is optional. Admin reviews and confirms approval to release results to company dashboards. There is no separate prepared-cycle review page. The internal completed-cycle snapshot supports scope selection, not an additional report-review screen.
 
-Use `schemas/reporting-input.schema.json`, `schemas/insights.schema.json` and `schemas/reporting-output.schema.json` in this skill. An executable example lives in `frontend/tests/fixtures/reporting-input.json`. It is a small TTPL example, not a reconciled or approved full financial statement.
+## Contracts
 
-`insights` is null when unavailable. Otherwise it contains `schema_version`, `scope_id`, `period`, `input_signature`, `summary`, `findings`. The signature must equal the request's snapshot signature. Findings include unique `id`, `category`, `severity`, `text`, `record_refs`, `source_refs`, and optional `recommendation` (null if absent). These references must exist in the reporting package. The upstream producer must check factual and causal support; this contract checks traceability, not truth of arbitrary prose.
+- `schemas/scoped-insights-file.schema.json` defines the downloadable v2 envelope with scope, entity, period, snapshot ID, scoped signature, included company submission versions, sources, data origin and the native Financial Insight Agent result.
+- `schemas/reporting-input.schema.json` defines the normalized financial input assembled from the matching snapshot. `PREPARED` and `data_origin` explicitly identify samples; these are not validation-agent outcomes.
+- `schemas/reporting-output.schema.json` defines report drafts.
+- Legacy `insights.schema.json` remains an internal normalized findings contract. Legacy unbound company JSON is not accepted by the normal scoped upload field; regenerate/download from the current insights screen.
 
-Financial records contain decimal strings, currency/count units, original source scale, time basis and comparison role. Ratios and KPIs can be added later through a versioned contract; the first prototype reports monetary amounts and headcount without assuming stakeholder-unconfirmed KPI formulas. No profit is inferred when a reported profit record is absent.
+## Implementation
 
-Currency/scale confirmation is a finance responsibility. A NEEDS_REVIEW input also needs a reviewer and review reason. For consolidated scopes, `consolidated` must be true and the caller must provide a genuine consolidated snapshot; a sum alone is not evidence of accounting consolidation.
+`src/services/completedCycle.js` gates access using readiness, current snapshot validity and processing completion. `shared/scopedReports.mjs` selects frozen members, aggregates base-currency figures with decimal addition, computes descriptive metrics, constructs evidence references and checks uploaded files. All three scopes share this code on client and server.
 
-The Management Reports screen imports insights JSON, generates company drafts from validated submissions, persists draft history locally, and exports JSON/Markdown or prints PDF. Reporting drafts do not automatically approve or replace the existing group report. JSON validation on both client and server provides prototype integrity, not authenticated financial authorization.
+POST `/api/scoped/insights` with `{cycle, scope}`. Gemini receives selected aggregate metrics and source IDs, including limitations identifying prepared records. It returns one validated scoped insights file. Invalid evidence can trigger one corrective retry; persistent failures return an error, not fabricated findings.
+
+POST `/api/scoped/report` with `{cycle, insightFile}`. The server reconstructs the financial input and checks scope, period, snapshot, versions, signature, sources and metric evidence before generating the report. It does not use financial values uploaded in an insights file as replacements for snapshot values.
+
+Scope signatures detect accidental changes and stale files; they are not authorization credentials. Backend authentication, durable snapshot storage and transactional validation remain future production work. The current app stores snapshots and history in the browser. Old single-company API routes return 409 and direct callers to the completed-cycle workflow.
+
+A new submission correction closes both screens until reprocessing and invalidates old insight files. Group/sector membership follows frozen cycle assignments. New insights do not publish a report. JSON, Markdown and browser Print/Save PDF are available for drafts.
 
 
-## Native Financial Insight Agent output
+## Human approval and company publication
 
-The Management Reports importer also accepts the collaborator's `financial-insight-agent/schemas/insight-result.schema.json` format. Generate Company scope insights for the exact submission, download the result, select that submission in Reporting Agent, confirm units, and import it. `src/services/insightHandoff.js` checks the report ID, period, computed metric evidence and known source references before mapping fields. Wrong-submission or unsupported evidence is rejected; group insights are not relabelled as company insights. Native insights must still be reviewed by finance. Prepared frontend consolidation fixtures never masquerade as validated inputs for either real agent.
+`src/services/managementReports.js` saves drafts in workspace `managementReports`, assigns per-scope/period versions, and gates approval against active Admin identity, the current snapshot and the latest report version. Duplicate generation reopens an existing matching report. Rejection requires a reason. Approval creates immutable `publishedResults` per included company and notifications in the same state update. Company reports expose their approved content; sector/group approvals expose a derived own-company financial view without other companies' figures or aggregate narrative. `cycle.js` uses those publications for dashboard results and submission approval status. Historical approvals remain available after corrections, but a corrected submission cannot inherit them.
+
+`scopedInsightStore.js` manages current saved insight files shared by both screens. `ReportDocument.jsx` renders draft and approved documents. `useReportingCycle.js` synchronizes workspace storage changes into other open tabs so company views update after approval. Timed processing advances in an Admin tab. These are prototype browser-state guarantees, not production server authorization.

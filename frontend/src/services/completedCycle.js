@@ -1,0 +1,2 @@
+import {currentFinal,currentFinalValid,readiness} from './cycle.js';
+export function completedCycle(w,period){if(!readiness(w,period.id).ready||!currentFinalValid(w,period.id)||w.cycles[period.id]?.phase==='Processing')return null;const f=currentFinal(w,period.id);return {id:f.id,period:f.period,signature:f.signature,requiredCompanyIds:[...period.requiredCompanyIds],companySnapshots:f.companySnapshots};}

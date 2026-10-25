@@ -1,11 +1,13 @@
+import {saveManagementReport,reviewManagementReport} from './services/managementReports';
+import ScopedInsightsPage from './pages/ScopedInsightsPage';
 import ReportingAgentPanel from './components/ReportingAgentPanel';
 import React,{useState,useEffect} from 'react';
 import Icon from './components/Icon';
 import {Brand,Logo,Notice,Panel,Field,Empty,CatalogContext} from './components/UI';
 import {useReportingCycle} from './hooks/useReportingCycle';
 import {AuthContext,canOpen} from './hooks/auth';
-import {submitVersion,saveValidationResult,failValidation,saveGeminiExplanation,reviewValidation,reviewFinal,generateFinal,configurePeriod,completeDemoReports} from './services/cycle';
-import {CycleDashboard,Monitoring,ReadinessPage,VersionHistory,CycleValidation,CycleUpload,ApprovedResults,AnalysisPage,FinalReportReview,NotificationsPage} from './pages/CyclePages';
+import {submitVersion,saveValidationResult,failValidation,saveGeminiExplanation,reviewValidation,configurePeriod,completeDemoReports} from './services/cycle';
+import {CycleDashboard,Monitoring,ReadinessPage,VersionHistory,CycleValidation,CycleUpload,ApprovedResults,NotificationsPage} from './pages/CyclePages';
 import {CompanyAdministration,UserAdministration,PeriodAdministration} from './pages/AdministrationPages';
 import {AuditPage} from './pages/WorkspacePages';
 
@@ -28,8 +30,8 @@ export default function App(){
  useEffect(()=>{const fn=()=>{setRoute(getRoute());setError('')};window.addEventListener('hashchange',fn);return ()=>window.removeEventListener('hashchange',fn)},[]);
  useEffect(()=>{if(toast){const t=setTimeout(()=>setToast(''),4500);return ()=>clearTimeout(t)}},[toast]);
  function navigate(page,id){setMobileMenu(false);setError('');location.hash=`#${page}${id?'/'+encodeURIComponent(id):''}`;setRoute({page,id:id||null});window.scrollTo(0,0)}
- function login(user){setToast('');const record={userId:user.id};setLoginRecord(record);try{sessionStorage.setItem('finagenticai.session.v3',JSON.stringify(record))}catch{}setPeriodId(w.currentPeriod);navigate('dashboard')}
- function logout(){setToast('');setMobileMenu(false);setLoginRecord(null);try{sessionStorage.removeItem('finagenticai.session.v3')}catch{}navigate('dashboard')}
+ function login(user){setToast('');const record={userId:user.id};setLoginRecord(record);try{sessionStorage.setItem('finagenticai.session.v3',JSON.stringify(record))}catch{}window.dispatchEvent(new Event('finagenticai-session-changed'));setPeriodId(w.currentPeriod);navigate('dashboard')}
+ function logout(){setToast('');setMobileMenu(false);setLoginRecord(null);try{sessionStorage.removeItem('finagenticai.session.v3')}catch{}window.dispatchEvent(new Event('finagenticai-session-changed'));navigate('dashboard')}
  const catalog=<CatalogContext.Provider value={w.companies}>{!session?<Login w={w} onLogin={login}/>:renderWorkspace()}</CatalogContext.Provider>;
  return <AuthContext.Provider value={{session,login,logout}}>{catalog}</AuthContext.Provider>;
  function renderWorkspace(){
@@ -66,15 +68,14 @@ export default function App(){
    {page==='upload'&&<CycleUpload key={`${period.id}-${session.company}`} w={w} period={period} session={session} onSubmit={submitReport}/>}
    {page==='validation'&&<CycleValidation w={w} report={report} session={session} navigate={navigate} onCorrection={correct} onReview={(id,decision,reason)=>{const next=mutate(old=>reviewValidation(old,id,session,decision,reason));if(next)setToast(decision==='approve'?'Validation findings were recorded as reviewed.':'Validation findings were rejected.')}}/>}
    {page==='approved'&&<ApprovedResults key={route.id||'list'} w={w} session={session} id={route.id}/>}
-   {page==='analysis'&&<AnalysisPage key={period.id} w={w} period={period}/>}
-   {page==='management'&&<ReportingAgentPanel key={'reporting-'+period.id} w={w} period={period}/>}
-   {page==='management'&&<FinalReportReview key={period.id} w={w} period={period} session={session} onReview={(id,action,remark)=>{const next=mutate(old=>reviewFinal(old,id,action,session,remark));if(next)setToast(action==='approve'?'Approved and published to the included company dashboards.':'Revision requested.')}} onRegenerate={id=>mutate(old=>generateFinal(old,id))}/>}
+   {page==='analysis'&&<ScopedInsightsPage key={period.id} w={w} period={period}/>}
+   {page==='management'&&<ReportingAgentPanel key={'reporting-'+period.id} w={w} period={period} session={session} onGenerate={(payload,file)=>mutate(old=>saveManagementReport(old,payload,file,session))} onReview={(id,decision,reason)=>mutate(old=>reviewManagementReport(old,id,decision,session,reason))}/>}
    {page==='companies'&&<CompanyAdministration w={w} onSave={saveCompany}/>}
    {page==='users'&&<UserAdministration w={w} onSave={saveUser}/>}
    {page==='periods'&&<PeriodAdministration w={w} onSave={savePeriod} onSelect={id=>{setPeriodId(id);navigate('dashboard')}}/>}
    {page==='notifications'&&<NotificationsPage w={w} session={session} onRead={id=>mutate(old=>({...old,notifications:old.notifications.map(n=>n.id===id?{...n,readBy:[...new Set([...n.readBy,session.userId])]}:n)}))}/>}
    {page==='audit'&&<AuditPage audit={w.audit}/>}
-   {page==='settings'&&<><Panel title="Workspace controls" className="form-panel"><p>Review reporting activity and manage the records in this workspace.</p><button className="secondary" onClick={()=>navigate('audit')}>View audit trail</button></Panel><Panel title="Reset workspace records" className="form-panel spaced"><p>Restore the initial reporting records. Current submissions and approval history will be cleared.</p>{resetConfirm?<div className="form-actions"><button className="danger" onClick={()=>{reset();localStorage.removeItem('finagenticai.reporting-drafts.v1');setResetConfirm(false);logout()}}>Confirm reset</button><button className="secondary" onClick={()=>setResetConfirm(false)}>Cancel</button></div>:<button className="secondary" onClick={()=>setResetConfirm(true)}>Reset workspace</button>}</Panel></>}
+   {page==='settings'&&<><Panel title="Workspace controls" className="form-panel"><p>Review reporting activity and manage the records in this workspace.</p><button className="secondary" onClick={()=>navigate('audit')}>View audit trail</button></Panel><Panel title="Reset workspace records" className="form-panel spaced"><p>Restore the initial reporting records. Current submissions and approval history will be cleared.</p>{resetConfirm?<div className="form-actions"><button className="danger" onClick={()=>{reset();localStorage.removeItem('finagenticai.reporting-drafts.v1');localStorage.removeItem('finagenticai.scoped-insights.v2');setResetConfirm(false);logout()}}>Confirm reset</button><button className="secondary" onClick={()=>setResetConfirm(false)}>Cancel</button></div>:<button className="secondary" onClick={()=>setResetConfirm(true)}>Reset workspace</button>}</Panel></>}
    </main></div>{toast&&<div className="toast" role="status">✓ {toast}<button aria-label="Dismiss notification" onClick={()=>setToast('')}>×</button></div>}</div>;
  }
 }

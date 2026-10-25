@@ -1,0 +1,52 @@
+import fileSchema from '../../.agents/skills/reporting-agent/schemas/scoped-insights-file.schema.json' with {type:'json'};
+import {validateContract} from '../server/reporting-contract.mjs';
+import insightSchema from '../../.agents/skills/financial-insight-agent/schemas/insight-result.schema.json' with {type:'json'};
+import {validateInsightResult} from '../server/financial-insight.mjs';
+
+const fields={revenue:['revenue','actual'],expenses:['expenses','actual'],profit:['profit','actual'],plannedRevenue:['revenue','plan'],previousRevenue:['revenue','prior_month'],priorYearRevenue:['revenue','prior_year'],headcount:['headcount','actual']};
+function check(ok,message){if(!ok)throw Object.assign(new Error(message),{status:422});}
+export function signature(value){let hash=14695981039346656037n;const text=JSON.stringify(value);for(let i=0;i<text.length;i++)hash=BigInt.asUintN(64,(hash^BigInt(text.charCodeAt(i)))*1099511628211n);return 'scope-v2-'+hash.toString(16);}
+function decimal(value){check(typeof value==='number'&&Number.isFinite(value),'Financial values must be finite numbers.');const text=String(value);if(!/[eE]/.test(text))return text;const [base,exponent]=text.toLowerCase().split('e'),negative=base.startsWith('-'),parts=base.replace('-','').split('.'),digits=parts.join(''),point=parts[0].length+Number(exponent);return (negative?'-':'')+(point<=0?'0.'+'0'.repeat(-point)+digits:point>=digits.length?digits+'0'.repeat(point-digits.length):digits.slice(0,point)+'.'+digits.slice(point));}
+function sum(values){const strings=values.map(decimal),places=Math.max(...strings.map(v=>(v.split('.')[1]||'').length));let total=0n;for(const v of strings){const [whole,frac='']=v.replace('-','').split('.');total+=BigInt(whole+frac.padEnd(places,'0'))*(v.startsWith('-')?-1n:1n);}const raw=(total<0n?-total:total).toString().padStart(places+1,'0');return (total<0n?'-':'')+(places?raw.slice(0,-places)+'.'+raw.slice(-places):raw);}
+export function validateCycle(cycle){
+ check(cycle&&typeof cycle.id==='string'&&typeof cycle.period==='string'&&typeof cycle.signature==='string','A completed reporting cycle is required.');
+ const ids=cycle.requiredCompanyIds;check(Array.isArray(ids)&&ids.length>0&&ids.length<=100&&new Set(ids).size===ids.length,'Invalid required company membership.');
+ check(Array.isArray(cycle.companySnapshots)&&cycle.companySnapshots.length===ids.length&&new Set(cycle.companySnapshots.map(r=>r.company)).size===ids.length,'Every required company must be included exactly once.');
+ for(const r of cycle.companySnapshots){check(ids.includes(r.company)&&r.period===cycle.period&&r.validationStatus==='Passed','All required companies must pass validation for this period.');const validation=r.schemaValidationResult;check(r.frontendFixture===true||validation?.validation_status==='PASS'||(validation?.validation_status==='NEEDS_REVIEW'&&r.humanReview?.decision==='approved'),'A company is not validated or prepared.');check(['revenue','expenses','profit'].every(k=>typeof r.data?.[k]==='number'&&Number.isFinite(r.data[k])),'A company has missing financial values.');}
+ check(cycle.signature===JSON.stringify(ids.map(id=>{const r=cycle.companySnapshots.find(s=>s.company===id);return [id,r.id,r.revision,r.validationStatus];})),'Cycle signature does not match its included submissions.');
+ return cycle;
+}
+export function scopeOptions(cycle,type){validateCycle(cycle);check(['company','sector','group'].includes(type),'Choose company, sector or group.');return [...new Set(cycle.companySnapshots.map(r=>type==='company'?r.company:r[type]).filter(Boolean))].sort();}
+export function sourceReference(source){return source.id;}
+export function buildScopePackage(cycle,scope){
+ validateCycle(cycle);check(scope&&scopeOptions(cycle,scope.type).includes(scope.id),'Scope entity is not in the completed cycle.');
+ const members=cycle.companySnapshots.filter(r=>(scope.type==='company'?r.company:r[scope.type])===scope.id).sort((a,b)=>a.company.localeCompare(b.company));
+ const origin=members.every(r=>r.frontendFixture)?'prepared':members.some(r=>r.frontendFixture)?'mixed':'validated';
+ const currencies=members.filter(r=>!r.frontendFixture).map(r=>String(r.schemaValidationResult.currency||'').toUpperCase().replace(/[^A-Z]/g,''));
+ check(currencies.every(c=>['BTN','NU','NGULTRUM'].includes(c)),'Confirm a consistent BTN source currency before generating this scope.');
+ const records=[],sources=[],metrics={};
+ for(const [field,[metric,role]] of Object.entries(fields)){
+  if(!members.every(r=>typeof r.data[field]==='number'&&Number.isFinite(r.data[field]))){metrics[field]=null;continue;}
+  const source_refs=members.map(r=>{const id=`${r.company}-${field}`;sources.push({id,document:r.file||r.company,location:`Snapshot ${r.id} v${r.revision} · data.${field}${r.frontendFixture?' · prepared record':''}`});return id;});
+  const value=sum(members.map(r=>r.data[field]));metrics[field]=Number(value);records.push({id:`${metric}-${role}`,label:field,entity_id:scope.id,period:cycle.period,metric,time_basis:'month',role,value,unit:field==='headcount'?'count':'currency',scale:'units',source_refs});
+ }
+ const pct=(a,b)=>typeof a==='number'&&typeof b==='number'&&b!==0?(a-b)/Math.abs(b)*100:null;
+ metrics.revenueGrowthPct=pct(metrics.revenue,metrics.previousRevenue);metrics.revenueYearOverYearPct=pct(metrics.revenue,metrics.priorYearRevenue);metrics.varianceFromPlan=metrics.plannedRevenue===null?null:metrics.revenue-metrics.plannedRevenue;metrics.variancePct=pct(metrics.revenue,metrics.plannedRevenue);metrics.profitMarginPct=metrics.revenue!==0?metrics.profit/metrics.revenue*100:null;metrics.efficiencyPct=metrics.revenue!==0?metrics.expenses/metrics.revenue*100:null;
+ const member_versions=members.map(r=>({company:r.company,submission_id:r.id,version:r.revision}));
+ const input_signature=signature({cycle_id:cycle.id,cycle_signature:cycle.signature,scope,period:cycle.period,member_versions,records,sources,origin});
+ const input={schema_version:'1.0',snapshot_id:cycle.id,input_signature,scope,period:cycle.period,validation:{status:origin==='validated'?'PASS':'PREPARED',reviewer:null,reason:null},currency:'BTN',units_confirmed:true,consolidated:scope.type!=='company',records,sources,insights:null,data_origin:origin};
+ const limitations=[...(origin!=='validated'?['This scope includes prepared prototype records; these are not actual workbook validation results.']:[]),...(scope.type!=='company'?['Frontend aggregation only; no statutory accounting eliminations have been applied.']:[]),...Object.entries(metrics).filter(([,v])=>v===null).map(([k])=>`${k} is unavailable; no value has been inferred.`)];
+ return {input,metrics,member_versions,origin,limitations,references:sources.map(sourceReference)};
+}
+export function validateScopeResult(result,pkg){check(Array.isArray(result?.insights)&&result.insights.length>0&&typeof result.overall_summary==='string'&&result.overall_summary.trim(),'Generated insights must include a summary and evidence-backed findings.');check(new Set(result.insights.map(f=>f.id)).size===result.insights.length&&result.insights.every(f=>typeof f.id==='string'&&f.id.trim()),'Insight IDs must be nonempty and unique.');const errors=validateInsightResult(result,insightSchema,{metrics:pkg.metrics,references:pkg.references,findings:[]});check(!errors.length,errors[0]);check(result.report_id===pkg.input.snapshot_id&&result.reporting_period===pkg.input.period,'Insight result is for another snapshot or period.');}
+export function makeInsightFile(result,pkg){validateScopeResult(result,pkg);return {schema_version:'2.0',kind:'scoped-financial-insights',snapshot_id:pkg.input.snapshot_id,input_signature:pkg.input.input_signature,scope:pkg.input.scope,period:pkg.input.period,member_versions:pkg.member_versions,data_origin:pkg.origin,sources:pkg.input.sources,generated_at:new Date().toISOString(),result};}
+export function importInsightFile(file,cycle){
+ check(file?.kind==='scoped-financial-insights'&&file.schema_version==='2.0','Upload an insights JSON downloaded from the scoped Analysis & Insights screen.');
+ const errors=validateContract(file,fileSchema);check(!errors.length,errors[0]);
+ const pkg=buildScopePackage(cycle,file.scope);
+ check(file.snapshot_id===pkg.input.snapshot_id&&file.period===pkg.input.period&&file.input_signature===pkg.input.input_signature&&JSON.stringify(file.member_versions)===JSON.stringify(pkg.member_versions)&&file.data_origin===pkg.origin&&JSON.stringify(file.sources)===JSON.stringify(pkg.input.sources),'Insights are outdated or belong to a different scope, period or snapshot. Regenerate and download them.');validateScopeResult(file.result,pkg);
+ const dependencies={revenue:['revenue-actual'],expenses:['expenses-actual'],profit:['profit-actual'],headcount:['headcount-actual'],plannedRevenue:['revenue-plan'],previousRevenue:['revenue-prior_month'],priorYearRevenue:['revenue-prior_year'],revenueGrowthPct:['revenue-actual','revenue-prior_month'],revenueYearOverYearPct:['revenue-actual','revenue-prior_year'],profitMarginPct:['profit-actual','revenue-actual'],varianceFromPlan:['revenue-actual','revenue-plan'],variancePct:['revenue-actual','revenue-plan'],efficiencyPct:['expenses-actual','revenue-actual']};
+ const severity={HIGH:'significant',MEDIUM:'attention',LOW:'information',INFO:'information',REVIEW_REQUIRED:'attention'},category={variance:'variance',trend:'trend',anomaly:'anomaly',positive_performance:'opportunity',management_summary:'trend',data_quality_impact:'risk',other:'risk'};
+ const findings=file.result.insights.map(f=>{const record_refs=[...new Set(f.evidence.flatMap(e=>{const key=Object.keys(dependencies).find(k=>k.toLowerCase()===e.metric.toLowerCase());return dependencies[key]||[];}))];const source_refs=[...new Set([...f.source_references,...f.evidence.map(e=>e.source_reference).filter(Boolean)].map(ref=>pkg.input.sources.find(s=>sourceReference(s)===ref)?.id).filter(Boolean))];return {id:f.id,category:category[f.type],severity:severity[f.severity],text:`${f.title}: ${f.interpretation}`,record_refs,source_refs,recommendation:f.suggested_action||null};});
+ pkg.input.insights={schema_version:'1.0',scope_id:pkg.input.scope.id,period:pkg.input.period,input_signature:pkg.input.input_signature,summary:file.result.overall_summary||'Scope insights supplied.',findings,limitations:[...pkg.limitations,...file.result.limitations,`Upstream review status: ${file.result.review_status}`]};return pkg;
+}

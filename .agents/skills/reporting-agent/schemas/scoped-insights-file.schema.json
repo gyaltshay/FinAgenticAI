@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scoped insights file",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "type": "string"
+    },
+    "kind": {
+      "const": "scoped-financial-insights",
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "input_signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "company",
+            "sector",
+            "group"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "period": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "member_versions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "properties": {
+          "company": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "submission_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "version": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "company",
+          "submission_id",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "data_origin": {
+      "type": "string",
+      "enum": [
+        "prepared",
+        "mixed",
+        "validated"
+      ]
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "result": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "title": "Financial Insight Result",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overall_summary",
+        "insights",
+        "limitations",
+        "review_status"
+      ],
+      "properties": {
+        "report_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reporting_period": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "overall_summary": {
+          "type": "string"
+        },
+        "insights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "type",
+              "severity",
+              "title",
+              "interpretation",
+              "suggested_action",
+              "source_references",
+              "requires_human_review"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "variance",
+                  "trend",
+                  "anomaly",
+                  "positive_performance",
+                  "management_summary",
+                  "data_quality_impact",
+                  "other"
+                ]
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "HIGH",
+                  "MEDIUM",
+                  "LOW",
+                  "INFO",
+                  "REVIEW_REQUIRED"
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "metric",
+                    "value"
+                  ],
+                  "properties": {
+                    "metric": {
+                      "type": "string"
+                    },
+                    "value": {},
+                    "unit": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "comparison": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "source_reference": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              },
+              "interpretation": {
+                "type": "string"
+              },
+              "suggested_action": {
+                "type": "string"
+              },
+              "source_references": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "requires_human_review": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "review_status": {
+          "type": "string",
+          "enum": [
+            "READY_FOR_REVIEW",
+            "REVIEW_REQUIRED",
+            "INSUFFICIENT_DATA"
+          ]
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "document": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "id",
+          "document",
+          "location"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 2000
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "snapshot_id",
+    "input_signature",
+    "scope",
+    "period",
+    "member_versions",
+    "data_origin",
+    "generated_at",
+    "result",
+    "sources"
+  ],
+  "additionalProperties": false
+}

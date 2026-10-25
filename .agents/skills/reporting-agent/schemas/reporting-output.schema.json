@@ -75,7 +75,11 @@
     },
     "review_status": {
       "type": "string",
-      "const": "Awaiting review"
+      "enum": [
+        "Awaiting review",
+        "Approved",
+        "Revision required"
+      ]
     },
     "currency": {
       "type": "string",
@@ -142,8 +146,8 @@
           },
           "value": {
             "type": "string",
-            "pattern": "^-?\\d{1,18}(\\.\\d{1,12})?$",
-            "maxLength": 32
+            "pattern": "^-?\\d{1,18}(\\.\\d{1,24})?$",
+            "maxLength": 44
           },
           "unit": {
             "type": "string",
@@ -307,6 +311,29 @@
       },
       "minItems": 0,
       "maxItems": 2000
+    },
+    "version": {
+      "type": "integer"
+    },
+    "approval": {
+      "type": "object",
+      "properties": {
+        "approver": {
+          "type": "string"
+        },
+        "approver_id": {
+          "type": "string"
+        },
+        "approved_at": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "approver",
+        "approver_id",
+        "approved_at"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

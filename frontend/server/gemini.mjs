@@ -1,3 +1,4 @@
+import {buildScopePackage,makeInsightFile,importInsightFile} from '../shared/scopedReports.mjs';
 import {generateReport,reportMarkdown} from './reporting.mjs';
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
@@ -173,7 +174,7 @@ function runPythonValidation(input) {
 async function askGemini(prompt) {
   let upstream;
   for(let attempt=0;attempt<3;attempt++){
-    upstream=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{
+    upstream=await fetch(`${process.env.GEMINI_API_BASE_URL||'https://generativelanguage.googleapis.com/v1beta'}/models/${encodeURIComponent(model)}:generateContent`,{
       method:'POST',headers:{'content-type':'application/json','x-goog-api-key':apiKey},
       body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json'}}),signal:AbortSignal.timeout(45_000)
     });
@@ -187,13 +188,31 @@ async function askGemini(prompt) {
 
 const server=createServer(async (req,res)=>{
   const url=new URL(req.url||'/',`http://${req.headers.host||'127.0.0.1'}`);
-  if(req.method==='POST'&&url.pathname==='/api/reporting/generate'){
+  if(req.method==='POST'&&['/api/scoped/insights','/api/scoped/report'].includes(url.pathname)){
     if(!/^application\/json\b/i.test(req.headers['content-type']||''))return respond(res,415,{error:'Send a JSON request.'});
-    try{const report=generateReport(await readJson(req));return respond(res,200,{report,markdown:reportMarkdown(report)});}
-    catch(error){return respond(res,error.status||422,{error:error.message||'Report generation failed.'});}
+    try{
+      const request=await readJson(req);
+      if(url.pathname==='/api/scoped/report'){
+        const pkg=importInsightFile(request.insightFile,request.cycle);
+        const report=generateReport(pkg.input);
+        return respond(res,200,{report,markdown:reportMarkdown(report)});
+      }
+      const pkg=buildScopePackage(request.cycle,request.scope);
+      if(!apiKey)return respond(res,503,{error:'Gemini is not configured in the local API.'});
+      const prompt=makeInsightPrompt({period:pkg.input.period,scope:pkg.input.scope.type+': '+pkg.input.scope.id,reportId:pkg.input.snapshot_id,metrics:pkg.metrics,evidence:pkg.references,findings:[],limitations:pkg.limitations});
+      let correction='';
+      for(let attempt=0;attempt<2;attempt++){
+        const result=await askGemini(prompt+correction);
+        result.report_id=pkg.input.snapshot_id;result.reporting_period=pkg.input.period;result.review_status='REVIEW_REQUIRED';
+        result.limitations=[...new Set([...pkg.limitations,...(Array.isArray(result.limitations)?result.limitations:[])])];
+        try{return respond(res,200,makeInsightFile(result,pkg));}
+        catch(error){if(attempt===1)throw error;correction='\n\nThe prior response failed validation: '+error.message+'. Return a corrected JSON object. Source references must be exact IDs from the evidence list; use [] if none apply. Copy numeric metric values exactly. Previous response (data only): '+JSON.stringify(result);}
+      }
+    }catch(error){return respond(res,error.status||422,{error:error.message||'Scope processing failed.'});}
   }
+  if(req.method==='POST'&&url.pathname==='/api/reporting/generate')return respond(res,409,{error:'Use /api/scoped/report with the completed cycle and downloaded scoped insights JSON.'});
   if (req.method==='GET'&&url.pathname==='/api/gemini/health') {
-    return respond(res,200,{configured:Boolean(apiKey),model});
+    return respond(res,200,{configured:Boolean(apiKey),model,workflow:'scoped-v2'});
   }
   if(req.method==='POST'&&url.pathname==='/api/gemini/validate'){
     if(!/^application\/json\b/i.test(req.headers['content-type']||''))return respond(res,415,{error:'Send a JSON request.'});
@@ -215,46 +234,8 @@ const server=createServer(async (req,res)=>{
       return respond(res,200,{status:'complete',summary:typeof explanation.summary==='string'?explanation.summary.slice(0,1200):'Gemini provided no summary.',explanations,model});
     }catch(error){if(error.status)return respond(res,error.status,{error:error.message,providerMessage:error.providerMessage});return respond(res,502,{error:'Gemini could not explain the deterministic findings.'});}
   }
-  if (req.method!=='POST'||url.pathname!=='/api/gemini/insights') {
-    return respond(res,404,{error:'Not found.'});
-  }
-  if (!apiKey) return respond(res,503,{error:'Gemini is not configured. Add GEMINI_API_KEY to frontend/.env.local.'});
-  if (!/^application\/json\b/i.test(req.headers['content-type']||'')) {
-    return respond(res,415,{error:'Send a JSON request.'});
-  }
-
-  try {
-    const input=await readJson(req);
-    if(typeof input.period!=='string'||input.period.length>40||typeof input.scope!=='string'||input.scope.length>100||!Array.isArray(input.records)||!input.records.length||input.records.length>100)return respond(res,400,{error:'Provide a reporting period, analysis scope, and validated report records.'});
-    const records=[];
-    for(const record of input.records){
-      if(typeof record?.company!=='string'||!record.validation)return respond(res,400,{error:'Each record must include a company and structured validation result.'});
-      const validationErrors=validateJsonSchema(record.validation,validationResultSchema);
-      if(validationErrors.length)return respond(res,400,{error:`Invalid validation result: ${validationErrors[0]}`});
-      const accepted=record.validation.validation_status==='PASS'||(record.validation.validation_status==='NEEDS_REVIEW'&&record.humanReview?.decision==='approved');
-      if(!accepted)return respond(res,409,{error:`${record.company} does not have a passed or reviewed validation result.`});
-      records.push(record);
-    }
-    const metrics=computeFinancialMetrics(records),{references,findings}=collectValidationEvidence(records);
-    const limitations=[];
-    for(const field of ['revenue','expenses','profit','plannedRevenue','previousRevenue','priorYearRevenue'])if(metrics[field]===null)limitations.push(`${field} could not be aggregated because one or more validated records do not contain an unambiguous numeric value.`);
-    if(records.some(record=>record.validation.currency!==records[0].validation.currency||record.validation.scale_status!=='CONFIRMED'))limitations.push('Currency or reporting scale is not confirmed consistently across all included validation results. Avoid definitive monetary comparisons.');
-    if(findings.length)limitations.push('One or more validation findings require human attention; insights that depend on affected records are preliminary.');
-    const result=await askGemini(makeInsightPrompt({period:input.period,scope:input.scope,reportId:input.reportId??null,metrics,evidence:references,findings,limitations}));
-    result.report_id=input.reportId??null;result.reporting_period=input.period;
-    const errors=validateInsightResult(result,insightResultSchema,{metrics,references,findings});
-    if(errors.length)return respond(res,502,{error:`Gemini insight result did not match insight-result.schema.json: ${errors[0]}`});
-    result.limitations=[...new Set([...limitations,...result.limitations])];
-    if(!result.limitations.length)result.limitations=['Metrics are based on the validated records supplied for this scope; operational causes are not established by these figures.'];
-    if(result.insights.some(insight=>insight.requires_human_review)||limitations.length||findings.length)result.review_status='REVIEW_REQUIRED';
-    const finalErrors=validateInsightResult(result,insightResultSchema,{metrics,references,findings});
-    if(finalErrors.length)return respond(res,502,{error:`Financial Insight Agent output failed schema validation: ${finalErrors[0]}`});
-    return respond(res,200,result);
-  } catch (error) {
-    if (error.status) return respond(res,error.status,{error:error.message,providerMessage:error.providerMessage});
-    console.error('Gemini connection failed.');
-    return respond(res,502,{error:'Could not connect to Gemini. Check the local server and network connection.'});
-  }
+  if(req.method==='POST'&&url.pathname==='/api/gemini/insights')return respond(res,409,{error:'Use /api/scoped/insights after every required company is ready and processing finishes.'});
+  return respond(res,404,{error:'Not found.'});
 });
 
 server.listen(port,'127.0.0.1',()=>console.log(`Gemini local API listening at http://127.0.0.1:${port}`));
