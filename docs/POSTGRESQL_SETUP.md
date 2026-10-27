@@ -29,11 +29,11 @@ From `D:\FinAgenticAI\frontend`:
 ```powershell
 npm install
 npm run database:setup
-npm run gemini
+npm run api
 npm run dev
 ```
 
-Setup uses `PGADMIN_USER` and `PGADMIN_PASSWORD` only to create the dedicated role/database if absent. It refuses an existing database owned by another role and does not reset existing role passwords. Tables are initialized transactionally without deleting existing records. The running API connects using `PGUSER` and `PGPASSWORD`, which belong to the non-superuser application role.
+Install the [FastAPI environment](../backend/README.md) before running `npm run api`. `npm run gemini` remains an alias for FastAPI. The setup command uses the native Python database management utility. Setup uses `PGADMIN_USER` and `PGADMIN_PASSWORD` only to create the dedicated role/database if absent. It refuses an existing database owned by another role and does not reset existing role passwords. Tables are initialized transactionally without deleting existing records. The running FastAPI API connects using `PGUSER` and `PGPASSWORD`, which belong to the non-superuser application role. No database schema migration or reset is performed when FastAPI starts.
 
 Docker publishes port 5432 on localhost only. Data persists in `finagenticai-database_postgres-data`; do not remove this volume or run `down --volumes` when keeping the data. Keep Docker running for both PostgreSQL and MinIO.
 

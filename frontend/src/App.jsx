@@ -1,3 +1,5 @@
+import {useAutomaticGeneration} from './hooks/useAutomaticGeneration';
+import AutomaticGenerationStatus from './components/AutomaticGenerationStatus';
 import {saveManagementReport,reviewManagementReport} from './services/managementReports';
 import ScopedInsightsPage from './pages/ScopedInsightsPage';
 import ReportingAgentPanel from './components/ReportingAgentPanel';
@@ -10,6 +12,7 @@ import {submitVersion,saveValidationResult,failValidation,saveGeminiExplanation,
 import {CycleDashboard,Monitoring,ReadinessPage,VersionHistory,CycleValidation,CycleUpload,ApprovedResults,NotificationsPage} from './pages/CyclePages';
 import {CompanyAdministration,UserAdministration,PeriodAdministration} from './pages/AdministrationPages';
 import {AuditPage} from './pages/WorkspacePages';
+import {rawValidation} from './services/validationFeedback';
 
 const titles={dashboard:'Dashboard',upload:'Upload monthly report',history:'My submissions',validation:'Validation result',approved:'Approved results',monitoring:'Submission monitoring',readiness:'Consolidation readiness',analysis:'Financial Analysis & Insights',management:'Management reports',companies:'Companies & sectors',users:'Users',periods:'Reporting periods',notifications:'Notifications',settings:'Workspace settings',audit:'Audit trail'};
 const companyNav=[['dashboard','▦','Dashboard'],['upload','↑','Upload Report'],['history','▤','My Submissions'],['approved','✓','Approved Results'],['notifications','◷','Notifications']];
@@ -27,6 +30,7 @@ function Login({w,onLogin}){
 export default function App(){
  const {workspace:w,mutate,change,reset,error,setError,storageError,database}=useReportingCycle();const [loginRecord,setLoginRecord]=useState(readSession),[route,setRoute]=useState(getRoute),[periodId,setPeriodId]=useState(w.currentPeriod),[mobileMenu,setMobileMenu]=useState(false),[toast,setToast]=useState(''),[resetConfirm,setResetConfirm]=useState(false);
  const account=w.users.find(u=>u.id===loginRecord?.userId&&u.active);const session=account?{userId:account.id,name:account.name,role:account.role,company:account.company}:null;const period=w.periods.find(p=>p.id===periodId)||w.periods.find(p=>p.id===w.currentPeriod)||w.periods[0];
+ const automatic=useAutomaticGeneration({w,period,session,database,mutate});
  useEffect(()=>{const fn=()=>{setRoute(getRoute());setError('')};window.addEventListener('hashchange',fn);return ()=>window.removeEventListener('hashchange',fn)},[]);
  useEffect(()=>{if(toast){const t=setTimeout(()=>setToast(''),4500);return ()=>clearTimeout(t)}},[toast]);
  function navigate(page,id){setMobileMenu(false);setError('');location.hash=`#${page}${id?'/'+encodeURIComponent(id):''}`;setRoute({page,id:id||null});window.scrollTo(0,0)}
@@ -43,6 +47,24 @@ export default function App(){
   function saveCompany(c){const copy={...c};delete copy.originalId;change('Company updated',c.id,old=>({...old,companies:old.companies.some(x=>x.id===c.id)?old.companies.map(x=>x.id===c.id?copy:x):[...old.companies,copy]}));setToast('Company saved. Existing period membership is unchanged.');}
   function saveUser(user){change('User updated',user.email,old=>({...old,users:old.users.some(x=>x.id===user.id)?old.users.map(x=>x.id===user.id?user:x):[...old.users,user]}));setToast('User saved.');}
   function savePeriod(p){change('Reporting period configured',p.period,old=>configurePeriod(old,p));setPeriodId(p.id);setToast('Reporting period saved.');}
+  async function explainValidation(report,validation=rawValidation(report)){
+   if(!validation){setError('Load the workbook validation findings before requesting an explanation.');return;}
+   const next=mutate(old=>saveGeminiExplanation(old,report.id,{status:'pending',summary:'Gemini is preparing an explanation of the validation findings.',explanations:[]}));if(!next)return;
+   try{
+    const response=await fetch(import.meta.env.BASE_URL+'api/gemini/explain-validation',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({consent:true,company:report.company,period:report.period,validation})});
+    const explanation=await response.json().catch(()=>({}));if(!response.ok)throw new Error(explanation.error||'Gemini explanation is unavailable.');
+    mutate(old=>saveGeminiExplanation(old,report.id,explanation));
+   }catch(reason){mutate(old=>saveGeminiExplanation(old,report.id,{status:'unavailable',summary:reason.message||'Gemini explanation is unavailable. The validation findings are still shown above.',explanations:[]}));}
+  }
+  async function recheckStoredWorkbook(report){
+   if(!report.originalWorkbook){setError('This submission has no stored original workbook.');return;}
+   const started=mutate(old=>({...old,reports:old.reports.map(r=>r.id===report.id?{...r,status:'Validating',validationStatus:'Validating',validationError:null}:r)}));if(!started)return;
+   try{
+    const response=await fetch(import.meta.env.BASE_URL+'api/gemini/validate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({submissionId:report.id,version:report.revision,company:report.company,period:report.period,originalWorkbook:report.originalWorkbook})});
+    const validation=await response.json().catch(()=>({}));if(!response.ok)throw new Error(validation.error||'The stored workbook could not be checked.');
+    mutate(old=>saveValidationResult(old,report.id,{validation,gemini:{status:'not_requested',summary:'Validation findings are available. You can request a Gemini explanation below.',explanations:[]}}));
+   }catch(reason){mutate(old=>failValidation(old,report.id,reason.message||'The stored workbook could not be checked.'));}
+  }
   async function submitReport(input){
    const next=mutate(old=>submitVersion(old,input,session));if(!next)return;
    const submitted=next.reports.find(r=>r.company===input.company&&r.period===period.period)||next.reports[0];
@@ -56,22 +78,18 @@ export default function App(){
     mutate(old=>({...old,reports:old.reports.map(r=>r.id===id?{...r,originalWorkbook:stored.originalWorkbook}:r)}));
     const response=await fetch(import.meta.env.BASE_URL+'api/gemini/validate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...identity,originalWorkbook:stored.originalWorkbook})});
     const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.error||'The workbook could not be validated.');
-    mutate(old=>saveValidationResult(old,id,{validation:payload,gemini:{status:'pending',summary:'Gemini is preparing an advisory explanation of deterministic findings.',explanations:[]}}));
-    if(!input.allowGemini){mutate(old=>saveGeminiExplanation(old,id,{status:'not_requested',summary:'Workbook checks completed locally. No explanation was requested.',explanations:[]}));return;}
-    try{
-     const explanationResponse=await fetch(import.meta.env.BASE_URL+'api/gemini/explain-validation',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({consent:input.allowGemini,company:input.company,period:period.period,validation:payload})});
-     const explanation=await explanationResponse.json().catch(()=>({}));if(!explanationResponse.ok)throw new Error(explanation.error||'Gemini explanation is unavailable.');
-     mutate(old=>saveGeminiExplanation(old,id,explanation));
-    }catch(reason){mutate(old=>saveGeminiExplanation(old,id,{status:'unavailable',summary:reason.message||'Gemini explanation is unavailable. Deterministic findings remain authoritative.',explanations:[]}));}
+    mutate(old=>saveValidationResult(old,id,{validation:payload,gemini:{status:'not_requested',summary:'Validation findings are available. You can request a Gemini explanation below.',explanations:[]}}));
+    if(input.allowGemini)await explainValidation(submitted,payload);
    }catch(reason){mutate(old=>failValidation(old,id,reason.message||'Deterministic validation could not complete.'));}
   }
   return <div className="app-layout"><aside className={mobileMenu?'menu-open':''}><Brand/><div className="sidebar-dhi"><Logo/><span>DHI GROUP<small>Financial reporting</small></span></div><div className="workspace-label">{session.role==='admin'?'DHI FINANCE':session.company+' WORKSPACE'}</div><nav aria-label="Main navigation">{nav.map(([key,icon,label])=><button key={key} aria-label={label} className={page===key?'active':''} aria-current={page===key?'page':undefined} onClick={()=>navigate(key)}><Icon name={key}/>{label}</button>)}</nav><div className="sidebar-bottom">{session.role==='admin'&&<button className="logout" onClick={()=>navigate('settings')}>Workspace settings</button>}<button className="logout" onClick={logout}><Icon name="logout"/>Logout</button></div></aside><div className="main-shell"><header><button className="menu-button secondary" aria-label="Toggle navigation" aria-expanded={mobileMenu} onClick={()=>setMobileMenu(!mobileMenu)}><Icon name="menu"/></button><div className="workspace-identity"><Logo id={session.role==='admin'?'DHI':session.company}/><div><strong>{session.role==='admin'?'DHI Finance Officer/Admin':session.company+' · Company Finance Officer'}</strong><small>{session.role==='admin'?'Druk Holding & Investments':w.companies.find(c=>c.id===session.company)?.name}</small></div></div><div className="user"><span className="avatar">{session.name[0]}</span><span>{session.name}<small>{session.role==='admin'?'DHI Finance':session.company}</small></span></div></header><main className="content"><div className="page-heading"><div><h1>{titles[page]}</h1></div><div className="period-switch"><Field label="Workspace reporting period"><select value={period.id} onChange={e=>{setPeriodId(e.target.value);navigate('dashboard')}}>{w.periods.map(p=><option key={p.id} value={p.id}>{p.period} · {p.state}</option>)}</select></Field></div></div>{!allowed&&<Notice type="error">This page is not available to your role.</Notice>}{error&&<Notice type="error">{error}</Notice>}{storageError&&<Notice type="error">Browser storage is unavailable. Changes will not survive refresh.</Notice>}
+   {session.role==='admin'&&<AutomaticGenerationStatus status={automatic.status} onResume={automatic.resume}/>}
    {page==='dashboard'&&<CycleDashboard w={w} period={period} session={session} navigate={navigate}/>}
    {page==='monitoring'&&<Monitoring w={w} period={period} navigate={navigate}/>}
    {page==='readiness'&&<ReadinessPage w={w} period={period} onCompleteDemo={()=>mutate(old=>completeDemoReports(old,period.id))}/>}
    {page==='history'&&<VersionHistory w={w} period={period} session={session} navigate={navigate} onCorrection={correct}/>}
    {page==='upload'&&<CycleUpload key={`${period.id}-${session.company}`} w={w} period={period} session={session} onSubmit={submitReport}/>}
-   {page==='validation'&&<CycleValidation w={w} report={report} session={session} navigate={navigate} onCorrection={correct} onReview={(id,decision,reason)=>{const next=mutate(old=>reviewValidation(old,id,session,decision,reason));if(next)setToast(decision==='approve'?'Validation findings were recorded as reviewed.':'Validation findings were rejected.')}}/>}
+   {page==='validation'&&<CycleValidation w={w} report={report} session={session} onExplain={explainValidation} onRecheck={recheckStoredWorkbook} navigate={navigate} onCorrection={correct} onReview={(id,decision,reason)=>{const next=mutate(old=>reviewValidation(old,id,session,decision,reason));if(next)setToast(decision==='approve'?'Validation findings were recorded as reviewed.':'Validation findings were rejected.')}}/>}
    {page==='approved'&&<ApprovedResults key={route.id||'list'} w={w} session={session} id={route.id}/>}
    {page==='analysis'&&<ScopedInsightsPage key={period.id} w={w} period={period}/>}
    {page==='management'&&<ReportingAgentPanel key={'reporting-'+period.id} w={w} period={period} session={session} onGenerate={(payload,file)=>mutate(old=>saveManagementReport(old,payload,file,session))} onReview={(id,decision,reason)=>mutate(old=>reviewManagementReport(old,id,decision,session,reason))}/>}

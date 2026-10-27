@@ -1,13 +1,13 @@
 # FinAgenticAI prototype
 
-React/Vite frontend with local Python workbook validation, Gemini insights, frontend consolidation and evidence-linked reporting.
+React/Vite frontend with a FastAPI backend, local Python workbook validation, Gemini insights, frontend consolidation and evidence-linked reporting.
 
 ## Run locally
 
-1. Install Node.js and Python 3; run `npm install` in `frontend/`.
+1. Install Node.js and Python 3; run `npm install` in `frontend/`. Create the backend Python environment using [backend setup](../backend/README.md).
 2. Copy `.env.example` to `.env.local`, set your own `GEMINI_API_KEY` and `GEMINI_MODEL=gemini-3.1-flash-lite`. Never use a `VITE_` prefix for the key. `.env.local` is ignored by Git.
 3. Set up/start local MinIO using [Local storage setup](../docs/LOCAL_STORAGE_SETUP.md) and PostgreSQL using [Database setup](../docs/POSTGRESQL_SETUP.md). Original workbook uploads require the upload bucket; PostgreSQL stores administrative records and submission references.
-4. Run `npm run gemini` in one terminal (local API port 3001).
+4. Run `npm run api` in one terminal (FastAPI on port 3001; `npm run gemini` remains a compatible alias).
 5. Run `npm run dev` in another terminal (frontend port 5173).
 
 Select an active role/account and enter a nonempty prototype password. Authentication remains a frontend prototype. User profiles, companies, periods and submission metadata synchronize with PostgreSQL; agent results remain browser-local. The local API is not a production authorization boundary.
@@ -44,23 +44,25 @@ Management Reports is the only report-generation and approval screen. Only confi
 - `src/services/managementReports.js`: versioning, approval gates and company-specific publication.
 - `src/services/scopedInsightStore.js`: matching saved insights for direct generation.
 - `server/reporting.mjs`: deterministic report composition and exports.
-- `server/gemini.mjs`: local validation, scoped insights and scoped reporting APIs.
+- `../backend/app.py`: FastAPI routes with the existing validation, storage, database, insight and reporting contracts; interactive documentation at `/docs`.
 - `server/validate_ttpl_workbook.py`: deterministic workbook parsing/checks.
-- `server/object-storage.mjs`: private MinIO uploads, unique version keys, signed download receipts and integrity checks.
-- `server/database.mjs` and `server/migrations/001-core.sql`: PostgreSQL metadata records and transaction/revision checks.
+- `../backend/storage.py`: native Python MinIO uploads, unique version keys, compatible signed receipts and integrity checks.
+- `../backend/database.py` and `server/migrations/001-core.sql`: native PostgreSQL metadata operations using the unchanged schema and transaction/revision rules.
 - `shared/database-records.mjs`: explicit metadata projection that excludes all agent results.
 
-The service exposes `POST /api/scoped/insights` (`{cycle,scope}`) and `POST /api/scoped/report` (`{cycle,insightFile}`). Legacy single-company insight/report routes return 409. `.env.local` may override `GEMINI_PORT` and `PYTHON_EXECUTABLE`; `FINAGENTIC_API_URL` sets the Vite development proxy. `GEMINI_API_BASE_URL` optionally selects a trusted model endpoint, used by isolated tests. Its default is Google's Gemini API.
+The service exposes `POST /api/scoped/insights` (`{cycle,scope}`) and `POST /api/scoped/report` (`{cycle,insightFile}`). Legacy single-company insight/report routes return 409. `FINAGENTIC_API_PORT` or legacy `GEMINI_PORT` selects the API port; `FINAGENTIC_API_URL` sets the Vite development proxy. `GEMINI_API_BASE_URL` optionally selects a trusted model endpoint, used by isolated tests. Its default is Google's Gemini API. Node.js is still used for the exact shared financial contracts through a non-HTTP compatibility worker; the Python validator is called directly.
 
 ## Verification and publishing
 
 - `npm test`: calculation, state, contract, evidence and workflow tests.
+- From the repository root, `backend/.venv/Scripts/python.exe -m pytest backend/tests -q`: FastAPI contracts, direct-validator parity, storage integrity and Gemini error/retry tests.
 - `python -m unittest discover -s tests -p test_ttpl_validation.py`: workbook-validation checks.
 - `node tests/scoped-browser.mjs`: isolated browser/API test for all three scopes, stale files, corrections, persistence, mobile and print. It uses a local provider fixture, not real Gemini calls.
 - `node tests/workspace-review.mjs`: roles, administration, validation, original readiness controls.
 - `node tests/storage-browser.mjs`: live local MinIO and isolated browser/API checks for upload, correction, stored-byte validation, original download, restart persistence and storage failure. Requires running MinIO; creates and removes only synthetic test workbooks.
 - `node tests/database-browser.mjs`: live PostgreSQL/MinIO browser test using only its own temporary database and synthetic workbook. Checks metadata persistence, rollback, conflicting saves, and original download in another browser.
 - Browser scripts currently use this workstation's bundled Playwright and Edge paths, consistent with the existing QA scripts.
+- Browser/API scripts use FastAPI. Native database QA helpers are restricted to disposable test databases.
 - `npm run build`: standard Vite build.
 - `npm run build:pages`: rebuild static root assets for GitHub Pages at `/FinAgenticAI/`.
 

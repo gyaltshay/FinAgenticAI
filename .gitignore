@@ -9,3 +9,7 @@ __pycache__/
 /.local/
 
 *.license
+
+# Python backend environment and test caches
+.venv/
+.pytest_cache/

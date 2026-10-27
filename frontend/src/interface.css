@@ -1,4 +1,5 @@
 @font-face{font-family:Inter;src:url('./assets/fonts/InterVariable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+/* Agent documents retain the shared font with a stronger reading hierarchy. */
 :root{--ink:#182437;--muted:#758192;--line:#e5e9ef;--blue:#276497;--paper:#f4f6f9;--font:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink)}
 body,button,input,select,textarea,h1,h2,h3,p,small,strong,label,span,table,.brand,.eyebrow,.story-flow span,.story-flow b,.stat strong,.metric strong,.cycle-strip h3,.login-story h1,.insight-panel h2,.print-summary{font-family:var(--font)!important}
 body{font-size:13px;-webkit-font-smoothing:antialiased;background:#f4f6f9}
@@ -214,3 +215,24 @@ input::placeholder,textarea::placeholder{color:#a2b0bc}
 @media print{body:has(.reporting-draft) aside,body:has(.reporting-draft) header,body:has(.reporting-draft) .reporting-agent> :not(.reporting-draft),body:has(.reporting-draft) .reporting-actions{display:none!important}body:has(.reporting-draft) .app-layout main{margin:0;padding:0}body:has(.reporting-draft) main> :not(.reporting-agent){display:none!important}}
 
 @media print{body:has(.reporting-draft) .reporting-draft,body:has(.reporting-draft) .reporting-draft *{visibility:visible!important}body:has(.reporting-draft) .reporting-draft{position:absolute;inset:0 auto auto 0;width:100%;background:white}body:has(.reporting-draft) .reporting-actions{display:none!important}}
+
+.validation-feedback{margin-top:24px}.validation-feedback h3{margin:18px 0 10px}.validation-feedback td{vertical-align:top}.validation-feedback td p{margin:0 0 8px;max-width:560px}.validation-feedback td:first-child{min-width:150px}.validation-feedback td:last-child{overflow-wrap:anywhere}.validation-feedback details summary{cursor:pointer;color:var(--ink,#203d4e);font-weight:600;padding:10px 0}.validation-review-details{margin-top:14px}.validation-values{font-size:12px;margin:0}.validation-values div{margin:8px 0}.validation-values dt{font-weight:600}.validation-values dd{margin:3px 0;overflow-wrap:anywhere}.validation-feedback .insight-panel{margin-top:22px}
+.insight-document,.reporting-draft{color:#253448;font-size:14px;line-height:1.75;overflow-wrap:anywhere}
+.insight-document .panel-title h2{font-size:18px;font-weight:700;color:#142b45}
+.insight-document>h2,.reporting-draft>h2{font-size:24px;line-height:1.35;font-weight:700;color:#122c46;margin:24px 0 14px;letter-spacing:-.5px}
+.insight-document>h3,.reporting-draft h3{font-size:17px;font-weight:700;color:#143b5c;margin:28px 0 12px;padding:10px 0;border-bottom:2px solid #b8cbdc}
+.insight-document p,.reporting-draft p,.insight-document li,.reporting-draft li{color:#253448;font-size:14px;line-height:1.8}
+.insight-document .summary-list{display:grid;gap:18px;font-size:14px;line-height:1.8;margin:24px 0}
+.insight-document .summary-list article{background:#f5f8fb;border:1px solid #d5e0ea;border-left:4px solid #365e80;border-radius:5px;padding:20px 24px}
+.insight-document .summary-list h3{color:#163653;font-size:17px;font-weight:700;line-height:1.5;margin:0 0 12px}
+.insight-document .summary-list p{margin:10px 0}
+.insight-document .helper,.insight-document small,.report-evidence,.insight-document .document-meta{color:#4b6074;font-size:12px;line-height:1.7}
+.insight-action{border-top:1px solid #d5e0ea;padding-top:12px}.insight-action strong{display:block;color:#183a56;font-size:12px;margin-bottom:4px}
+.reporting-draft{background:#fff;padding:26px 30px;border:1px solid #d5e0ea;border-radius:6px;margin:24px 0}
+.reporting-draft section{margin:22px 0}.reporting-draft li{margin:6px 0}
+.reporting-actions{align-items:center;gap:8px}.reporting-actions button{flex:0 0 auto;align-self:center;width:auto;min-height:34px;padding:8px 13px;font-size:12px;line-height:1.4}
+.report-approval{border-top:1px solid #d5e0ea;margin-top:24px;padding-top:16px}.report-approval .field{max-width:640px}.report-approval textarea{min-height:72px;resize:vertical}
+.agent-progress{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 20px;margin:0 0 24px;border:1px solid #b9cbdc;border-left:4px solid #315b7f;border-radius:6px;background:#edf3f8;color:#18364f}
+.agent-progress strong{font-size:14px;color:#18364f}.agent-progress p{margin:5px 0 0;font-size:12px;color:#3f566b;line-height:1.65}.agent-progress button{flex-shrink:0;font-size:12px;padding:8px 12px}
+@media(max-width:760px){.reporting-draft{padding:18px 16px}.insight-document .summary-list article{padding:16px}.insight-document>h2,.reporting-draft>h2{font-size:21px}.agent-progress{align-items:flex-start;flex-direction:column;gap:12px}.reporting-actions button{white-space:normal;max-width:100%}}
+@media print{.agent-progress,.report-approval{display:none!important}.reporting-draft{border:0;padding:0;color:#111}.insight-document .summary-list article{break-inside:avoid;background:white}.reporting-draft h3{break-after:avoid}}

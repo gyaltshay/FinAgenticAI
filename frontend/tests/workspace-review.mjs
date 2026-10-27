@@ -1,3 +1,5 @@
+import {S3Client,DeleteObjectCommand} from '@aws-sdk/client-s3';
+import {spawnApi} from './api-process.mjs';
 import {createRequire} from 'node:module';
 import {spawn,spawnSync} from 'node:child_process';
 import assert from 'node:assert/strict';
@@ -5,10 +7,10 @@ import fs from 'node:fs/promises';
 const require=createRequire(import.meta.url);
 const {chromium}=require('C:/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const cwd=new URL('../',import.meta.url),base='http://127.0.0.1:5180/';
-const api=spawn(process.execPath,['server/gemini.mjs'],{cwd,env:{...process.env,FINAGENTIC_DATABASE_DISABLED:'1',GEMINI_PORT:'3010',GEMINI_API_KEY:''},windowsHide:true,stdio:'pipe'});
+const api=spawnApi({cwd,env:{...process.env,FINAGENTIC_DATABASE_DISABLED:'1',GEMINI_PORT:'3010',GEMINI_API_KEY:''},windowsHide:true,stdio:'pipe'});
 const dev=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','5180','--strictPort'],{cwd,env:{...process.env,FINAGENTIC_API_URL:'http://127.0.0.1:3010'},windowsHide:true,stdio:'pipe'});
 let serverErrors='';for(const child of [api,dev])child.stderr.on('data',b=>{serverErrors+=b.toString();});
-let browser;
+let browser;const originals=[];
 try{
  for(let i=0;i<60;i++){try{const a=await fetch(base),b=await fetch('http://127.0.0.1:3010/api/gemini/health');if(a.ok&&b.ok)break;}catch{}if(i===59)throw new Error('Test servers did not start: '+serverErrors);await new Promise(r=>setTimeout(r,250));}
  browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true});
@@ -29,9 +31,12 @@ try{
  await go('periods');await page.getByRole('button',{name:'Add reporting period',exact:true}).click();await page.getByLabel('Period status').selectOption('Closed');await page.getByRole('button',{name:'Save reporting period',exact:true}).click();await page.getByLabel('Workspace reporting period').selectOption({label:'August 2026 · Open'});
  await logout();await login('subsidiary');await go('approved');await page.getByRole('heading',{name:'No approved results available',exact:true}).waitFor();await go('readiness');await page.getByText('This page is not available to your role.',{exact:true}).waitFor();await go('notifications');await page.getByRole('heading',{name:'Processing complete',exact:true}).waitFor();await go('upload');
  const workbook=spawnSync('python',['-c',"import sys;sys.path.insert(0,'tests');from test_ttpl_validation import workbook_bytes;sys.stdout.buffer.write(workbook_bytes())"],{cwd,windowsHide:true});assert.equal(workbook.status,0);
- await page.locator('input[type=file]').setInputFiles({name:'TTPL.xlsx',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',buffer:workbook.stdout});assert.equal(await page.getByRole('checkbox').isChecked(),false);await page.getByRole('button',{name:'Upload and Validate →',exact:true}).click();await page.getByRole('heading',{name:'Automated checks need exception review',exact:true}).waitFor();const uploaded=(await state()).reports[0];assert.equal(uploaded.geminiExplanation.status,'not_requested');
+ await page.locator('input[type=file]').setInputFiles({name:'TTPL.xlsx',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',buffer:workbook.stdout});assert.equal(await page.getByRole('checkbox').isChecked(),false);const savedPromise=page.waitForResponse(r=>r.url().endsWith('/api/storage/workbooks')&&r.request().method()==='POST');await page.getByRole('button',{name:'Upload and Validate →',exact:true}).click();const saved=await savedPromise;assert.equal(saved.status(),201);originals.push((await saved.json()).originalWorkbook);await page.getByRole('heading',{name:'Automated checks need exception review',exact:true}).waitFor();const uploaded=(await state()).reports[0];assert.equal(uploaded.geminiExplanation.status,'not_requested');
  await go('approved');await page.getByRole('heading',{name:'No approved results available',exact:true}).waitFor();await page.getByLabel('Workspace reporting period').selectOption({label:'September 2026 · Closed'});await go('upload');assert.ok(await page.getByRole('button',{name:'Upload and Validate →',exact:true}).isDisabled());await page.getByLabel('Workspace reporting period').selectOption({label:'August 2026 · Open'});
  await logout();await login('admin');await go('validation/'+uploaded.id);await page.getByLabel('Exception review note').fill('Synthetic workbook mapping and scale confirmed for test.');await page.getByRole('button',{name:'Record exception review and continue',exact:true}).click();await go('analysis');await page.getByRole('heading',{name:'Insights are waiting for the complete reporting cycle',exact:true}).waitFor();await go('readiness');await page.getByRole('button',{name:'Prepare reporting cycle',exact:true}).click();await page.getByRole('button',{name:'Confirm preparation',exact:true}).click();await page.waitForFunction(()=>JSON.parse(localStorage.getItem('finagenticai.workspace.v3')).finalReports[0]?.status==='Pending Approval');await go('analysis');await page.getByRole('button',{name:'Generate insights',exact:true}).waitFor();await go('management');assert.ok(await page.getByRole('button',{name:'Generate report',exact:true}).isDisabled());
  await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await go('readiness');assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  assert.deepEqual(errors,[]);console.log('Workspace review passed: both roles, restored readiness, sample preparation, processing, company/user/period creation, real local workbook upload, validation review, notifications, reporting upload gate, reload and mobile. No external Gemini request was sent.');
-}finally{await browser?.close();api.kill();dev.kill();}
+}finally{
+ await browser?.close();api.kill();dev.kill();
+ if(originals.length){const values=Object.fromEntries((await fs.readFile(new URL('../../.env.storage.local',import.meta.url),'utf8')).split(/\r?\n/).filter(l=>l.includes('=')&&!l.startsWith('#')).map(l=>{const at=l.indexOf('=');return [l.slice(0,at),l.slice(at+1)];}));const s3=new S3Client({endpoint:values.MINIO_ENDPOINT,region:'us-east-1',forcePathStyle:true,credentials:{accessKeyId:values.MINIO_ROOT_USER,secretAccessKey:values.MINIO_ROOT_PASSWORD}});for(const r of originals){assert.equal(r.bucket,values.MINIO_BUCKET);assert.equal(r.fileName,'TTPL.xlsx');await s3.send(new DeleteObjectCommand({Bucket:r.bucket,Key:r.key}));}s3.destroy();console.log('Removed only the synthetic workspace-review workbook.');}
+}

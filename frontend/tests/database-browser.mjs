@@ -1,3 +1,4 @@
+import {spawnApi} from './api-process.mjs';
 import assert from 'node:assert/strict';
 import pg from 'pg';
 import {spawn,execFileSync} from 'node:child_process';
@@ -6,8 +7,8 @@ import {randomBytes} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {readFile} from 'node:fs/promises';
 import {S3Client,DeleteObjectCommand} from '@aws-sdk/client-s3';
-import {databaseConfig} from '../server/database-config.mjs';
-import {createDatabase} from '../server/database.mjs';
+import {databaseConfig,createDatabase} from './database-adapter.mjs';
+import {python as backendPython} from '../scripts/python-runtime.mjs';
 import {initialCycleWorkspace} from '../src/services/cycle.js';
 import {projectDatabaseRecords} from '../shared/database-records.mjs';
 
@@ -18,7 +19,7 @@ const require=createRequire(import.meta.url),{chromium}=require('C:/Users/user/.
 let created=false,db,pool,browser,api,vite,original;const children=[];
 async function stop(child){if(child&&child.exitCode===null&&!child.killed){child.kill();await new Promise(resolve=>child.once('exit',resolve));}}
 async function until(check){for(let i=0;i<100;i++){try{if(await check())return;}catch{}await new Promise(resolve=>setTimeout(resolve,150));}throw new Error('Database/browser check timed out.');}
-function startApi(){api=spawn(process.execPath,['server/gemini.mjs'],{cwd:front,env:{...process.env,FINAGENTIC_DATABASE_DISABLED:'0',PGDATABASE:testName,GEMINI_PORT:'3095'},stdio:'ignore',windowsHide:true});children.push(api);}
+function startApi(){api=spawnApi({cwd:front,env:{...process.env,FINAGENTIC_DATABASE_DISABLED:'0',PGDATABASE:testName,GEMINI_PORT:'3095'},stdio:'ignore',windowsHide:true});children.push(api);}
 async function login(page,role='admin'){
  await page.goto('http://127.0.0.1:5185/');await page.getByLabel('Workspace role').selectOption(role);
  if(role==='subsidiary')await page.getByLabel('Company',{exact:true}).selectOption('TTPL');
@@ -27,7 +28,7 @@ async function login(page,role='admin'){
 try{
  assert.ok(config.configured,'Complete the local PostgreSQL setup first.');await admin.connect();
  const ddl=(await admin.query("SELECT format('CREATE DATABASE %I OWNER %I',$1::text,$2::text) AS sql",[testName,config.connection.user])).rows[0].sql;await admin.query(ddl);created=true;
- pool=new pg.Pool({...config.connection,database:testName});await pool.query(await readFile(new URL('../server/migrations/001-core.sql',import.meta.url),'utf8'));
+ execFileSync(backendPython,['-m','backend.manage','setup'],{cwd:root,env:{...process.env,PGDATABASE:testName},windowsHide:true,stdio:'pipe'});pool=new pg.Pool({...config.connection,database:testName});
  db=createDatabase({configured:true,connection:{...config.connection,database:testName},pool});
  const initial=projectDatabaseRecords(initialCycleWorkspace());await db.save({revision:0,records:initial});
  assert.equal((await db.read()).records.companies.length,25);await assert.rejects(db.save({revision:0,records:initial}),{status:409});

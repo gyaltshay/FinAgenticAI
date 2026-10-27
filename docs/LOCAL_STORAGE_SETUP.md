@@ -33,7 +33,7 @@ The reusable S3 check is `python frontend/scripts/check-object-storage.py`. It c
 
 ## Application upload flow
 
-Start MinIO as above, then run `npm run gemini` and `npm run dev` from `D:\FinAgenticAI\frontend`. Restart the local API after changing storage settings. It reads `.env.storage.local` from the repository root; these values are never included in the frontend build. Optional `MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` override root credentials when an application account is configured.
+Start MinIO as above, install the [FastAPI environment](../backend/README.md), then run `npm run api` and `npm run dev` from `D:\FinAgenticAI\frontend`. `npm run gemini` remains an alias. Restart the local API after changing storage settings. It reads `.env.storage.local` from the repository root; these values are never included in the frontend build. Optional `MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` override root credentials when an application account is configured. Existing signing keys and receipts are preserved across the FastAPI migration.
 
 1. A company officer uploads a workbook. The backend stores its exact original bytes before validation.
 2. Every upload receives a unique key: `originals/<company>/<period>/<submission-id>/v<version>/<object-id>/original.xlsx`. The extra object ID keeps simultaneous uploads separate too. Original filename, submission/version, uploader, timestamp, and SHA-256 are retained in object metadata and the signed receipt.

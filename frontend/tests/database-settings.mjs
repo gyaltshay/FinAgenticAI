@@ -1,3 +1,4 @@
+// Private connection settings used only by database QA scripts.
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';

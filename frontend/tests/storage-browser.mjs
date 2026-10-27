@@ -1,3 +1,4 @@
+import {spawnApi} from './api-process.mjs';
 import assert from 'node:assert/strict';
 import {spawn,execFileSync} from 'node:child_process';
 import {createRequire} from 'node:module';
@@ -8,7 +9,7 @@ const root=fileURLToPath(new URL('../../',import.meta.url)).replace(/[\\/]$/,'')
 const require=createRequire(import.meta.url),{chromium}=require('C:/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const bytes=execFileSync('python',['-c',"import test_ttpl_validation as t,sys;sys.stdout.buffer.write(t.workbook_bytes())"],{cwd:front+'/tests',windowsHide:true});
 let api,vite,browser;const children=[];
-function startApi(){api=spawn(process.execPath,['server/gemini.mjs'],{cwd:front,env:{...process.env,FINAGENTIC_DATABASE_DISABLED:'1',GEMINI_PORT:'3093'},stdio:'ignore',windowsHide:true});children.push(api);}
+function startApi(){api=spawnApi({cwd:front,env:{...process.env,FINAGENTIC_DATABASE_DISABLED:'1',GEMINI_PORT:'3093'},stdio:'ignore',windowsHide:true});children.push(api);}
 async function wait(url){for(let i=0;i<80;i++){try{const r=await fetch(url);if(r.ok)return;}catch{}await new Promise(r=>setTimeout(r,200));}throw new Error('Test service did not start: '+url);}
 async function post(path,data,expected=200){const r=await fetch(base+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)});assert.equal(r.status,expected,await r.clone().text());return r;}
 async function stop(child){if(child&&!child.killed){child.kill();await new Promise(r=>child.once('exit',r));}}
